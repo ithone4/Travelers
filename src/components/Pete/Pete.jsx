@@ -13,6 +13,9 @@ function Pete(props) {
   return (
     <div>
       <h2>{heading}</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus aperiam dolor animi quas. Veritatis, quas quos, natus dolores et eligendi placeat odio corporis aliquid cumque reprehenderit voluptatem suscipit deleniti voluptatum!
+      </p>
     </div>
   );
 }
