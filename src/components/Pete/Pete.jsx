@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // Basic functional component structure for React with default state
@@ -15,6 +15,9 @@ function Pete(props) {
       <h2>{heading}</h2>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus aperiam dolor animi quas. Veritatis, quas quos, natus dolores et eligendi placeat odio corporis aliquid cumque reprehenderit voluptatem suscipit deleniti voluptatum!
+      </p>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla, esse libero dicta, impedit reprehenderit quam, ab nobis consequatur fugit error animi repudiandae quas voluptatem pariatur iusto harum dignissimos ipsam ducimus!
       </p>
     </div>
   );
