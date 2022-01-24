@@ -92,6 +92,15 @@ CREATE TABLE policy_builder (
     choice_10 integer
 );
 
+--static data to add to tables-----------------------------------------------
 
+
+INSERT INTO question (question_text) VALUES ('what commercial uses a lizard mascot?');
+
+INSERT INTO info_snippet (question_id, info_snippet_text) VALUES (2,'you could save money if you switch to fersk tech');
+
+INSERT INTO answer (question_id, answer_1, answer_2, answer_3, answer_4, answer_5) VALUES (2,'answer1', 'answer2', 'answer3', 'answer4', 'answer5');
+
+INSERT INTO policy_text (question_id, policy_text_1, policy_text_2, policy_text_3, policy_text_4, policy_text_5) VALUES (2,'Policy Text1', 'Policy Text2', 'Policy Text3', 'Policy Text4', 'Policy Text5');
 
 
