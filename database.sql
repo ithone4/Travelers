@@ -3,8 +3,104 @@
 -- You must use double quotes in every query that user is in:
 -- ex. SELECT * FROM "user";
 -- Otherwise you will have errors!
+
+--This file is used to create the structure of the database.
+
+
+--First create Database 
+CREATE DATABASE "fersk_tech";
+
+--Second create Tables
+
+-- User table----------------------------------------------
+
 CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
+    id SERIAL PRIMARY KEY,
+    username character varying(80) NOT NULL UNIQUE,
+    password character varying(1000) NOT NULL
 );
+
+
+
+-- Questions Table ----------------------------------------------
+
+CREATE TABLE question (
+    id SERIAL PRIMARY KEY,
+    question_text character varying(250) NOT NULL
+);
+
+
+
+
+
+-- Answer table for questions ----------------------------------------------
+
+CREATE TABLE answer (
+    id SERIAL PRIMARY KEY,
+    question_id integer NOT NULL REFERENCES question(id),
+    answer_1 character varying(200),
+    answer_2 character varying(200),
+    answer_3 character varying(200),
+    answer_4 character varying(200),
+    answer_5 character varying(200)
+);
+
+
+
+
+-- Policy Text ----------------------------------------------
+
+CREATE TABLE policy_text (
+    id SERIAL PRIMARY KEY,
+    question_id integer NOT NULL REFERENCES question(id),
+    policy_text_1 character varying(2500),
+    policy_text_2 character varying(2500),
+    policy_text_3 character varying(2500),
+    policy_text_4 character varying(2500),
+    policy_text_5 character varying(2500)
+);
+
+
+
+
+-- Snippet Information Table ----------------------------------------------
+
+CREATE TABLE info_snippet (
+    id SERIAL PRIMARY KEY,
+    question_id integer NOT NULL,
+    info_snippet_text character varying(250)
+);
+
+
+
+
+
+-- Policy Builder for each user ----------------------------------------------
+
+CREATE TABLE policy_builder (
+    id SERIAL PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES "user"(id),
+    choice_1 integer,
+    choice_2 integer,
+    choice_3 integer,
+    choice_4 integer,
+    choice_5 integer,
+    choice_6 integer,
+    choice_7 integer,
+    choice_8 integer,
+    choice_9 integer,
+    choice_10 integer
+);
+
+--static data to add to tables-----------------------------------------------
+
+
+INSERT INTO question (question_text) VALUES ('what commercial uses a lizard mascot?');
+
+INSERT INTO info_snippet (question_id, info_snippet_text) VALUES (2,'you could save money if you switch to fersk tech');
+
+INSERT INTO answer (question_id, answer_1, answer_2, answer_3, answer_4, answer_5) VALUES (2,'answer1', 'answer2', 'answer3', 'answer4', 'answer5');
+
+INSERT INTO policy_text (question_id, policy_text_1, policy_text_2, policy_text_3, policy_text_4, policy_text_5) VALUES (2,'Policy Text1', 'Policy Text2', 'Policy Text3', 'Policy Text4', 'Policy Text5');
+
+
