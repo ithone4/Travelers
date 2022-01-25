@@ -17,7 +17,11 @@ CREATE DATABASE "fersk_tech";
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
     username character varying(80) NOT NULL UNIQUE,
-    password character varying(1000) NOT NULL
+    password character varying(1000) NOT NULL,
+    first_name character varying(80),
+    last_name character varying(80),
+    company_name character varying(200),
+    phone text
 );
 
 
