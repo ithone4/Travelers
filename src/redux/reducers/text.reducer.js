@@ -1,6 +1,6 @@
-const questionsReducer = (state = [], action) => {
+const textReducer = (state = [], action) => {
   switch (action.type) {
-      case 'SET_QUESTIONS':
+      case 'SET_TEXT':
           return action.payload;
       default:
           return state;
@@ -11,4 +11,4 @@ const questionsReducer = (state = [], action) => {
 
 // user will be on the redux state at:
 // state.user
-export default questionsReducer;
+export default textReducer;
