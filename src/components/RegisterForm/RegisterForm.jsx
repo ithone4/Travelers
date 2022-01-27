@@ -15,6 +15,10 @@ function RegisterForm() {
       payload: {
         username: username,
         password: password,
+        first_name: '',
+        last_name: '',
+        company_name: '',
+        phone: '',
       },
     });
   }; // end registerUser

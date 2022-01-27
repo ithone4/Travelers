@@ -84,6 +84,7 @@ CREATE TABLE info_snippet (
 CREATE TABLE policy_builder (
     id SERIAL PRIMARY KEY,
     user_id integer NOT NULL REFERENCES "user"(id),
+    culture integer,
     choice_1 integer,
     choice_2 integer,
     choice_3 integer,
