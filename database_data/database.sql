@@ -1,16 +1,27 @@
+--SETUP INFO-----------------------------------------------
+--This file is used to create the structure of the database.
 
+--Follow the sequence below to create the database and structure.
+--then add the static data to the tables in the following order from the individual 
+--data.sql files:
+
+--group_data.sql
+--question_data.sql
+--answer_data.sql
+--policy_text_data.sql
+--info_snippet_data.sql
+
+
+--GENERAL NOTES--------------------------------------------
 -- USER is a reserved keyword with Postgres
 -- You must use double quotes in every query that user is in:
 -- ex. SELECT * FROM "user";
 -- Otherwise you will have errors!
 
---This file is used to create the structure of the database.
-
-
 --First create Database 
 CREATE DATABASE "fersk_tech";
 
---Second create Tables
+--Second create Tables in the order as follows:
 
 -- User table----------------------------------------------
 
@@ -119,7 +130,7 @@ CREATE TABLE policy_builder (
     choice_10 integer
 );
 
---static data to add to tables-----------------------------------------------
+--static data templates-----------------------------------------------
 
 
 INSERT INTO question (question_text) VALUES ('what commercial uses a lizard mascot?');
