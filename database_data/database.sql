@@ -22,7 +22,7 @@ CREATE TABLE "user" (
     last_name character varying(80),
     company_name character varying(200),
     phone_number text,
-    "location " character varying(200),
+    "location" character varying(200),
     industry character varying(100),
     program character varying(100),
     travel_spend integer
