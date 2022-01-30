@@ -105,7 +105,7 @@ CREATE TABLE policy_text (
 CREATE TABLE info_snippet (
     id SERIAL PRIMARY KEY,
     question_id integer NOT NULL,
-    info_snippet_text character varying(250)
+    info_snippet_text character varying(2000)
 );
 
 
