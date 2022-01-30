@@ -21,8 +21,23 @@ CREATE TABLE "user" (
     first_name character varying(80),
     last_name character varying(80),
     company_name character varying(200),
-    phone text
+    phone_number text,
+    "location " character varying(200),
+    industry character varying(100),
+    program character varying(100),
+    travel_spend integer
 );
+
+
+-- group table ----------------------------------------------
+
+CREATE TABLE "group" (
+    id SERIAL PRIMARY KEY,
+    group_name character varying(100),
+    group_info character varying(2000)
+);
+
+
 
 
 
@@ -30,7 +45,14 @@ CREATE TABLE "user" (
 
 CREATE TABLE question (
     id SERIAL PRIMARY KEY,
-    question_text character varying(250) NOT NULL
+    question_text character varying(2000) NOT NULL,
+    group_id integer NOT NULL REFERENCES "group"(id),
+    safety boolean,
+    cost boolean,
+    experience boolean,
+    sustainability boolean,
+    business_processes boolean,
+   
 );
 
 
@@ -42,11 +64,11 @@ CREATE TABLE question (
 CREATE TABLE answer (
     id SERIAL PRIMARY KEY,
     question_id integer NOT NULL REFERENCES question(id),
-    answer_1 character varying(200),
-    answer_2 character varying(200),
-    answer_3 character varying(200),
-    answer_4 character varying(200),
-    answer_5 character varying(200)
+    answer_1 character varying(2000),
+    answer_2 character varying(2000),
+    answer_3 character varying(2000),
+    answer_4 character varying(2000),
+    answer_5 character varying(2000)
 );
 
 
