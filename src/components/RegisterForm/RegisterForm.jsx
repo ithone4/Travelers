@@ -18,7 +18,12 @@ function RegisterForm() {
         first_name: '',
         last_name: '',
         company_name: '',
-        phone: '',
+        phone_number: '',
+        location: '',
+        industry: '',
+        program: '',
+        travel_spend: null,
+
       },
     });
   }; // end registerUser
