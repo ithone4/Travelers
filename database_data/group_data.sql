@@ -11,9 +11,9 @@ INSERT INTO "group" ( group_name, group_info) VALUES ( 'Rail', 'When can travele
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Car Rental', 'When can travelers book upgraded cars, advice on which car rental companies to use, and insurance');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Ground', 'Using taxis, limousines, Uber and Lyft, and using your own personal car');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Leisure + Vacation', '60% of business trips now include an element of leisure. Share what discounts can be used, and what elements of a trip can be expensed.');
-INSERT INTO "group" ( group_name, group_info) VALUES ( 'Sustainability ', 'When is it better to fly, go by rail, or to drive, and offsetting carbon emisions.');
+INSERT INTO "group" ( group_name, group_info) VALUES ( 'Sustainability', 'When is it better to fly, go by rail, or to drive, and offsetting carbon emisions.');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Visas + Passports', 'US nationals require visas when traveling to over 70 countries. Information on how to get a foreign country visa, passports, and expedited fees.');
-INSERT INTO "group" ( group_name, group_info) VALUES ( 'Per diems + expenses', 'Share with travelers how much money they can spend when on a trip on meals, tips, and other potential expenses.');
+INSERT INTO "group" ( group_name, group_info) VALUES ( 'Per diems + expenses', 'Share with travelers how much money they can spend when on a trip on meals, tips, and other potential expenses.');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Gifts', 'Information on what can and cannot be given as corporate gifts.');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Reshop', 'If utilizing reshopping tools, inform the traveler they are in operation.');
 INSERT INTO "group" ( group_name, group_info) VALUES ( 'Admin', 'Ensure travelers are kept up to date on changes to the policy, and who to reach in case of emergency.');

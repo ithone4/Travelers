@@ -18,6 +18,9 @@
 -- ex. SELECT * FROM "user";
 -- Otherwise you will have errors!
 
+--answers database has {user.company_id} in fields therefore user reducer must be provided 
+--in such components using this data.
+
 --First create Database 
 CREATE DATABASE "fersk_tech";
 
