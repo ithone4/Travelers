@@ -1,6 +1,6 @@
 const builderReducer = (state = [], action) => {
   switch (action.type) {
-      case 'SET_BUILDERS':
+      case 'SET_BUILDER':
           return action.payload;
       default:
           return state;

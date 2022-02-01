@@ -2,13 +2,15 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 import store from '../store';
 
+
 // 
 function* fetchBuilder(action) {
-  console.log('Builder saga test')
+  
+  console.log('Builder saga test:', action.payload)
   // get all builder from the DB
   try {
-      const missing = yield axios.get(`/api/builder`);
-      console.log('get track:', builder.data);
+      const builder = yield axios.get(`/api/policy-builder/${action.payload}`);
+      console.log('get policy builder:', builder.data);
       yield put({ type: 'SET_BUILDER', payload: builder.data });
 
   } catch (err) {
@@ -19,7 +21,7 @@ function* fetchBuilder(action) {
 
 
 
-function* missingSaga() {
+function* builderSaga() {
   yield takeLatest('FETCH_BUILDER', fetchBuilder)
 }
 

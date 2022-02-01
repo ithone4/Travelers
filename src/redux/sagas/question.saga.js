@@ -8,7 +8,7 @@ function* fetchQuestions(action) {
   // get all questions from the DB
   try {
       const questions = yield axios.get(`/api/question`);
-      console.log('get track:', questions.data);
+      console.log('get question:', questions.data);
       yield put({ type: 'SET_QUESTIONS', payload: questions.data });
 
   } catch (err) {
