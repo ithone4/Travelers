@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 // This is one of our simplest components
 // It doesn't have local state
@@ -6,9 +8,12 @@ import React from 'react';
 // or even care what the redux state is
 
 function InfoPage() {
+  const answer = useSelector(store => store.answersReducer);
+
   return (
     <div className="container">
       <p>Info Page</p>
+      <p>{JSON.stringify(answer)}</p>
     </div>
   );
 }
