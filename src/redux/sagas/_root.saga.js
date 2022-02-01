@@ -3,6 +3,8 @@ import answersSaga from './answer.saga';
 import loginSaga from './login.saga';
 import questionsSaga from './question.saga';
 import registrationSaga from './registration.saga';
+import snippetsSaga from './snippets.saga';
+import textSaga from './text.saga';
 import userSaga from './user.saga';
 
 // rootSaga is the primary saga.
@@ -18,6 +20,8 @@ export default function* rootSaga() {
     registrationSaga(),
     userSaga(),
     answersSaga(),
-    questionsSaga()
+    questionsSaga(),
+    textSaga(),
+    snippetsSaga(),
   ]);
 }
