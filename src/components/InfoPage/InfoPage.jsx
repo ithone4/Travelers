@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -8,12 +8,19 @@ import { useDispatch, useSelector } from 'react-redux';
 // or even care what the redux state is
 
 function InfoPage() {
-  const question = useSelector(store => store.questionsReducer);
+  const dispatch = useDispatch();
+  const user = useSelector(store => store.user);
+  useEffect(() => {
+    dispatch({ type: 'FETCH_BUILDER', payload: user.id });
+ 
+    
+  }, [dispatch]);
+  
 
   return (
     <div className="container">
       <p>Info Page</p>
-      <p>{JSON.stringify(question)}</p>
+      
     </div>
   );
 }
