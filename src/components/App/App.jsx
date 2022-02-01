@@ -30,6 +30,7 @@ function App() {
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
     dispatch({ type: 'FETCH_ANSWERS' });
+    dispatch({ type: 'FETCH_QUESTIONS' });
     
   }, [dispatch]);
 

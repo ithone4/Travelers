@@ -8,12 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // or even care what the redux state is
 
 function InfoPage() {
-  const answer = useSelector(store => store.answersReducer);
+  const question = useSelector(store => store.questionsReducer);
 
   return (
     <div className="container">
       <p>Info Page</p>
-      <p>{JSON.stringify(answer)}</p>
+      <p>{JSON.stringify(question)}</p>
     </div>
   );
 }
