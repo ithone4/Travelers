@@ -10,48 +10,61 @@ function DocumentGenerator(props) {
 
   const generate = () => {
     const doc = new docx.Document({
+      styles: {
+        // font size needs to be set as double the goal size.
+        default: {
+          heading1: {
+            run: {
+              size: 40,
+              bold: true,
+              color: "000000",
+            }
+          },
+          heading2: {
+            run: {
+              size: 32,
+              bold: false,
+              color: "000000",
+              underline: {},
+            },
+            paragraph: {
+              alignment: AlignmentType.RIGHT,
+            }
+          }
+        },
+        paragraphStyles: [
+          {
+            id: "normalPara",
+            name: "Normal Para",
+            basedOn: "Normal",
+            next: "Normal",
+            run: {
+              size: 28,
+            },
+            paragraph: {
+            }
+          }
+        ]
+      },
       sections: [
         {
           properties: {},
           children:
             [
               new docx.Paragraph({
-                children: [
-                  new docx.TextRun({
-                    text: "Travel Policy",
-                    bold: true,
-                  })
-                ]
+                text: "Travel Policy",
+                heading: HeadingLevel.HEADING_1,
+                // alignment: AlignmentType.CENTER,
               }),
               new docx.Paragraph({
-                children: [
-                  new docx.TextRun({
-                    text: "First Header",
-                    underline: {},
-                  })
-                ],
-                alignment: AlignmentType.RIGHT,
+                text: "First Header",
+                heading: HeadingLevel.HEADING_2,
+                // alignment: AlignmentType.RIGHT,
               }),
               new docx.Paragraph({
-                children: [
-                  new docx.TextRun({
-                    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                  }),
-                ]
+                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
+                style: "normalPara",
               }),
-              // new docx.Paragraph({
-              //   children: [
-              //     new docx.TextRun("Hello World"),
-              //     new docx.TextRun({
-              //       text: "Foo Bar",
-              //       bold: true
-              //     }),
-              //     new docx.TextRun({
-              //       text: "\tGithub is the best",
-              //       bold: true
-              //     })
-              //   ]
-              // })
             ]
         }
       ]
