@@ -7,8 +7,8 @@ function* fetchText(action) {
   console.log('Text saga test')
   // get all text from the DB
   try {
-      const missing = yield axios.get(`/api/text`);
-      console.log('get track:', text.data);
+      const text = yield axios.get(`/api/policy-text`);
+      console.log('get policy text:', text.data);
       yield put({ type: 'SET_TEXT', payload: text.data });
 
   } catch (err) {
@@ -19,7 +19,7 @@ function* fetchText(action) {
 
 
 
-function* missingSaga() {
+function* textSaga() {
   yield takeLatest('FETCH_TEXT', fetchText)
 }
 

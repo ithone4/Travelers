@@ -7,8 +7,8 @@ function* fetchSnippets(action) {
   console.log('Snippets saga test')
   // get all snippets from the DB
   try {
-      const missing = yield axios.get(`/api/snippets`);
-      console.log('get track:', snippets.data);
+      const snippets = yield axios.get(`/api/info_snippet`);
+      console.log('get snippets:', snippets.data);
       yield put({ type: 'SET_SNIPPETS', payload: snippets.data });
 
   } catch (err) {
@@ -19,7 +19,7 @@ function* fetchSnippets(action) {
 
 
 
-function* missingSaga() {
+function* snippetsSaga() {
   yield takeLatest('FETCH_SNIPPETS', fetchSnippets)
 }
 

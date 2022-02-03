@@ -3,10 +3,13 @@ import { put, takeLatest } from 'redux-saga/effects';
 import store from '../store';
 
 
+
 function* fetchBuilder(action) {
-  console.log('Builder saga test')
+
+  console.log('Builder saga test:', action.payload)
   // get all builder from the DB
   try {
+
     const missing = yield axios.get(`/api/builder`);
     console.log('get track:', builder.data);
     yield put({ type: 'SET_BUILDER', payload: builder.data });

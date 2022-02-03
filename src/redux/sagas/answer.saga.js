@@ -7,8 +7,8 @@ function* fetchAnswers(action) {
   console.log('Answers saga test')
   // get all Answers from the DB
   try {
-      const missing = yield axios.get(`/api/answers`);
-      console.log('get track:', answers.data);
+      const answers = yield axios.get(`/api/answer`);
+      console.log('get answers:', answers.data);
       yield put({ type: 'SET_ANSWERS', payload: answers.data });
 
   } catch (err) {
@@ -19,7 +19,7 @@ function* fetchAnswers(action) {
 
 
 
-function* missingSaga() {
+function* answersSaga() {
   yield takeLatest('FETCH_ANSWERS', fetchAnswers)
 }
 

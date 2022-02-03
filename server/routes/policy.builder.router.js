@@ -5,7 +5,8 @@ const router = express.Router();
 //GET policy choices made by user from policy_builder table -> based on user id
 router.get('/:userID', (req, res) => {
     console.log(`in GET of policy builder with req.body = `, req.body);
-    console.log(`in GET of policy builder with req.params.id = `, req.params.id);
+    console.log(`in GET of policy builder with req.params = `, req.params);
+    console.log(`in GET of policy builder with req.query = `, req.query);
     const getPolicyBuilderQuery = `SELECT * from policy_builder WHERE user_id = ${req.params.userID};`;
     pool.query(getPolicyBuilderQuery)
         .then((results) => {

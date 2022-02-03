@@ -1,6 +1,11 @@
 import { all } from 'redux-saga/effects';
+import answersSaga from './answer.saga';
+import builderSaga from './builder.saga';
 import loginSaga from './login.saga';
+import questionsSaga from './question.saga';
 import registrationSaga from './registration.saga';
+import snippetsSaga from './snippets.saga';
+import textSaga from './text.saga';
 import userSaga from './user.saga';
 import builderSaga from './builder.saga';
 
@@ -16,6 +21,13 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
+<<<<<<< HEAD
+=======
+    answersSaga(),
+    questionsSaga(),
+    textSaga(),
+    snippetsSaga(),
+>>>>>>> master
     builderSaga(),
   ]);
 }
