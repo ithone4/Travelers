@@ -45,7 +45,7 @@ function InfoPage() {
         <p>Info Page</p>
       </div> */}
       <div className="question">
-        <input type="text" name="policy_id" placeholder='Policy #'
+        <input type="text" name="policy_id" placeholder='Enter policy #'
           onChange={(event) => handlePolicyIDChange(event)}>
         </input>
         <h3>Reason for travel policy document</h3>
