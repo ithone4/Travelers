@@ -30,52 +30,87 @@ router.delete('/:userID', (req, res) => {
         })
 })
 
-// //POST (create) policy choices
-router.post('/:userID', (req, res) => {
+/* ---> This POST query uses the "POST ON CONFLICT" statement which acts like a mix of 
+   POST and PUT, also known as UPSERT. This will either INSERT a row, or on 
+   the basis of the row already existing, UPDATE that existing row instead
+*/
+router.post('/', (req, res) => {
     console.log(`in POST of policy builder with req.body = `, req.body);
 
-    /*req.body should be an array of objects like:
-        req.body = [
-        { question: 'choice1', answer: 5 },
-        { question: 'choice2', answer: 5 },
-        { question: 'choice2', answer: 4 },
-        { question: 'choice2', answer: 1 },
-        { question: 'choice2', answer: 5 },
-        { question: 'choice2', answer: 2 }
-        ]
+    /* Example of UPSERT -> Need this since we don't know if the user is updating
+       or creating a new post*/
+    // INSERT INTO students(id, firstname, lastname, gender, d_o_b, email)
+    // VALUES (1516, 'Gerardo', 'Wood', 'M', 'January 27 1995', 'gerardo_woodka@gmail.com')
+    // ON CONFLICT (id) DO UPDATE SET firstname = EXCLUDED.firstname, lastname = EXCLUDED.lastname;
+
+    /*req.body looks like this:
+        req.body = {
+            id: 3,
+            userID: 2,
+            answers: [
+                { question: 'question_1', answer: 5 },
+                { question: 'question_2', answer: 5 },
+                { question: 'question_3', answer: 4 },
+                { question: 'question_4', answer: 1 },
+                { question: 'question_5', answer: 5 },
+                { question: 'question_6', answer: 2 }
+                ]
+            }
     */
 
     //We want the INSERT query to be like:
-    //INSERT INTO policy_builder (choice1, choice2, choice3, choice4, choice5)
-    //VALUES(1, 3, 3, 5, 3);
+    //INSERT INTO policy_builder (id, user_id, question_1, question_2, question_3)
+    //VALUES(1, 5, 4);
 
     //SO...let's build it dynamically based on what is in req.body
 
     let columnNames = [];
     let columnValues = [];
-    //build up the arrays that will be used in the POST query
-    request.body.array.forEach(element => {
-        columnNames.push(element.question);
-        columnValues.push(element.answer);
+    let postPolicyBuilderQuery;
+
+    //Loop through the req.body.answers array to build up the arrays that will be used in the POST query
+    req.body.answers.forEach(element => {
+        console.log(`element is:`, element);
+        columnNames.push(element.question); // <----array of column names
+        columnValues.push(element.answer); // <----array of column values
     });
 
-    let postPolicyBuilderQuery = `INSERT INTO policy_builder (`;
+    //Check to see if we have a policy builder id. We might not if this is a new record.
+    if (req.body.id) {
+        postPolicyBuilderQuery = `INSERT INTO policy_builder (id,user_id,`
+    } else {
+        postPolicyBuilderQuery = `INSERT INTO policy_builder (user_id,`
+    }
 
     //add the column names
     columnNames.forEach(columnName => {
         postPolicyBuilderQuery += `${columnName},`
     })
-    //get rid of the extra ',' at the end of queryString
-    postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1)
-    //add the closing bracket for column names and continue on with query string
-    postPolicyBuilderQuery = postPolicyBuilderQuery + ') VALUES (';
+
+    //get rid of the extra ',' at the end of queryString (for column names)
+    postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1);
+
+    //Check to see if we have a policy builder id. We might not if this is a new record.
+    if (req.body.id) {
+        postPolicyBuilderQuery += `) VALUES (${req.body.id},${req.body.userID},`;
+    } else {
+        postPolicyBuilderQuery += `) VALUES (${req.body.userID},`;
+    }
 
     //add the column names
-    columnNames.forEach(columnValue => {
+    columnValues.forEach(columnValue => {
         postPolicyBuilderQuery += `${columnValue},`
     })
-    //get rid of the extra ',' at the end of queryString
-    postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1)
+
+    //get rid of the extra ',' at the end of queryString (for column values)
+    postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1) + `)
+                             ON CONFLICT (id) DO UPDATE SET `;
+    for (const i of columnNames) {
+        console.log(i); // logs 3, 5, 7
+        postPolicyBuilderQuery += `${i} = EXCLUDED.${i};`;
+    }
+
+    console.log(`postPolicyBuilderQuery is:`, postPolicyBuilderQuery);
 
     pool.query(postPolicyBuilderQuery)
         .then((results) => {
@@ -85,30 +120,30 @@ router.post('/:userID', (req, res) => {
         })
 })
 
-// PUT (update record in DB)
-router.put('/:userID', (req, res) => {
-    console.log(`in PUT of policy builder with req.body = `, req.body);
+// // PUT (update record in DB)
+// router.put('/:userID', (req, res) => {
+//     console.log(`in PUT of policy builder with req.body = `, req.body);
 
-    //Dynamically get values that will be updated from req.body since we don't know exactly what
-    //will be passed.
-    let putPolicyBuilderQuery = `UPDATE policy_builder SET `;
+//     //Dynamically get values that will be updated from req.body since we don't know exactly what
+//     //will be passed.
+//     let putPolicyBuilderQuery = `UPDATE policy_builder SET `;
 
-    //loop through the object values and corresponding keys by using Object.keys & Object.values functionality
-    for (let i = 0; i < Object.keys(req.body).length; i++) {
-        let key = Object.keys(req.body)[i];
-        let value = Object.values(req.body)[i];
-        putPolicyBuilderQuery += `${key} = ${value},`
-    }
-    //get rid of the extra ',' at the end of queryString
-    putPolicyBuilderQuery = putPolicyBuilderQuery.slice(0, putPolicyBuilderQuery.length - 1)
-    putPolicyBuilderQuery += ` WHERE id = '${req.params.userID}';`;
+//     //loop through the object values and corresponding keys by using Object.keys & Object.values functionality
+//     for (let i = 0; i < Object.keys(req.body).length; i++) {
+//         let key = Object.keys(req.body)[i];
+//         let value = Object.values(req.body)[i];
+//         putPolicyBuilderQuery += `${key} = ${value},`
+//     }
+//     //get rid of the extra ',' at the end of queryString
+//     putPolicyBuilderQuery = putPolicyBuilderQuery.slice(0, putPolicyBuilderQuery.length - 1)
+//     putPolicyBuilderQuery += ` WHERE id = '${req.params.userID}';`;
 
-    pool.query(putPolicyBuilderQuery).then((results) => {
-        res.sendStatus(200);
-    }).catch((error) => {
-        console.log(error);
-        res.sendStatus(500);
-    })
-})
+//     pool.query(putPolicyBuilderQuery).then((results) => {
+//         res.sendStatus(200);
+//     }).catch((error) => {
+//         console.log(error);
+//         res.sendStatus(500);
+//     })
+// })
 
 module.exports = router;
