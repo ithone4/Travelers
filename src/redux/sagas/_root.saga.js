@@ -7,7 +7,6 @@ import registrationSaga from './registration.saga';
 import snippetsSaga from './snippets.saga';
 import textSaga from './text.saga';
 import userSaga from './user.saga';
-import builderSaga from './builder.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
