@@ -10,8 +10,8 @@ function* fetchBuilder(action) {
   // get all builder from the DB
   try {
 
-    const missing = yield axios.get(`/api/builder`);
-    console.log('get track:', builder.data);
+    const builder = yield axios.get(`/api/policy-builder/${action.payload}`);
+    console.log('get builder:', builder.data);
     yield put({ type: 'SET_BUILDER', payload: builder.data });
 
   } catch (err) {
@@ -28,7 +28,7 @@ function* saveToBuilder(action) {
 }
 
 function* builderSaga() {
-  yield takeLatest('FETCH_BUILDER', fetchBuilder)
+  yield takeLatest(`FETCH_BUILDER`, fetchBuilder)
   yield takeLatest(`SAVE_TO_BUILDER`, saveToBuilder);
 }
 

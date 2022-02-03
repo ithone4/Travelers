@@ -39,7 +39,9 @@ CREATE TABLE "user" (
     "location" character varying(200),
     industry character varying(100),
     program character varying(100),
-    travel_spend integer
+    travel_spend integer,
+    culture integer,
+    
 );
 
 
@@ -120,7 +122,6 @@ CREATE TABLE info_snippet (
 CREATE TABLE policy_builder (
     id SERIAL PRIMARY KEY,
     user_id integer NOT NULL REFERENCES "user"(id),
-    culture integer,
     question_1 integer,
     question_2 integer,
     question_3 integer,

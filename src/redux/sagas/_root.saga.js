@@ -24,6 +24,6 @@ export default function* rootSaga() {
     questionsSaga(),
     textSaga(),
     snippetsSaga(),
-    builderSaga(),
+    builderSaga()
   ]);
 }
