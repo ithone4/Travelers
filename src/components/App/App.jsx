@@ -19,6 +19,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
 
 import './App.css';
 
@@ -114,6 +115,13 @@ function App() {
               // Otherwise, show the Landing page
               <LandingPage />
             }
+          </Route>
+          <Route
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/docgen"
+          >
+            <DocumentGenerator />
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
