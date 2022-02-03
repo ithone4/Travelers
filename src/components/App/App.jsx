@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
+import AdminPolicy from '../AdminPolicy/AdminPolicy';
 
 import './App.css';
 
@@ -33,9 +34,9 @@ function App() {
     dispatch({ type: 'FETCH_ANSWERS' });
     dispatch({ type: 'FETCH_QUESTIONS' });
     dispatch({ type: 'FETCH_TEXT' });
-    dispatch({ type: 'FETCH_SNIPPETS'});
-    
-    
+    dispatch({ type: 'FETCH_SNIPPETS' });
+
+
   }, [dispatch]);
 
   return (
@@ -123,7 +124,13 @@ function App() {
           >
             <DocumentGenerator />
           </Route>
-
+          <Route
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/admin"
+          >
+            <AdminPolicy />
+          </Route>
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
             <h1>404</h1>
