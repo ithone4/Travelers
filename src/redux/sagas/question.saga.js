@@ -7,20 +7,20 @@ function* fetchQuestions(action) {
   console.log('Questions saga test')
   // get all questions from the DB
   try {
-      const questions = yield axios.get(`/api/question`);
-      console.log('get question:', questions.data);
-      yield put({ type: 'SET_QUESTIONS', payload: questions.data });
+    const questions = yield axios.get(`/api/question`);
+    console.log('get question:', questions.data);
+    yield put({ type: 'SET_QUESTIONS', payload: questions.data });
 
   } catch (err) {
-      console.log('get questions error', err);
+    console.log('get questions error', err);
   }
-      
+
 }
 
 
 
-function* questionsSaga() {
+function* questionSaga() {
   yield takeLatest('FETCH_QUESTIONS', fetchQuestions)
 }
 
-export default questionsSaga;
+export default questionSaga;

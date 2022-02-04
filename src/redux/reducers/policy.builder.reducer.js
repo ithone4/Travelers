@@ -1,6 +1,6 @@
-const answerReducer = (state = [], action) => {
+const policyBuilderReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_ANSWERS':
+    case 'SET_BUILDER':
       return action.payload;
     default:
       return state;
@@ -11,4 +11,4 @@ const answerReducer = (state = [], action) => {
 
 // user will be on the redux state at:
 // state.user
-export default answerReducer;
+export default policyBuilderReducer;
