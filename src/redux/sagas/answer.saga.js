@@ -7,20 +7,20 @@ function* fetchAnswers(action) {
   console.log('Answers saga test')
   // get all Answers from the DB
   try {
-      const answers = yield axios.get(`/api/answer`);
-      console.log('get answers:', answers.data);
-      yield put({ type: 'SET_ANSWERS', payload: answers.data });
+    const answers = yield axios.get(`/api/answer`);
+    console.log('get answers:', answers.data);
+    yield put({ type: 'SET_ANSWERS', payload: answers.data });
 
   } catch (err) {
-      console.log('get answers error', err);
+    console.log('get answers error', err);
   }
-      
+
 }
 
 
 
-function* answersSaga() {
+function* answerSaga() {
   yield takeLatest('FETCH_ANSWERS', fetchAnswers)
 }
 
-export default answersSaga;
+export default answerSaga;

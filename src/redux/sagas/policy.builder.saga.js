@@ -27,9 +27,9 @@ function* saveToBuilder(action) {
 
 }
 
-function* builderSaga() {
+function* policyBuilderSaga() {
   yield takeLatest(`FETCH_BUILDER`, fetchBuilder)
   yield takeLatest(`SAVE_TO_BUILDER`, saveToBuilder);
 }
 
-export default builderSaga;
+export default policyBuilderSaga;
