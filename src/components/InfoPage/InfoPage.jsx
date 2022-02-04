@@ -13,6 +13,7 @@ function InfoPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_BUILDER', payload: user.id}); //dispatch call for policy builder move in future to where it makes sense
     //(1) setCurrentQuestion(); <--For "REAL" component, we should set the policy here when the page renders
   }, []);
 
