@@ -3,3 +3,22 @@ footer {
   padding: 20px;
   text-align: center;
 }
+.footerRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.footerIcon {
+  background-color: rgba(4, 4, 145, 0.87);
+  color: white;
+  border-radius: 75%;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 50px !important;
+}
+
+.footerIcon:hover {
+  background-color: white;
+  color: black;
+}
