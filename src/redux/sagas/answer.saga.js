@@ -10,7 +10,6 @@ function* fetchAnswers(action) {
     const answers = yield axios.get(`/api/answer`);
     console.log('get answers:', answers.data);
     yield put({ type: 'SET_ANSWERS', payload: answers.data });
-
   } catch (err) {
     console.log('get answers error', err);
   }
