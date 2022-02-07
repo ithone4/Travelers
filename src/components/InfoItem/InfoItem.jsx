@@ -11,7 +11,6 @@ function InfoPage(props) {
   useEffect(() => {
     console.log(`in useEffect`);
   }, []);
-
   const getAnswersForQuestion = (questionID) => {
     for (let i = 0; i < answers.length; i++) {
       if (answers[i].question_id === questionID) {
@@ -19,11 +18,9 @@ function InfoPage(props) {
       }
     }
   }
-
   const handleAnswerChange = (event) => {
     console.log(`in handleAnswerChange!`);
   }
-
 
   return (
     <div>
