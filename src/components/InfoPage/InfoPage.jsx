@@ -13,7 +13,8 @@ function InfoPage() {
   const [currentQuestion, setCurrentQuestion] = useState();
   const [policyID, setPolicyID] = useState();
   const [totalNumOfQuestions, setTotalNumOfQuestions] = useState();
-  let [showBackButton, setShowBackButton] = useState(true);
+  const [showBackButton, setShowBackButton] = useState(true);
+  const [showNextButton, setShowNextButton] = useState(false);
   const [lastQuestion, setLastQuestion] = useState(false);
   //const policy = useSelect(store=>store.policy); <-----NEED TO ADD THIS
   const GO_BACK = -1;
@@ -30,7 +31,7 @@ function InfoPage() {
     console.log(`in useEffect!`)
     setTotalNumOfQuestions(questions.length);
 
-  }, []);
+  });
 
   const onSubmit = () => {
     //dummy data for now
@@ -54,23 +55,29 @@ function InfoPage() {
     setPolicyID(event.target.value);
   }
   const handleNextBackButtons = (event, direction) => {
-    setCurrentQuestionID(currentQuestionID => currentQuestionID + direction);
-    setCurrentQuestion(questions[currentQuestionID + direction])
-    setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
-
-    console.log(`current question id is:`, currentQuestionID);
-
-    if (currentQuestionID >= 1) {
-      console.log(`going to want to show the button `)
+    //Increase/decrese the question ID depending on button clicked
+    if (direction === GO_AHEAD) {
+      setCurrentQuestionID(++currentQuestionID);
+    } else if (direction === GO_BACK) {
+      setCurrentQuestionID(--currentQuestionID);
+    }
+    //Show/hide next and back buttons if necessary
+    if (currentQuestionID > 1) {
       setShowBackButton(false);
     } else {
-      console.log(`going to want to hide the button`)
       setShowBackButton(true);
     }
+    if (currentQuestionID === questions.length) {
+      setShowNextButton(true);
+    } else {
+      setShowNextButton(false);
+    }
+    setCurrentQuestion(questions[currentQuestionID + direction])
+    setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
   }
+
   const startPolicyBuilder = (event) => {
     //User wants to start the policy builder from the beginning.
-    setCurrentQuestionID(1);
     setShowBackButton(true);
     setCurrentQuestion(questions[0])
     setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
@@ -102,7 +109,8 @@ function InfoPage() {
           onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
           Back
         </button>
-        <button onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+        <button disabled={showNextButton}
+          onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
           Next
         </button>
         <p>
