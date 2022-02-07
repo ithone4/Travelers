@@ -72,10 +72,10 @@ function QuestionPage() {
           <button onClick={startPolicyBuilder}>Start Policy Builder</button>
           <p>Total Number of Questions is: {totalNumOfQuestions}</p>
         </p>
-        <QuestionItem question={questions[currentQuestionID]}
+        {/* <QuestionItem question={questions[currentQuestionID]}
         />
         <QuestionAnswers answer={answers[currentQuestionID]}
-        />
+        /> */}
         <button onClick={goToPreviousQuestion}>
           Back
         </button>

@@ -52,8 +52,7 @@ function InfoPage(props) {
   return (
     <div>
       {JSON.stringify(answer)}
-      <h4>{props.question.group}</h4>
-      <h4>{props.question.question_text}</h4>
+      {/* <h4>{props.question.question_text}</h4> */}
       <p>{JSON.stringify(answer)}</p>
 
 
