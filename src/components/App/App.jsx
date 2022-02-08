@@ -19,6 +19,8 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
+import QuestionPage from '../QuestionPage/QuestionPage';
 
 import './App.css';
 
@@ -29,6 +31,10 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: 'FETCH_ANSWERS' });
+    dispatch({ type: 'FETCH_QUESTIONS' });
+    dispatch({ type: 'FETCH_TEXT' });
+    dispatch({ type: 'FETCH_SNIPPETS' });
   }, [dispatch]);
 
   return (
@@ -66,6 +72,14 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows QuestionPage else shows LoginPage
+            exact
+            path="/question"
+          >
+            <QuestionPage />
           </ProtectedRoute>
 
           <Route
@@ -108,6 +122,13 @@ function App() {
               // Otherwise, show the Landing page
               <LandingPage />
             }
+          </Route>
+          <Route
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/docgen"
+          >
+            <DocumentGenerator />
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
