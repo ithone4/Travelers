@@ -1,0 +1,40 @@
+export default class Utility {
+    static formatAnswersForInput = (answer) => {
+        let formattedAnswersArray = [];
+        //loop through the column names
+        for (const [key, value] of Object.entries(answer)) {
+            if (key === 'answer_1' || key === 'answer_2' || key === 'answer_3' ||
+                key === 'answer_4' || key === 'answer_5') {
+                let formattedAnswer = {};
+                formattedAnswer.answerID = answer.id;
+                formattedAnswer.questionID = answer.question_id;
+                formattedAnswer.answerText = value;
+                formattedAnswer.questionName = `question_${answer.id}`;
+
+                switch (key) {
+                    case 'answer_1':
+                        formattedAnswer.answerName = 'answer_1';
+                        formattedAnswer.answerValue = 1;
+                        break;
+                    case 'answer_2':
+                        formattedAnswer.answerName = 'answer_2';
+                        formattedAnswer.answerValue = 2;
+                        break;
+                    case 'answer_3':
+                        formattedAnswer.answerName = 'answer_3';
+                        formattedAnswer.answerValue = 3;
+                        break;
+                    case 'answer_4':
+                        formattedAnswer.answerName = 'answer_4';
+                        formattedAnswer.answerValue = 4;
+                        break;
+                    case 'answer_5':
+                        formattedAnswer.answerName = 'answer_5';
+                        formattedAnswer.answerValue = 5;
+                }
+                formattedAnswersArray.push(formattedAnswer);
+            }
+        }
+        return formattedAnswersArray;
+    }
+}

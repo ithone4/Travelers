@@ -12,21 +12,24 @@ function QuestionPage() {
   const [currentQuestion, setCurrentQuestion] = useState();
   const [policyID, setPolicyID] = useState();
   const user = useSelector(store => store.user);
-  const questions = useSelector(store => store.questionReducer);
-  let [currentQuestionID, setCurrentQuestionID] = useState(0);
-  const [totalNumOfQuestions, setTotalNumOfQuestions] = useState();
-  const [lastQuestion, setLastQuestion] = useState(false);
-  const answers = useSelector(store => store.answerReducer);
-  //const policy = useSelect(store=>store.policy); <-----NEED TO ADD THIS
+  const questionR = useSelector(store=>store.questionReducer);
+  // const answerList= useSelector(store=>store.answerReducer);
+  // const policyID= useSelector(store=>store.policyBuilderReducer);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
+    dispatch({ type: 'FETCH_BUILDER', payload: user.id}); //dispatch call for policy builder move in future to where it makes sense
     //(1) setCurrentQuestion(); <--For "REAL" component, we should set the policy here when the page renders
-    console.log(`in useEffect!`)
-    setTotalNumOfQuestions(questions.length);
   }, []);
+
+  // let thisQuestion= 0
+
+  const add = () =>{
+    let thisQuestion=0;
+    thisQuestion++;
+    return thisQuestion
+    
+  }
 
   const onSubmit = () => {
     //dummy data for now
@@ -36,12 +39,11 @@ function QuestionPage() {
         id: policyID,   //<-------POLICY ID should be retrieved from the store (see above)
         userID: user.id,
         answers: [{
-          question: currentQuestion,
+          question: thisQuestion,
           answer: answer
         }]
       }
     })
-  }
 
   const handleAnswerChange = (event) => {
     setAnswer(parseInt(event.target.value));
@@ -50,20 +52,13 @@ function QuestionPage() {
   const handlePolicyIDChange = (event) => {
     setPolicyID(event.target.value);
   }
-  const goToNextQuestion = (event) => {
-    setCurrentQuestionID(currentQuestionID + 1);
-  }
-
-  const goToPreviousQuestion = (event) => {
-    setCurrentQuestionID(currentQuestionID - 1);
-  }
-  const startPolicyBuilder = (event) => {
-    setCurrentQuestionID(0);
-  }
 
   return (
     <div>
-      {JSON.stringify(questions[0])}
+      {/* <div className="container">
+        <p>Info Page</p>
+      </div>
+      <button onClick={add}>Add</button> */}
       <div className="question">
         <input type="text" name="policy_id" placeholder='Enter policy #'
           onChange={(event) => handlePolicyIDChange(event)}>
@@ -84,8 +79,9 @@ function QuestionPage() {
           <button>Submit</button>
         </p>
         <Footer />
+
       </div>
-    </div >
+    </div>
   );
 }
 

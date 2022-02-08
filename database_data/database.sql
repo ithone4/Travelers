@@ -4,7 +4,7 @@
 --Follow the sequence below to create the database and structure.
 --then add the static data to the tables in the following order from the individual 
 --data.sql files:
-
+--role_data.sql
 --group_data.sql
 --question_data.sql
 --answer_data.sql
@@ -26,6 +26,15 @@ CREATE DATABASE "fersk_tech";
 
 --Second create Tables in the order as follows:
 
+
+-- role table ----------------------------------------------
+
+CREATE TABLE role (
+    id SERIAL PRIMARY KEY,
+    role text
+);
+
+
 -- User table----------------------------------------------
 
 CREATE TABLE "user" (
@@ -39,8 +48,10 @@ CREATE TABLE "user" (
     "location" character varying(200),
     industry character varying(100),
     program character varying(100),
-    travel_spend integer,
+    travel_spend character varying(200),
     culture integer,
+    role_id integer REFERENCES role(id),
+    last_question integer
     
 );
 
