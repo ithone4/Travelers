@@ -22,7 +22,8 @@ function RegisterForm() {
         location: '',
         industry: '',
         program: '',
-        travel_spend: null,
+        // travel_spend: null,
+        travel_spend: '',
 
       },
     });

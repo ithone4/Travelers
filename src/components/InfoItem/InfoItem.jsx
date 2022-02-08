@@ -6,6 +6,8 @@ import Utility from '../../utility';
 
 
 function InfoPage(props) {
+  const [answer, setAnswer] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState();
   const answers = useSelector(store => store.answerReducer);
 
   useEffect(() => {
@@ -20,6 +22,9 @@ function InfoPage(props) {
   }
   const handleAnswerChange = (event) => {
     console.log(`in handleAnswerChange!`);
+    setAnswer(parseInt(event.target.value));
+    setCurrentQuestion(event.target.name);
+
   }
 
   return (
