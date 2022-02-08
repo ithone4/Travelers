@@ -10,23 +10,23 @@ function QuestionPage() {
   const [currentQuestion, setCurrentQuestion] = useState();
   const [policyID, setPolicyID] = useState();
   const user = useSelector(store => store.user);
-  const questionR = useSelector(store=>store.questionReducer);
+  const questionR = useSelector(store => store.questionReducer);
   // const answerList= useSelector(store=>store.answerReducer);
   // const policyID= useSelector(store=>store.policyBuilderReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_BUILDER', payload: user.id}); //dispatch call for policy builder move in future to where it makes sense
+    dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
     //(1) setCurrentQuestion(); <--For "REAL" component, we should set the policy here when the page renders
   }, []);
 
   // let thisQuestion= 0
 
-  const add = () =>{
-    let thisQuestion=0;
+  const add = () => {
+    let thisQuestion = 0;
     thisQuestion++;
     return thisQuestion
-    
+
   }
 
   const onSubmit = () => {
@@ -111,8 +111,8 @@ function QuestionPage() {
           <label for="answer_1">Placeholder 5</label>
         </div>
         <div>
-        <button className='questionButton' onClick={onBack}>Back</button>
-        <button className='questionButton' onClick={onSubmit}>Save</button>
+          <button className='questionButton' onClick={onBack}>Back</button>
+          <button className='questionButton' onClick={onSubmit}>Save</button>
         </div>
       </div>
     </div>
