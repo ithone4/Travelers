@@ -4,10 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
+import { SettingsOverscanOutlined } from '@mui/icons-material';
 
 function QuestionPage() {
     const [answer, setAnswer] = useState('');
+    const [defaultAnswer, setDefaultAnswer] = useState();
     const [answersForQuestion, setAnswersForQuestion] = useState({});
+    const [companyCulture, setCompanyCulture] = useState();
     let [currentQuestionID, setCurrentQuestionID] = useState(1);
     const [currentQuestion, setCurrentQuestion] = useState();
     const [policyID, setPolicyID] = useState();
@@ -15,12 +18,17 @@ function QuestionPage() {
     const [showNextButton, setShowNextButton] = useState(false);
     const GO_BACK = -1;
     const GO_AHEAD = 1;
+    /* Reducers */
     const user = useSelector(store => store.user);
     const questions = useSelector(store => store.questionReducer);
     const answersFromStore = useSelector(store => store.answerReducer);
     const companyCultureStore = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
-    const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
+    const companyPolicyStore = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
+
     const dispatch = useDispatch();
+
+    let answersForDB = [];
+
 
     useEffect(() => {
         console.log(`in useEffect!`);
@@ -28,11 +36,19 @@ function QuestionPage() {
         dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
     }, []);
 
+    const checkForExistingPolicy = () => {
+        if (companyPolicyStore.length > 0) {
+            setPolicyID(companyPolicyStore[0].id);
+        }
+    }
     const onSubmit = () => {
+        //reformat question id for saving
+        let questionColumnName = `question_${currentQuestion.id}`;
+        console.log(`question column name is:`, questionColumnName);
         dispatch({
             type: 'SAVE_TO_BUILDER',
             payload: {
-                id: policyID,   //<-------POLICY ID should be retrieved from the store (see above)
+                id: policyID,
                 userID: user.id,
                 answers: [{
                     question: currentQuestion,
@@ -44,9 +60,6 @@ function QuestionPage() {
     const handleAnswerChange = (event) => {
         setAnswer(parseInt(event.target.value));
         setCurrentQuestion(event.target.name); //<---Temporarily setting the question for testing purposes. Should be done in useEffect().
-    }
-    const handlePolicyIDChange = (event) => {
-        setPolicyID(event.target.value);
     }
     const showHideButtons = (direction) => {
         //Increase/decrese the question ID depending on button clicked
@@ -67,17 +80,6 @@ function QuestionPage() {
             setShowNextButton(false);
         }
     }
-    const handleNextBackButtons = (event, direction) => {
-        showHideButtons(direction);
-        setCurrentQuestion(questions[currentQuestionID])
-        setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
-    }
-    const startPolicyBuilder = (event) => {
-        //User wants to start the policy builder from the beginning.
-        setShowBackButton(true);
-        setCurrentQuestionID(1);
-        setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
-    }
     const getAnswersForQuestion = (questionID) => {
         for (let i = 0; i < answersFromStore.length; i++) {
             if (answersFromStore[i].question_id === questionID) {
@@ -85,32 +87,66 @@ function QuestionPage() {
             }
         }
     }
+    const handleNextBackButtons = (event, direction) => {
+        showHideButtons(direction); //<---BETTER WAY TO DO THIS?
+        setCurrentQuestion(questions[currentQuestionID])
+        setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
+        setRadioButtonForAnswer(currentQuestionID);
+    }
+    const setRadioButtonForAnswer = (questionID) => {
+        console.log(`In setAnswerRadioButton! questionID is:`, questionID);
+        if (policyID === null) {
+            console.log(`no policy ID exists for this user --> NEW user`);
+            //use the company culture as default for this answer
+            setDefaultAnswer(companyCulture);
+        } else {
+            //check to see if the user already entered an answer for this question and default to that
+            let answersFromPolicy = companyPolicyStore[0]; //only ever one
+            //setDefaultAnswer(answersFromPolicy.question_1);
+            //let questionToSearchFor = `question_${questionID}`;
+            let userAnswer = answersFromPolicy[`question_${questionID}`];
+            if (userAnswer === null || userAnswer === undefined) {
+                setDefaultAnswer(companyCulture);
+            } else {
+                setDefaultAnswer(userAnswer);
+            }
+        }
+    }
+    const startPolicyProcess = () => {
+        console.log(`Start Policy Process!`);
+        /* THINK ABOUT WHAT TO DO IF USER IS STARTING MID-WAY THROUGH THE QUESTIONNAIRE */
+        setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
+        setCurrentQuestion(questions[currentQuestionID - 1]);
+        checkForExistingPolicy();
+        setCompanyCulture(companyCultureStore);
+    }
 
     return (
         <div>
-            <div className="question">
-                <input type="text" name="policy_id" placeholder='Enter policy #'
-                    onChange={(event) => handlePolicyIDChange(event)}>
-                </input>
-                <p>
-                    <button onClick={startPolicyBuilder}>Start Policy Builder</button>
-                </p>
+            <div class="container">
+                <button onClick={startPolicyProcess}
+                >CLICK HERE TO START
+                </button>
+                {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
                 <h3>{questions[currentQuestionID - 1].question_text}</h3>
+                <p>Company culture: {JSON.stringify(companyCulture)}</p>
                 {/* <h3>{currentQuestion.question_text}</h3> */}
                 {
                     Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                         <>
                             <div>
+                                <p>{JSON.stringify(thisAnswer.answerValue)}</p>
+                                <p>{defaultAnswer}</p>
                                 <input type="radio"
                                     id={thisAnswer.answerName}
                                     name={thisAnswer.questionName}
                                     value={thisAnswer.answerValue}
                                     onChange={handleAnswerChange}
-                                    checked={
-                                        thisAnswer.answerValue === companyCultureStore ? true : false
+                                    defaultChecked={
+                                        thisAnswer.answerValue == defaultAnswer ? true : false
                                     }
                                 />
-                                <label for="answer_1">{thisAnswer.answerText}</label>
+                                <label for={thisAnswer.answerName}>{thisAnswer.answerText}</label>
                             </div></>
                     ))
                 }

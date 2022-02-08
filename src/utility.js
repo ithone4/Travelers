@@ -1,4 +1,5 @@
 export default class Utility {
+    //Take answers from table and format them to be shown as radio buttons
     static formatAnswersForInput = (answer) => {
         let formattedAnswersArray = [];
         //loop through the column names
@@ -37,4 +38,9 @@ export default class Utility {
         }
         return formattedAnswersArray;
     }
+
+    static formatPolicyFromDBForQuestionnaire = (policy) => {
+        console.log(`in formatPolicyFromDBForQuestionnaire`);
+    }
+
 }
