@@ -1,6 +1,11 @@
 import { all } from 'redux-saga/effects';
+import answerSaga from './answer.saga';
+import policyBuilderSaga from './policy.builder.saga';
 import loginSaga from './login.saga';
+import questionSaga from './question.saga';
 import registrationSaga from './registration.saga';
+import infoSnippetSaga from './info.snippet.saga';
+import policyTextSaga from './policy.text.saga';
 import userSaga from './user.saga';
 
 // rootSaga is the primary saga.
@@ -15,5 +20,10 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
+    answerSaga(),
+    questionSaga(),
+    policyTextSaga(),
+    infoSnippetSaga(),
+    policyBuilderSaga()
   ]);
 }

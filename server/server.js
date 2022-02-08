@@ -10,6 +10,13 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 
+const infoSnippetRouter = require('./routes/info.snippet.router');
+const questionRouter = require('./routes/question.router');
+const answerRouter = require('./routes/answer.router');
+const policyTextRouter = require('./routes/policy.text.router');
+const policyBuilderRouter = require('./routes/policy.builder.router');
+
+
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,6 +30,13 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
+
+app.use('/api/info-snippet', infoSnippetRouter);
+app.use('/api/question', questionRouter);
+app.use('/api/answer', answerRouter);
+app.use('/api/policy-text', policyTextRouter);
+app.use('/api/policy-builder', policyBuilderRouter);
+
 
 // Serve static files
 app.use(express.static('build'));

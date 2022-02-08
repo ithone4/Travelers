@@ -15,6 +15,16 @@ function RegisterForm() {
       payload: {
         username: username,
         password: password,
+        first_name: '',
+        last_name: '',
+        company_name: '',
+        phone_number: '',
+        location: '',
+        industry: '',
+        program: '',
+        // travel_spend: null,
+        travel_spend: '',
+
       },
     });
   }; // end registerUser
