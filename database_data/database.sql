@@ -47,7 +47,6 @@ CREATE TABLE "user" (
     phone_number text,
     "location" character varying(200),
     industry character varying(100),
-    program character varying(100),
     travel_spend character varying(200),
     culture integer,
     role_id integer REFERENCES role(id),

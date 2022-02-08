@@ -26,16 +26,18 @@ router.post('/register', (req, res, next) => {
   const phone_number = req.body.phone_number;
   const location = req.body.location;
   const industry = req.body.industry;
-  const program = req.body.program;
+  
   const travel_spend = req.body.travel_spend;
   const culture = req.body.culture;
+  const role_id = req.body.role_id;
+  const last_question = req.body.last_question;
   //console.log("body:", req.body);
 
 
-  const queryText = `INSERT INTO "user" (username, password, first_name, last_name, company_name, phone_number, location, industry, program, travel_spend, culture )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`;
+  const queryText = `INSERT INTO "user" (username, password, first_name, last_name, company_name, phone_number, location, industry, travel_spend, culture, role_id,last_question )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
   pool
-    .query(queryText, [username, password, first_name, last_name, company_name, phone_number, location, industry, program, travel_spend, culture ])
+    .query(queryText, [username, password, first_name, last_name, company_name, phone_number, location, industry, travel_spend, culture, role_id,last_question])
     .then(() => res.sendStatus(201))
     .catch((err) => {
       console.log('User registration failed: ', err);
