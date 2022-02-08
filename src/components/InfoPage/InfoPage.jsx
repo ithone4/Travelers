@@ -100,7 +100,7 @@ function InfoPage() {
           <button onClick={startPolicyBuilder}>Start Policy Builder</button>
           <p>Total Number of Questions is: {totalNumOfQuestions}</p>
         </p>
-        {/* <InfoItem question={questions[currentQuestionID]} */}
+        <InfoItem question={questions[currentQuestionID]}
         />
         <button onClick={goToPreviousQuestion}>
           Back

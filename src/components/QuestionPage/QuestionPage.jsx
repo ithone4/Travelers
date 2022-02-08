@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './QuestionPage.css';
 import QuestionItem from './QuestionItem';
 import QuestionAnswers from './QuestionAnswers';
+import Footer from '../Footer/Footer';
 
 
 function QuestionPage() {
@@ -40,7 +41,6 @@ function QuestionPage() {
         }]
       }
     })
-    goToNextQuestion()
   }
 
   const handleAnswerChange = (event) => {
@@ -71,11 +71,9 @@ function QuestionPage() {
         <p>
           <button onClick={startPolicyBuilder}>Start Policy Builder</button>
           <p>Total Number of Questions is: {totalNumOfQuestions}</p>
+          <div>{ questions.map(( question)=>( <QuestionItem question={questions[currentQuestionID]}/>) )}</div>
+          <div>{ answers.map(( question)=>( <QuestionAnswers answer={answers[currentQuestionID]}/>) )}</div>
         </p>
-        {/* <QuestionItem question={questions[currentQuestionID]}
-        />
-        <QuestionAnswers answer={answers[currentQuestionID]}
-        /> */}
         <button onClick={goToPreviousQuestion}>
           Back
         </button>
@@ -85,6 +83,7 @@ function QuestionPage() {
         <p>
           <button>Submit</button>
         </p>
+        <Footer />
       </div>
     </div >
   );
