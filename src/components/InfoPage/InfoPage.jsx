@@ -87,44 +87,7 @@ function InfoPage() {
 
   return (
     <div>
-      <div className="question">
-        <input type="text" name="policy_id" placeholder='Enter policy #'
-          onChange={(event) => handlePolicyIDChange(event)}>
-        </input>
-        <p>
-          <button onClick={startPolicyBuilder}>Start Policy Builder</button>
-        </p>
-        <h3>{questions[currentQuestionID - 1].question_text}</h3>
-        {/* <h3>{currentQuestion.question_text}</h3> */}
-        {
-          Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
-            <>
-              <div>
-                <input type="radio"
-                  id={thisAnswer.answerName}
-                  name={thisAnswer.questionName}
-                  value={thisAnswer.answerValue}
-                  onChange={handleAnswerChange}
-                  checked={
-                    thisAnswer.answerValue === companyCultureStore ? true : false
-                  }
-                />
-                <label for="answer_1">{thisAnswer.answerText}</label>
-              </div></>
-          ))
-        }
-        <button disabled={showBackButton}
-          onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
-          Back
-        </button>
-        <button disabled={showNextButton}
-          onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
-          Next
-        </button>
-        <p>
-          <button onClick={onSubmit}>Submit</button>
-        </p>
-      </div>
+      <p>I'm the info page!</p>
     </div >
   );
 }

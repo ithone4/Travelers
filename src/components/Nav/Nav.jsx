@@ -33,7 +33,7 @@ function Nav() {
             </Link>
 
             <Link className="navLink" to="/question">
-              Queston Page
+              Question Page
             </Link>
 
             <LogOutButton className="navLink" />

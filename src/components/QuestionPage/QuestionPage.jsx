@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './QuestionPage.css';
 import Utility from '../../utility';
+import Footer from '../Footer/Footer';
 
 function QuestionPage() {
     const [answer, setAnswer] = useState('');
@@ -124,6 +125,9 @@ function QuestionPage() {
                 <p>
                     <button onClick={onSubmit}>Submit</button>
                 </p>
+            </div>
+            <div>
+                <Footer />
             </div>
         </div >
     );
