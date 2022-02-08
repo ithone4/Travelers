@@ -2,9 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './InfoPage.css';
-//import InfoItem from '../InfoItem/InfoItem';
 import Utility from '../../utility';
-
 
 function InfoPage() {
   const [answer, setAnswer] = useState('');
@@ -14,8 +12,6 @@ function InfoPage() {
   const [policyID, setPolicyID] = useState();
   const [showBackButton, setShowBackButton] = useState(true);
   const [showNextButton, setShowNextButton] = useState(false);
-  // const [companyCulture, setCompanyCulture] = useState(2);
-  //const policy = useSelect(store=>store.policy); <-----NEED TO ADD THIS
   const GO_BACK = -1;
   const GO_AHEAD = 1;
   const user = useSelector(store => store.user);
@@ -29,13 +25,9 @@ function InfoPage() {
     console.log(`in useEffect!`);
     dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
     dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
-
   }, []);
 
   const onSubmit = () => {
-    console.log(`currentQuestion is:`, currentQuestion);
-    console.log(`answer is:`, answer);
-    //dummy data for now
     dispatch({
       type: 'SAVE_TO_BUILDER',
       payload: {
@@ -121,11 +113,6 @@ function InfoPage() {
               </div></>
           ))
         }
-
-        {/* <InfoItem question={questions[currentQuestionID - 1]}
-          answers={Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID))}
-        /> */}
-
         <button disabled={showBackButton}
           onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
           Back
