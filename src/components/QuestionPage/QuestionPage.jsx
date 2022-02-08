@@ -71,8 +71,8 @@ function QuestionPage() {
         <p>
           <button onClick={startPolicyBuilder}>Start Policy Builder</button>
           <p>Total Number of Questions is: {totalNumOfQuestions}</p>
-          <div>{ questions.map(( question)=>( <QuestionItem question={questions[currentQuestionID]}/>) )}</div>
-          <div>{ answers.map(( question)=>( <QuestionAnswers answer={answers[currentQuestionID]}/>) )}</div>
+          {/* <div>{ questions.map(( question)=>( <QuestionItem question={questions[currentQuestionID]}/>) )}</div>
+          <div>{ answers.map(( question)=>( <QuestionAnswers answer={answers[currentQuestionID]}/>) )}</div> */}
         </p>
         <button onClick={goToPreviousQuestion}>
           Back
@@ -83,7 +83,8 @@ function QuestionPage() {
         <p>
           <button>Submit</button>
         </p>
-        <Footer />
+        <Footer question={questions[currentQuestionID]}
+        />
       </div>
     </div >
   );
