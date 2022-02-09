@@ -19,7 +19,7 @@ function Builder() {
     const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_BUILDER' });
+        dispatch({ type: 'FETCH_BUILDER', payload: user.id });
         dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
     }, []);
 

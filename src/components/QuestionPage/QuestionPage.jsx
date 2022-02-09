@@ -15,7 +15,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
-    const [defaultRB, setdefaultRB] = useState(props.companyCulture);
+    const [defaultRB, setDefaultRB] = useState('3');
     const [answersForQuestion, setAnswersForQuestion] = useState({});
     const [companyCulture, setCompanyCulture] = useState(props.culture);
     let [currentQuestionID, setCurrentQuestionID] = useState(1); //<<-----TODO: LET? Is this right?
@@ -37,6 +37,8 @@ function QuestionPage(props) {
     //const companyPolicyStore = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
 
     const dispatch = useDispatch();
+
+    let rb = props.culture;
 
     //let companyAnswersForDB = [];
     //THIS IS WHAT IT LOOKS LIKE TO GO TO THE DB
@@ -87,6 +89,7 @@ function QuestionPage(props) {
         })
     }
     const handleAnswerChange = (event) => {
+        console.log(`in handleAnswerChange with event:`, event);
         setAnswer(parseInt(event.target.value));
         setCurrentQuestion(event.target.name); //<---Temporarily setting the question for testing purposes. Should be done in useEffect().
         saveAnswer(currentQuestionID, event.target.value)
@@ -117,6 +120,7 @@ function QuestionPage(props) {
             }
         }
     }
+    //TODO:
     const saveAnswer = (questionID, answer) => {
         console.log(`in saveAnswer with questionID:`, questionID, `and answer:`, answer);
         //update the companyAnswersForDB with this questionID and answer
@@ -131,31 +135,37 @@ function QuestionPage(props) {
     const handleNextBackButtons = (event, direction) => {
         //On click of these buttons, we need to go to our temporary array and update it with the value
         //on the screen (for this current question)
-        saveAnswer(currentQuestionID, answer);
+        //saveAnswer(currentQuestionID, answer);
 
 
         showHideButtons(direction); //<---BETTER WAY TO DO THIS?
         setCurrentQuestion(questions[currentQuestionID])
         setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
-        setRadioButtonForAnswer(currentQuestionID);
+        //setRadioButtonForAnswer(currentQuestionID);
     }
     const setRadioButtonForAnswer = (questionID) => {
         console.log(`In setAnswerRadioButton! questionID is:`, questionID);
-        // if (policyID === null) {
-        //     console.log(`no policy ID exists for this user --> NEW user`);
-        //     //use the company culture as default for this answer
-        //     setdefaultRB(companyCulture);
-        // } else {
-        //check to see if the user already entered an answer for this question and default to that
         let answersFromPolicy = props.companyPolicy[0]; //only ever one
-        //setdefaultRB(answersFromPolicy.question_1);
-        //let questionToSearchFor = `question_${questionID}`;
-        let userAnswer = answersFromPolicy[`question_${questionID}`];
-        console.log(`userAnswer is:`, userAnswer)
-        if (userAnswer === null || userAnswer === undefined) {
-            setdefaultRB(props.companyCulture)
-        } else {
-            setdefaultRB(userAnswer);
+        console.log(`props.companyPolicy are:`, props.companyPolicy);
+
+        if (props.companyPolicy.length > 0) {
+
+            // if (policyID === null) {
+            //     console.log(`no policy ID exists for this user --> NEW user`);
+            //     //use the company culture as default for this answer
+            //     setdefaultRB(companyCulture);
+            // } else {
+            //check to see if the user already entered an answer for this question and default to that
+
+            //setdefaultRB(answersFromPolicy.question_1);
+            //let questionToSearchFor = `question_${questionID}`;
+            let userAnswer = answersFromPolicy[`question_${questionID}`];
+            console.log(`userAnswer is:`, userAnswer)
+            // if (userAnswer === null || userAnswer === undefined) {
+            //     setdefaultRB('3')
+            // } else {
+            //     setdefaultRB(userAnswer);
+            // }
         }
         // }
     }
@@ -169,7 +179,15 @@ function QuestionPage(props) {
         setCompanyCulture(props.companyCulture);
 
     }
+    const determineRBEnabled = (answer) => {
+        console.log(`determineRBEnabled and answer is:`, answer);
+        if (answer == defaultRB) {
+            return true;
+        } else {
+            return false;
+        }
 
+    }
     return (
         <div>
             <Container maxWidth>
@@ -191,15 +209,22 @@ function QuestionPage(props) {
                     </Grid>
                     <Grid item xs={10}
                         sx={{ border: 1 }}>
-                        <RadioGroup value={defaultRB}>
+                        <RadioGroup defaultValue={defaultRB}
+                            onChange={(event) => { saveAnswer(currentQuestionID, event.target.value) }} >
                             {
                                 Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                                     <>
-                                        <FormControlLabel value={thisAnswer.answerValue} control={<Radio />} label={thisAnswer.answerText} />
+                                        <FormControlLabel
+                                            id={thisAnswer.answerName}
+                                            name={thisAnswer.questionName}
+                                            value={thisAnswer.answerValue}
+                                            control={<Radio />} label={thisAnswer.answerText}
+                                        />
                                     </>
                                 ))
                             }
                         </RadioGroup>
+
                     </Grid>
                     <Grid
                         container
