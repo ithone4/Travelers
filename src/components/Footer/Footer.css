@@ -18,6 +18,15 @@ footer {
   font-size: 50px !important;
 }
 
+.footerDisabled {
+  background-color: black;
+  color: white;
+  border-radius: 75%;
+  border-style: solid;
+  border-width: 2px;
+  font-size: 50px !important;
+}
+
 .footerIcon:hover {
   background-color: white;
   color: black;

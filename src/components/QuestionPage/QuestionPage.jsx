@@ -127,7 +127,8 @@ function QuestionPage() {
                 </p>
             </div>
             <div>
-                <Footer />
+            <Footer question={questions[currentQuestionID]}
+        />
             </div>
         </div >
     );
