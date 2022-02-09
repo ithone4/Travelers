@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -12,7 +12,9 @@ function LoginForm() {
     event.preventDefault();
 
     if (username && password) {
+      console.log(`i'm in the login!`)
       dispatch({
+
         type: 'LOGIN',
         payload: {
           username: username,

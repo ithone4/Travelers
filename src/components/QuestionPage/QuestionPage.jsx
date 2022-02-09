@@ -2,121 +2,238 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './QuestionPage.css';
-import QuestionItem from './QuestionItem';
-
+import Utility from '../../utility';
+import Footer from '../Footer/Footer';
+import { SettingsOverscanOutlined } from '@mui/icons-material';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function QuestionPage() {
-  const [answer, setAnswer] = useState('');
-  const [currentQuestion, setCurrentQuestion] = useState();
-  const [policyID, setPolicyID] = useState();
-  const user = useSelector(store => store.user);
-  const questionR = useSelector(store=>store.questionReducer);
-  // const answerList= useSelector(store=>store.answerReducer);
-  // const policyID= useSelector(store=>store.policyBuilderReducer);
-  const dispatch = useDispatch();
+    const [answer, setAnswer] = useState('');
+    const [defaultAnswer, setDefaultAnswer] = useState();
+    const [answersForQuestion, setAnswersForQuestion] = useState({});
+    const [companyCulture, setCompanyCulture] = useState();
+    let [currentQuestionID, setCurrentQuestionID] = useState(1); //<<-----TODO: LET? Is this right?
+    const [companyAnswersForDB, setCompanyAnswersForDB] = useState({});
+    const [currentQuestion, setCurrentQuestion] = useState();
+    const [policyID, setPolicyID] = useState();
+    const [showBackButton, setShowBackButton] = useState(true);
+    const [showNextButton, setShowNextButton] = useState(false);
+    const GO_BACK = -1;
+    const GO_AHEAD = 1;
+    /* Reducers */
+    const user = useSelector(store => store.user);
+    const questions = useSelector(store => store.questionReducer);
+    const answersFromStore = useSelector(store => store.answerReducer);
+    const companyCultureStore = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
+    const companyPolicyStore = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
 
-  useEffect(() => {
-    dispatch({ type: 'FETCH_BUILDER', payload: user.id}); //dispatch call for policy builder move in future to where it makes sense
-    //(1) setCurrentQuestion(); <--For "REAL" component, we should set the policy here when the page renders
-  }, []);
+    const dispatch = useDispatch();
 
-  // let thisQuestion= 0
+    //let companyAnswersForDB = [];
+    //THIS IS WHAT IT LOOKS LIKE TO GO TO THE DB
+    // let answersForDB = {
+    //     id: 1,
+    //     userID: 4,
+    //     answers: [
+    //         {
+    //             question_1: 'how do you do?',
+    //             answer: 'i am well, thanks'
+    //         },
+    //         {
+    //             question_2: 'what did you eat for breakfast?',
+    //             answer: 'i had a toast'
+    //         }
+    //     ]
+    // };
 
-  const add = () =>{
-    let thisQuestion=0;
-    thisQuestion++;
-    return thisQuestion
-    
-  }
+    useEffect(() => {
+        console.log(`in useEffect!`);
+        dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
+        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+    }, []);
 
-  const onSubmit = () => {
-    //dummy data for now
-    dispatch({
-      type: 'SAVE_TO_BUILDER',
-      payload: {
-        id: policyID,   //<-------POLICY ID should be retrieved from the store (see above)
-        userID: user.id,
-        answers: [{
-          question: thisQuestion,
-          answer: answer
-        }]
-      }
-    })
-  }
+    const checkForExistingPolicy = () => {
+        if (companyPolicyStore.length > 0) {
+            setPolicyID(companyPolicyStore[0].id);
+            //put these values in temporary object that will get sent to router to update db
+            setCompanyAnswersForDB(companyPolicyStore[0]);
+            console.log(`the temporary array of answers is:`, companyAnswersForDB);
+        }
+    }
+    const onSubmit = () => {
+        //TODO: Reformat the answers for the DB!!!!!!
+        //reformat question id for saving
+        let questionColumnName = `question_${currentQuestion.id}`;
+        console.log(`question column name is:`, questionColumnName);
+        dispatch({
+            type: 'SAVE_TO_BUILDER',
+            payload: {
+                id: policyID,
+                userID: user.id,
+                answers: [{
+                    question: currentQuestion,
+                    answer: answer
+                }]
+            }
+        })
+    }
+    const handleAnswerChange = (event) => {
+        setAnswer(parseInt(event.target.value));
+        setCurrentQuestion(event.target.name); //<---Temporarily setting the question for testing purposes. Should be done in useEffect().
+        saveAnswer(currentQuestionID, event.target.value)
+    }
+    const showHideButtons = (direction) => {
+        //Increase/decrese the question ID depending on button clicked
+        if (direction === GO_AHEAD) {
+            setCurrentQuestionID(++currentQuestionID);
+        } else if (direction === GO_BACK) {
+            setCurrentQuestionID(--currentQuestionID);
+        }
+        //Show/hide next and back buttons if necessary
+        if (currentQuestionID > 1) {
+            setShowBackButton(false);
+        } else {
+            setShowBackButton(true);
+        }
+        if (currentQuestionID === questions.length) {
+            setShowNextButton(true);
+        } else {
+            setShowNextButton(false);
+        }
+    }
+    const getAnswersForQuestion = (questionID) => {
+        for (let i = 0; i < answersFromStore.length; i++) {
+            if (answersFromStore[i].question_id === questionID) {
+                return answersFromStore[i];
+            }
+        }
+    }
+    const saveAnswer = (questionID, answer) => {
+        console.log(`in saveAnswer with questionID:`, questionID, `and answer:`, answer);
+        //update the companyAnswersForDB with this questionID and answer
+        console.log(`temp array looks like this:`, companyAnswersForDB);
+        console.log(`corresponding value in temp array is:`, companyAnswersForDB[`question_${questionID}`]);
+        if (companyAnswersForDB[`question_${questionID}`] === null) {
+            console.log(`value never existed, add a new one`);
+        } else {
+            console.log(`value exists, overwrite it`);
+        }
+    }
+    const handleNextBackButtons = (event, direction) => {
+        //On click of these buttons, we need to go to our temporary array and update it with the value
+        //on the screen (for this current question)
+        saveAnswer(currentQuestionID, answer);
 
-  const onBack = () => {
-    console.log('Hey! This button will take you to the previous page!')
-  }
 
-  const handleAnswerChange = (event) => {
-    setAnswer(parseInt(event.target.value));
-    setCurrentQuestion(event.target.name); //<---Temporarily setting the question for testing purposes. Should be done in useEffect().
-  }
-  const handlePolicyIDChange = (event) => {
-    setPolicyID(event.target.value);
-  }
+        showHideButtons(direction); //<---BETTER WAY TO DO THIS?
+        setCurrentQuestion(questions[currentQuestionID])
+        setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
+        setRadioButtonForAnswer(currentQuestionID);
+    }
+    const setRadioButtonForAnswer = (questionID) => {
+        console.log(`In setAnswerRadioButton! questionID is:`, questionID);
+        if (policyID === null) {
+            console.log(`no policy ID exists for this user --> NEW user`);
+            //use the company culture as default for this answer
+            setDefaultAnswer(companyCulture);
+        } else {
+            //check to see if the user already entered an answer for this question and default to that
+            let answersFromPolicy = companyPolicyStore[0]; //only ever one
+            //setDefaultAnswer(answersFromPolicy.question_1);
+            //let questionToSearchFor = `question_${questionID}`;
+            let userAnswer = answersFromPolicy[`question_${questionID}`];
+            if (userAnswer === null || userAnswer === undefined) {
+                setDefaultAnswer(companyCulture);
+            } else {
+                setDefaultAnswer(userAnswer);
+            }
+        }
+    }
+    const startPolicyProcess = () => {
+        console.log(`Start Policy Process!`);
+        /* THINK ABOUT WHAT TO DO IF USER IS STARTING MID-WAY THROUGH THE QUESTIONNAIRE */
+        setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
+        setCurrentQuestion(questions[currentQuestionID - 1]);
+        checkForExistingPolicy();
+        setCompanyCulture(companyCultureStore);
+    }
 
-  return (
-    <div>
-      {/* <div className="container">
-        <p>Info Page</p>
-      </div>
-      <button onClick={add}>Add</button> */}
-      <div className="question">
-        <input type="text" name="policy_id" placeholder='Enter policy #'
-          onChange={(event) => handlePolicyIDChange(event)}>
-        </input>
-
-        {/* { questionR.map(( questionR )=>( <QuestionItem questionR={questionR}/>) )} */}
-        <h3>Reason for travel policy document</h3>
+    return (
         <div>
-          <input type="radio"
-            id="answer_1"
-            name="question_1"
-            value="1"
-            onChange={handleAnswerChange}
-          />
-          <label for="answer_1">Placeholder 1</label>
+            <Container maxWidth>
+
+                <Grid
+                    container
+                    direction="column"
+                    sx={{ border: 1 }}
+                >
+                    <Grid item xs={1}
+                        sx={{ border: 1, padding: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Typography variant="h5">
+                                {questions[currentQuestionID - 1].question_text}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={10}
+                        sx={{ border: 1 }}>
+
+                        {
+                            Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
+                                <>
+                                    <div>
+                                        {/* <p>{JSON.stringify(thisAnswer.answerValue)}</p>
+                                <p>{defaultAnswer}</p> */}
+                                        <input type="radio"
+                                            id={thisAnswer.answerName}
+                                            name={thisAnswer.questionName}
+                                            value={thisAnswer.answerValue}
+                                            onChange={handleAnswerChange}
+                                            defaultChecked={
+                                                thisAnswer.answerValue == defaultAnswer ? true : false
+                                            }
+                                        />
+                                        <label for={thisAnswer.answerName}>{thisAnswer.answerText}</label>
+                                    </div></>
+                            ))
+                        }
+
+                    </Grid>
+
+                    {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
+                    {/* <h3>{questions[currentQuestionID - 1].question_text}</h3> */}
+                    {/* <p>Company culture: {JSON.stringify(companyCulture)}</p> */}
+                    {/* <h3>{currentQuestion.question_text}</h3> */}
+                    <Grid
+                        container
+                        direction="rows"
+                        sx={{ border: 1 }}
+                    >
+                        <button disabled={showBackButton}
+                            onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
+                            Back
+                        </button>
+                        <button disabled={showNextButton}
+                            onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                            Next
+                        </button>
+                        {/* <p>
+                            <button onClick={onSubmit}>Submit</button>
+                        </p> */}
+                        <p>
+                            <button onClick={startPolicyProcess}>CLICK HERE TO START</button>
+                        </p>
+                    </Grid>
+                </Grid>
+            </Container>
+            <div>
+                <Footer question={questions[currentQuestionID]} />
+            </div>
         </div>
-        <div>
-          <input type="radio"
-            id="answer_1"
-            name="question_1"
-            value="2"
-            onChange={handleAnswerChange} />
-          <label for="answer_1">Placeholder 2</label>
-        </div>
-        <div>
-          <input type="radio"
-            id="answer_1"
-            name="question_1"
-            value="3"
-            onChange={handleAnswerChange} />
-          <label for="answer_1">Placeholder 3</label>
-        </div>
-        <div>
-          <input type="radio"
-            id="answer_1"
-            name="question_1"
-            value="4"
-            onChange={handleAnswerChange} />
-          <label for="answer_1">Placeholder 4</label>
-        </div>
-        <div>
-          <input type="radio"
-            id="answer_1"
-            name="question_1"
-            value="5"
-            onChange={handleAnswerChange} />
-          <label for="answer_1">Placeholder 5</label>
-        </div>
-        <div>
-        <button className='questionButton' onClick={onBack}>Back</button>
-        <button className='questionButton' onClick={onSubmit}>Save</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default QuestionPage;

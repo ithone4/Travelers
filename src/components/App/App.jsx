@@ -9,7 +9,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
@@ -21,6 +20,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
 import QuestionPage from '../QuestionPage/QuestionPage';
+import Builder from '../Builder/Builder';
 
 import './App.css';
 
@@ -82,7 +82,16 @@ function App() {
             exact
             path="/question"
           >
-            <QuestionPage />
+            {/* <QuestionPage /> */}
+            <Builder />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows QuestionPage else shows LoginPage
+            exact
+            path="/builder"
+          >
+            <Builder />
           </ProtectedRoute>
 
           <Route
@@ -139,7 +148,6 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-        <Footer />
       </div>
     </Router>
   );

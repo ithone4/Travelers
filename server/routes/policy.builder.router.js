@@ -10,6 +10,7 @@ router.get('/:userID', (req, res) => {
     const getPolicyBuilderQuery = `SELECT * from policy_builder WHERE user_id = ${req.params.userID};`;
     pool.query(getPolicyBuilderQuery)
         .then((results) => {
+            console.log(`results are:`, results.rows)
             res.send(results.rows);
         }).catch((error) => {
             console.log(`GET policy builder info from policy_builder error is:`, error);
@@ -120,6 +121,21 @@ router.post('/', (req, res) => {
         })
 })
 
+router.get('/culture/:id', (req, res) => {
+    console.log(`in POLICY BUILDER get for company culture`);
+
+    getCultureQuery = `SELECT culture from "user" where id = ${req.params.id};`;
+
+    pool
+        .query(getCultureQuery)
+        .then((results) => {
+            console.log(`results from GET are:`, results.rows)
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log(`error getting company culture for user`, error);
+            res.sendStatus(500);
+        })
+})
 // // PUT (update record in DB)
 // router.put('/:userID', (req, res) => {
 //     console.log(`in PUT of policy builder with req.body = `, req.body);
