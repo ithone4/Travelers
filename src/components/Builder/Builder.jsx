@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -10,6 +12,16 @@ import QuestionPage from '../QuestionPage/QuestionPage';
 import Logo from '../Logo/Logo';
 
 function Builder() {
+
+    const dispatch = useDispatch();
+    const user = useSelector(store => store.user);
+    const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
+    const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
+
+    useEffect(() => {
+        dispatch({ type: 'FETCH_BUILDER' });
+        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+    }, []);
 
     return (
         <div>
@@ -35,7 +47,9 @@ function Builder() {
                     </Grid>
                     <Grid item xs={12}
                         sx={{ border: 1 }}>
-                        <QuestionPage />
+                        <QuestionPage companyPolicy={companyPolicy}
+                            companyCulture={companyCulture} />
+                        {/* <QuestionPage /> */}
                     </Grid>
                 </Grid>
             </Container>
