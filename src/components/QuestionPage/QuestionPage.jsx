@@ -5,7 +5,6 @@ import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
 import { SettingsOverscanOutlined } from '@mui/icons-material';
-//import Builder from '../Builder/Builder';
 
 function QuestionPage() {
     const [answer, setAnswer] = useState('');
@@ -161,7 +160,6 @@ function QuestionPage() {
     return (
         <div>
             <div class="container">
-                {/* <Builder /> */}
                 <button onClick={startPolicyProcess}
                 >CLICK HERE TO START
                 </button>
@@ -201,9 +199,9 @@ function QuestionPage() {
                 </p>
             </div>
             <div>
-                {/* <Footer /> */}
+                <Footer question={questions[currentQuestionID]} />
             </div>
-        </div >
+        </div>
     );
 }
 

@@ -7,7 +7,6 @@ import GroupInfo from '../GroupInfo/GroupInfo';
 import InfoSnippet from '../InfoSnippet/InfoSnippet';
 import Typography from '@mui/material/Typography';
 import QuestionPage from '../QuestionPage/QuestionPage';
-import Footer from '../Footer/Footer';
 
 function Builder() {
 
@@ -37,10 +36,6 @@ function Builder() {
                     <Grid item xs={12}
                         sx={{ border: 1 }}>
                         <QuestionPage />
-                    </Grid>
-                    <Grid item xs={12}
-                        sx={{ border: 1 }}>
-                        <Footer />
                     </Grid>
                 </Grid>
             </Container>
