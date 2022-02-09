@@ -35,6 +35,7 @@ function App() {
     dispatch({ type: 'FETCH_QUESTIONS' });
     dispatch({ type: 'FETCH_TEXT' });
     dispatch({ type: 'FETCH_SNIPPETS'});
+    dispatch({ type: 'FETCH_GROUP'});
     
     
   }, [dispatch]);
