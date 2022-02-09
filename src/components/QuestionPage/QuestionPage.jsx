@@ -5,6 +5,10 @@ import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
 import { SettingsOverscanOutlined } from '@mui/icons-material';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function QuestionPage() {
     const [answer, setAnswer] = useState('');
@@ -159,45 +163,72 @@ function QuestionPage() {
 
     return (
         <div>
-            <div class="container">
-                <button onClick={startPolicyProcess}
-                >CLICK HERE TO START
-                </button>
-                {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
-                <h3>{questions[currentQuestionID - 1].question_text}</h3>
-                {/* <p>Company culture: {JSON.stringify(companyCulture)}</p> */}
-                {/* <h3>{currentQuestion.question_text}</h3> */}
-                {
-                    Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
-                        <>
-                            <div>
-                                {/* <p>{JSON.stringify(thisAnswer.answerValue)}</p>
+            <Container maxWidth>
+
+                <Grid
+                    container
+                    direction="column"
+                    sx={{ border: 1 }}
+                >
+                    <Grid item xs={1}
+                        sx={{ border: 1, padding: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Typography variant="h5">
+                                {questions[currentQuestionID - 1].question_text}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={10}
+                        sx={{ border: 1 }}>
+
+                        {
+                            Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
+                                <>
+                                    <div>
+                                        {/* <p>{JSON.stringify(thisAnswer.answerValue)}</p>
                                 <p>{defaultAnswer}</p> */}
-                                <input type="radio"
-                                    id={thisAnswer.answerName}
-                                    name={thisAnswer.questionName}
-                                    value={thisAnswer.answerValue}
-                                    onChange={handleAnswerChange}
-                                    defaultChecked={
-                                        thisAnswer.answerValue == defaultAnswer ? true : false
-                                    }
-                                />
-                                <label for={thisAnswer.answerName}>{thisAnswer.answerText}</label>
-                            </div></>
-                    ))
-                }
-                <button disabled={showBackButton}
-                    onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
-                    Back
-                </button>
-                <button disabled={showNextButton}
-                    onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
-                    Next
-                </button>
-                <p>
-                    <button onClick={onSubmit}>Submit</button>
-                </p>
-            </div>
+                                        <input type="radio"
+                                            id={thisAnswer.answerName}
+                                            name={thisAnswer.questionName}
+                                            value={thisAnswer.answerValue}
+                                            onChange={handleAnswerChange}
+                                            defaultChecked={
+                                                thisAnswer.answerValue == defaultAnswer ? true : false
+                                            }
+                                        />
+                                        <label for={thisAnswer.answerName}>{thisAnswer.answerText}</label>
+                                    </div></>
+                            ))
+                        }
+
+                    </Grid>
+
+                    {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
+                    {/* <h3>{questions[currentQuestionID - 1].question_text}</h3> */}
+                    {/* <p>Company culture: {JSON.stringify(companyCulture)}</p> */}
+                    {/* <h3>{currentQuestion.question_text}</h3> */}
+                    <Grid
+                        container
+                        direction="rows"
+                        sx={{ border: 1 }}
+                    >
+                        <button disabled={showBackButton}
+                            onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
+                            Back
+                        </button>
+                        <button disabled={showNextButton}
+                            onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                            Next
+                        </button>
+                        {/* <p>
+                            <button onClick={onSubmit}>Submit</button>
+                        </p> */}
+                        <p>
+                            <button onClick={startPolicyProcess}>CLICK HERE TO START</button>
+                        </p>
+                    </Grid>
+                </Grid>
+            </Container>
             <div>
                 <Footer question={questions[currentQuestionID]} />
             </div>
