@@ -14,10 +14,13 @@ import Logo from '../Logo/Logo';
 function Builder() {
 
     const dispatch = useDispatch();
+    const user = useSelector(store => store.user);
     const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
+    const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
         dispatch({ type: 'FETCH_BUILDER' });
+        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
     }, []);
 
     return (
@@ -44,7 +47,8 @@ function Builder() {
                     </Grid>
                     <Grid item xs={12}
                         sx={{ border: 1 }}>
-                        <QuestionPage companyPolicy={companyPolicy} />
+                        <QuestionPage companyPolicy={companyPolicy}
+                            companyCulture={companyCulture} />
                         {/* <QuestionPage /> */}
                     </Grid>
                 </Grid>

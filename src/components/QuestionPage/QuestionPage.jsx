@@ -15,9 +15,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
-    const [defaultAnswer, setDefaultAnswer] = useState();
+    const [defaultRB, setdefaultRB] = useState(props.companyCulture);
     const [answersForQuestion, setAnswersForQuestion] = useState({});
-    const [companyCulture, setCompanyCulture] = useState();
+    const [companyCulture, setCompanyCulture] = useState(props.culture);
     let [currentQuestionID, setCurrentQuestionID] = useState(1); //<<-----TODO: LET? Is this right?
     const [companyAnswersForDB, setCompanyAnswersForDB] = useState({});
     const [currentQuestion, setCurrentQuestion] = useState();
@@ -25,7 +25,7 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     //BEGIN TESTING MUI RB
-    const [defaultRB, setDefaultRB] = useState(2);
+
     //END TESTING MUI RB
     const GO_BACK = -1;
     const GO_AHEAD = 1;
@@ -33,8 +33,8 @@ function QuestionPage(props) {
     const user = useSelector(store => store.user);
     const questions = useSelector(store => store.questionReducer);
     const answersFromStore = useSelector(store => store.answerReducer);
-    const companyCultureStore = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
-    const companyPolicyStore = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
+    //const companyCultureStore = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
+    //const companyPolicyStore = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
 
     const dispatch = useDispatch();
 
@@ -57,15 +57,15 @@ function QuestionPage(props) {
 
     useEffect(() => {
         console.log(`in useEffect!`);
-        dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
-        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+        // dispatch({ type: 'FETCH_BUILDER', payload: user.id }); //dispatch call for policy builder move in future to where it makes sense
+        //dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
     }, []);
 
     const checkForExistingPolicy = () => {
-        if (companyPolicyStore.length > 0) {
-            setPolicyID(companyPolicyStore[0].id);
+        if (props.companyPolicy.length > 0) {
+            setPolicyID(props.companyPolicy[0].id);
             //put these values in temporary object that will get sent to router to update db
-            setCompanyAnswersForDB(companyPolicyStore[0]);
+            setCompanyAnswersForDB(props.companyPolicy[0]);
             console.log(`the temporary array of answers is:`, companyAnswersForDB);
         }
     }
@@ -141,36 +141,41 @@ function QuestionPage(props) {
     }
     const setRadioButtonForAnswer = (questionID) => {
         console.log(`In setAnswerRadioButton! questionID is:`, questionID);
-        if (policyID === null) {
-            console.log(`no policy ID exists for this user --> NEW user`);
-            //use the company culture as default for this answer
-            setDefaultAnswer(companyCulture);
+        // if (policyID === null) {
+        //     console.log(`no policy ID exists for this user --> NEW user`);
+        //     //use the company culture as default for this answer
+        //     setdefaultRB(companyCulture);
+        // } else {
+        //check to see if the user already entered an answer for this question and default to that
+        let answersFromPolicy = props.companyPolicy[0]; //only ever one
+        //setdefaultRB(answersFromPolicy.question_1);
+        //let questionToSearchFor = `question_${questionID}`;
+        let userAnswer = answersFromPolicy[`question_${questionID}`];
+        console.log(`userAnswer is:`, userAnswer)
+        if (userAnswer === null || userAnswer === undefined) {
+            setdefaultRB(props.companyCulture)
         } else {
-            //check to see if the user already entered an answer for this question and default to that
-            let answersFromPolicy = companyPolicyStore[0]; //only ever one
-            //setDefaultAnswer(answersFromPolicy.question_1);
-            //let questionToSearchFor = `question_${questionID}`;
-            let userAnswer = answersFromPolicy[`question_${questionID}`];
-            if (userAnswer === null || userAnswer === undefined) {
-                setDefaultAnswer(companyCulture);
-            } else {
-                setDefaultAnswer(userAnswer);
-            }
+            setdefaultRB(userAnswer);
         }
+        // }
     }
     const startPolicyProcess = () => {
         console.log(`Start Policy Process!`);
         /* THINK ABOUT WHAT TO DO IF USER IS STARTING MID-WAY THROUGH THE QUESTIONNAIRE */
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
+        setRadioButtonForAnswer(1);
         setCurrentQuestion(questions[currentQuestionID - 1]);
         checkForExistingPolicy();
-        setCompanyCulture(companyCultureStore);
+        setCompanyCulture(props.companyCulture);
+
     }
 
     return (
         <div>
             <Container maxWidth>
-                <h3>{JSON.stringify(props)}</h3>
+                <h4>{JSON.stringify(props.companyPolicy)}</h4>
+                <h4>{JSON.stringify(props.companyCulture)}</h4>
+
                 <Grid
                     container
                     direction="column"
@@ -186,25 +191,16 @@ function QuestionPage(props) {
                     </Grid>
                     <Grid item xs={10}
                         sx={{ border: 1 }}>
-
-                        {/* ---> BEGIN Trying something out */}
                         <RadioGroup value={defaultRB}>
-                            <FormControlLabel value='1' control={<Radio />} label='RB Number 1' />
-                            <FormControlLabel value='2' control={<Radio />} label='RB Number 2' />
-                            <FormControlLabel value='3' control={<Radio />} label='RB Number 3' />
-                            <FormControlLabel value='4' control={<Radio />} label='RB Number 4' />
-                            <FormControlLabel value='5' control={<Radio />} label='RB Number 5' />
+                            {
+                                Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
+                                    <>
+                                        <FormControlLabel value={thisAnswer.answerValue} control={<Radio />} label={thisAnswer.answerText} />
+                                    </>
+                                ))
+                            }
                         </RadioGroup>
-
-
-                        {/* ---> END Trying something out */}
-
                     </Grid>
-
-                    {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
-                    {/* <h3>{questions[currentQuestionID - 1].question_text}</h3> */}
-                    {/* <p>Company culture: {JSON.stringify(companyCulture)}</p> */}
-                    {/* <h3>{currentQuestion.question_text}</h3> */}
                     <Grid
                         container
                         direction="rows"
