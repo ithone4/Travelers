@@ -9,8 +9,11 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
-function QuestionPage() {
+function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
     const [defaultAnswer, setDefaultAnswer] = useState();
     const [answersForQuestion, setAnswersForQuestion] = useState({});
@@ -21,6 +24,9 @@ function QuestionPage() {
     const [policyID, setPolicyID] = useState();
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
+    //BEGIN TESTING MUI RB
+    const [defaultRB, setDefaultRB] = useState(2);
+    //END TESTING MUI RB
     const GO_BACK = -1;
     const GO_AHEAD = 1;
     /* Reducers */
@@ -164,7 +170,7 @@ function QuestionPage() {
     return (
         <div>
             <Container maxWidth>
-
+                <h3>{JSON.stringify(props)}</h3>
                 <Grid
                     container
                     direction="column"
@@ -181,25 +187,17 @@ function QuestionPage() {
                     <Grid item xs={10}
                         sx={{ border: 1 }}>
 
-                        {
-                            Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
-                                <>
-                                    <div>
-                                        {/* <p>{JSON.stringify(thisAnswer.answerValue)}</p>
-                                <p>{defaultAnswer}</p> */}
-                                        <input type="radio"
-                                            id={thisAnswer.answerName}
-                                            name={thisAnswer.questionName}
-                                            value={thisAnswer.answerValue}
-                                            onChange={handleAnswerChange}
-                                            defaultChecked={
-                                                thisAnswer.answerValue == defaultAnswer ? true : false
-                                            }
-                                        />
-                                        <label for={thisAnswer.answerName}>{thisAnswer.answerText}</label>
-                                    </div></>
-                            ))
-                        }
+                        {/* ---> BEGIN Trying something out */}
+                        <RadioGroup value={defaultRB}>
+                            <FormControlLabel value='1' control={<Radio />} label='RB Number 1' />
+                            <FormControlLabel value='2' control={<Radio />} label='RB Number 2' />
+                            <FormControlLabel value='3' control={<Radio />} label='RB Number 3' />
+                            <FormControlLabel value='4' control={<Radio />} label='RB Number 4' />
+                            <FormControlLabel value='5' control={<Radio />} label='RB Number 5' />
+                        </RadioGroup>
+
+
+                        {/* ---> END Trying something out */}
 
                     </Grid>
 
