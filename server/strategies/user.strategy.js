@@ -9,7 +9,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   pool
-    .query('SELECT "user".id, username, "password", first_name, last_name, company_name, phone_number, "location", industry, travel_spend, culture, last_question, role_id, role FROM "user" JOIN role ON "user".role_id = role.id WHERE "user".id = $1', [id])
+    .query('SELECT * FROM "user" WHERE "user".id = $1', [id])
     .then((result) => {
       // Handle Errors
       const user = result && result.rows && result.rows[0];
@@ -39,7 +39,7 @@ passport.use(
   'local',
   new LocalStrategy((username, password, done) => {
     pool
-      .query('SELECT "user".id, username, "password", first_name, last_name, company_name, phone_number, "location", industry, travel_spend, culture, last_question, role_id, role FROM "user" JOIN role ON "user".role_id = role.id WHERE username = $1', [username])
+      .query('SELECT * FROM "user" WHERE username = $1', [username])
       .then((result) => {
         const user = result && result.rows && result.rows[0];
         if (user && encryptLib.comparePassword(password, user.password)) {
