@@ -37,11 +37,7 @@ router.post('/register', (req, res, next) => {
   const queryText = `INSERT INTO "user" (username, password, first_name, last_name, company_name, phone_number, location, industry, travel_spend, culture, role_id,last_question )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
   pool
-<<<<<<< HEAD
     .query(queryText, [username, password, first_name, last_name, company_name, phone_number, location, industry, travel_spend, culture, role_id,last_question])
-=======
-    .query(queryText, [username, password, first_name, last_name, company_name, phone_number, location, industry, program, travel_spend, culture])
->>>>>>> master
     .then(() => res.sendStatus(201))
     .catch((err) => {
       console.log('User registration failed: ', err);

@@ -21,17 +21,11 @@ function RegisterForm() {
         phone_number: '',
         location: '',
         industry: '',
-<<<<<<< HEAD
         travel_spend: '',
         role_id: null,
         last_question: null,
 
 
-=======
-        program: '',
-        // travel_spend: null,
-        travel_spend: '',
->>>>>>> master
 
       },
     });
