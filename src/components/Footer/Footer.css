@@ -1,5 +1,4 @@
 footer {
-  /* margin-top: 80px; */
   padding: 20px;
   text-align: center;
 }
@@ -7,6 +6,8 @@ footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  max-width: 30%;
+  margin: auto;
 }
 
 .footerIcon {
