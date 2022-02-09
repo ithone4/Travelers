@@ -7,6 +7,7 @@ import GroupInfo from '../GroupInfo/GroupInfo';
 import InfoSnippet from '../InfoSnippet/InfoSnippet';
 import Typography from '@mui/material/Typography';
 import QuestionPage from '../QuestionPage/QuestionPage';
+import Logo from '../Logo/Logo';
 
 function Builder() {
 
@@ -17,19 +18,18 @@ function Builder() {
                     container
                     direction="rows"
                     sx={{ border: 1 }}
-                // justifyContent="left"
-                // alignItems="left"
                 >
                     <Grid item xs={3}
-                        sx={{ border: 1 }}
-                    >
-                        <Typography>I'll be the logo soon</Typography>
-                    </Grid>
-                    <Grid item xs={6}
                         sx={{ border: 1 }}>
-                        <GroupInfo />
+                        <Logo />
                     </Grid>
-                    <Grid item xs={3}
+                    <Grid item xs={5}
+                        sx={{ border: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <GroupInfo />
+                        </Box>
+                    </Grid>
+                    <Grid item xs={4}
                         sx={{ border: 1 }}>
                         <InfoSnippet />
                     </Grid>
