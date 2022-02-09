@@ -5,13 +5,15 @@ import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
 import { SettingsOverscanOutlined } from '@mui/icons-material';
+//import Builder from '../Builder/Builder';
 
 function QuestionPage() {
     const [answer, setAnswer] = useState('');
     const [defaultAnswer, setDefaultAnswer] = useState();
     const [answersForQuestion, setAnswersForQuestion] = useState({});
     const [companyCulture, setCompanyCulture] = useState();
-    let [currentQuestionID, setCurrentQuestionID] = useState(1);
+    let [currentQuestionID, setCurrentQuestionID] = useState(1); //<<-----TODO: LET? Is this right?
+    const [companyAnswersForDB, setCompanyAnswersForDB] = useState({});
     const [currentQuestion, setCurrentQuestion] = useState();
     const [policyID, setPolicyID] = useState();
     const [showBackButton, setShowBackButton] = useState(true);
@@ -27,8 +29,22 @@ function QuestionPage() {
 
     const dispatch = useDispatch();
 
-    let answersForDB = [];
-
+    //let companyAnswersForDB = [];
+    //THIS IS WHAT IT LOOKS LIKE TO GO TO THE DB
+    // let answersForDB = {
+    //     id: 1,
+    //     userID: 4,
+    //     answers: [
+    //         {
+    //             question_1: 'how do you do?',
+    //             answer: 'i am well, thanks'
+    //         },
+    //         {
+    //             question_2: 'what did you eat for breakfast?',
+    //             answer: 'i had a toast'
+    //         }
+    //     ]
+    // };
 
     useEffect(() => {
         console.log(`in useEffect!`);
@@ -39,9 +55,13 @@ function QuestionPage() {
     const checkForExistingPolicy = () => {
         if (companyPolicyStore.length > 0) {
             setPolicyID(companyPolicyStore[0].id);
+            //put these values in temporary object that will get sent to router to update db
+            setCompanyAnswersForDB(companyPolicyStore[0]);
+            console.log(`the temporary array of answers is:`, companyAnswersForDB);
         }
     }
     const onSubmit = () => {
+        //TODO: Reformat the answers for the DB!!!!!!
         //reformat question id for saving
         let questionColumnName = `question_${currentQuestion.id}`;
         console.log(`question column name is:`, questionColumnName);
@@ -60,6 +80,7 @@ function QuestionPage() {
     const handleAnswerChange = (event) => {
         setAnswer(parseInt(event.target.value));
         setCurrentQuestion(event.target.name); //<---Temporarily setting the question for testing purposes. Should be done in useEffect().
+        saveAnswer(currentQuestionID, event.target.value)
     }
     const showHideButtons = (direction) => {
         //Increase/decrese the question ID depending on button clicked
@@ -87,7 +108,23 @@ function QuestionPage() {
             }
         }
     }
+    const saveAnswer = (questionID, answer) => {
+        console.log(`in saveAnswer with questionID:`, questionID, `and answer:`, answer);
+        //update the companyAnswersForDB with this questionID and answer
+        console.log(`temp array looks like this:`, companyAnswersForDB);
+        console.log(`corresponding value in temp array is:`, companyAnswersForDB[`question_${questionID}`]);
+        if (companyAnswersForDB[`question_${questionID}`] === null) {
+            console.log(`value never existed, add a new one`);
+        } else {
+            console.log(`value exists, overwrite it`);
+        }
+    }
     const handleNextBackButtons = (event, direction) => {
+        //On click of these buttons, we need to go to our temporary array and update it with the value
+        //on the screen (for this current question)
+        saveAnswer(currentQuestionID, answer);
+
+
         showHideButtons(direction); //<---BETTER WAY TO DO THIS?
         setCurrentQuestion(questions[currentQuestionID])
         setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
@@ -124,19 +161,20 @@ function QuestionPage() {
     return (
         <div>
             <div class="container">
+                {/* <Builder /> */}
                 <button onClick={startPolicyProcess}
                 >CLICK HERE TO START
                 </button>
                 {/* <h3>{JSON.stringify(companyPolicyStore[0].id)}</h3> */}
                 <h3>{questions[currentQuestionID - 1].question_text}</h3>
-                <p>Company culture: {JSON.stringify(companyCulture)}</p>
+                {/* <p>Company culture: {JSON.stringify(companyCulture)}</p> */}
                 {/* <h3>{currentQuestion.question_text}</h3> */}
                 {
                     Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                         <>
                             <div>
-                                <p>{JSON.stringify(thisAnswer.answerValue)}</p>
-                                <p>{defaultAnswer}</p>
+                                {/* <p>{JSON.stringify(thisAnswer.answerValue)}</p>
+                                <p>{defaultAnswer}</p> */}
                                 <input type="radio"
                                     id={thisAnswer.answerName}
                                     name={thisAnswer.questionName}
@@ -163,7 +201,7 @@ function QuestionPage() {
                 </p>
             </div>
             <div>
-                <Footer />
+                {/* <Footer /> */}
             </div>
         </div >
     );
