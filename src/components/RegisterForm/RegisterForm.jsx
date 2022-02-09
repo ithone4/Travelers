@@ -12,6 +12,8 @@ function RegisterForm() {
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
 
+  // comment out
+
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
@@ -33,6 +35,8 @@ function RegisterForm() {
         // program: '',
         // travel_spend: null,
         travel_spend: travel_spend,
+
+
 
       },
     });

@@ -10,6 +10,7 @@ router.get('/:userID', (req, res) => {
     const getPolicyBuilderQuery = `SELECT * from policy_builder WHERE user_id = ${req.params.userID};`;
     pool.query(getPolicyBuilderQuery)
         .then((results) => {
+            console.log(`results are:`, results.rows)
             res.send(results.rows);
         }).catch((error) => {
             console.log(`GET policy builder info from policy_builder error is:`, error);
