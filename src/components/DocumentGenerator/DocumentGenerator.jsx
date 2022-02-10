@@ -5,7 +5,6 @@ import { saveAs } from "file-saver";
 import { HeadingLevel, AlignmentType, UnderlineType } from "docx";
 import { element } from 'prop-types';
 
-
 function DocumentGenerator(props) {
   const store = useSelector((store) => store);
   const [heading, setHeading] = useState('Functional Component');
@@ -70,6 +69,13 @@ function DocumentGenerator(props) {
     });
   }
 
+  const createParagraph = (element) => {
+    return new docx.Paragraph({
+      text: element,
+      style: "normalPara",
+    });
+  }
+
   const generate = () => {
     const doc = new docx.Document({
       styles: {
@@ -117,7 +123,6 @@ function DocumentGenerator(props) {
                 text: "Travel Policy",
                 heading: HeadingLevel.HEADING_1,
               }),
-              createHeader('Header Test'),
               new docx.Paragraph({
                 text: "First Header",
                 heading: HeadingLevel.HEADING_2,
@@ -138,6 +143,8 @@ function DocumentGenerator(props) {
                 text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
                 style: "normalPara",
               }),
+              createHeader('Third Header'),
+              createParagraph('Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.')
             ]
         }
       ]
