@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 
+import { useTheme } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -13,11 +19,19 @@ function RegisterForm() {
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
 
-  
+  const handleChange = (event) => {
+    setTravelSpend(event.target.value);
+  };
+
+  const dropChange = (event) => {
+    setIndustry(event.target.value);
+  }
 
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
+
+  
 
   const registerUser = (event) => {
     // event.preventDefault();
@@ -83,6 +97,7 @@ function RegisterForm() {
         <label htmlFor="username">
           Email:
           <input
+            placeholder="Email"
             type="text"
             name="username"
             value={username}
@@ -95,6 +110,7 @@ function RegisterForm() {
         <label htmlFor="password">
           Password:
           <input
+            placeholder="Password"
             type="password"
             name="password"
             value={password}
@@ -107,6 +123,7 @@ function RegisterForm() {
         <label htmlFor="first_name">
           First Name:
           <input
+            placeholder="First Name"
             type="text"
             name="first_name"
             value={first_name}
@@ -119,6 +136,7 @@ function RegisterForm() {
         <label htmlFor="last_name">
           Last Name:
           <input
+            placeholder="Last Name"
             type="text"
             name="last_name"
             value={last_name}
@@ -131,6 +149,7 @@ function RegisterForm() {
         <label htmlFor="company_name">
           Company:
           <input
+            placeholder="Company Name"
             type="text"
             name="company_name"
             value={company_name}
@@ -143,6 +162,7 @@ function RegisterForm() {
         <label htmlFor="phone_number">
           Telephone:
           <input
+            placeholder="Phone Number"
             type="text"
             name="phone_number"
             value={phone_number}
@@ -155,6 +175,7 @@ function RegisterForm() {
         <label htmlFor="location">
           HQ Location:
           <input
+            placeholder="HQ Location"
             type="text"
             name="location"
             value={location}
@@ -164,30 +185,63 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <label htmlFor="industry">
-          Industry:
-          <input
-            type="text"
-            name="industry"
-            value={industry}
-            required
-            onChange={(event) => setIndustry(event.target.value)}
-          />
-        </label>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="industry-dropdown">Industry</InputLabel>
+        <Select
+          labelId="industry-label-id"
+          id="industry-id"
+          value={industry}
+          onChange={dropChange}
+          label="industry"
+        >
+          <MenuItem value="Agriculture"><em>Agriculture</em></MenuItem>
+          <MenuItem value="Automotive">Automotive</MenuItem>
+          <MenuItem value="Chemicals">Chemicals</MenuItem>
+          <MenuItem value="Construction">Construction</MenuItem>
+          <MenuItem value="Education">Education</MenuItem>
+          <MenuItem value="Entertainment, Arts and Broadcasting">Entertainment, Arts and Broadcasting</MenuItem>
+          <MenuItem value="Fast Moving Consumer Goods, Food and Beverage">Fast Moving Consumer Goods, Food and Beverage</MenuItem>
+          <MenuItem value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem>
+          <MenuItem value="Government">Government</MenuItem>
+          <MenuItem value="Health Care">Health Care</MenuItem>
+          <MenuItem value="Leisure and Hospitality">Leisure and Hospitality</MenuItem>
+          <MenuItem value="Manufacturing">Manufacturing</MenuItem>
+          <MenuItem value="Oil, Gas, Energy and Mining">Oil, Gas, Energy and Mining</MenuItem>
+          <MenuItem value="Other">Other</MenuItem>
+          <MenuItem value="Pharmaceutical">Pharmaceutical</MenuItem>
+          <MenuItem value="Professional and Business Services">Professional and Business Services</MenuItem>
+          <MenuItem value="Publishing">Publishing</MenuItem>
+          <MenuItem value="Religious and Charitable Organizations">Religious and Charitable Organizations</MenuItem>
+          <MenuItem value="Retail">Retail</MenuItem>
+          <MenuItem value="Technology and Computing">Technology and Computing</MenuItem>
+          <MenuItem value="Telecommunications">Telecommunications</MenuItem>
+          <MenuItem value="Transportation and Warehousing">Transportation and Warehousing</MenuItem>
+          <MenuItem value="Travel">Travel</MenuItem>
+        </Select>
+      </FormControl>
       </div>
       <div>
-        <label htmlFor="travel_spend">
-          Est. Annual Travel Spend:
-          <input
-            type="text"
-            name="travel_spend"
-            value={travel_spend}
-            required
-            onChange={(event) => setTravelSpend(event.target.value)}
-          />
-        </label>
-      </div>
-      <br />
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend</InputLabel>
+        <Select
+          labelId="travel-spend-label-id"
+          id="travel-spend-id"
+          value={travel_spend}
+          onChange={handleChange}
+          label="travel_spend"
+        >
+          <MenuItem value="Unknown">Unknown</MenuItem>
+          <MenuItem value="0 - $1M">0 - $1M</MenuItem>
+          <MenuItem value="$1M - $10M">$1M - $10M</MenuItem>
+          <MenuItem value="$10M - $50M">$10M - $50M</MenuItem>
+          <MenuItem value="$50M - $100">$50M - $100</MenuItem>
+          <MenuItem value="$100M+">$100M+</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
+
+      
+
       <div>
       <Button className="btn-primary registerButton" variant="contained" onClick={validateUser}>
           Register
@@ -196,5 +250,13 @@ function RegisterForm() {
     </form>
   );
 }
+
+
+
+  
+
+  
+  
+
 
 export default RegisterForm;
