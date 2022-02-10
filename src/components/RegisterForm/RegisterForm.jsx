@@ -35,6 +35,8 @@ function RegisterForm() {
         // program: '',
         // travel_spend: null,
         travel_spend: travel_spend,
+        role_id: null,
+        last_question: null,
 
 
 

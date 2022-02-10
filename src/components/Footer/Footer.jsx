@@ -48,8 +48,6 @@ function Footer(props) {
     
 
  return <footer className="footerRow">
-     {JSON.stringify(props.question.id)}
-     {JSON.stringify(props.question.safety)}
      <div>{props.question.safety===true?
 <Tooltip title="This question is heavily related to health.">
     <LocalHospitalRoundedIcon className="footerIcon"/>
