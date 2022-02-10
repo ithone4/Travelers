@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from '@mui/material/Button';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -12,14 +13,14 @@ function RegisterForm() {
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
 
-  // comment out
+  
 
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
   const registerUser = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     dispatch({
       type: 'REGISTER',
@@ -32,11 +33,10 @@ function RegisterForm() {
         phone_number: phone_number,
         location: location,
         industry: industry,
-        // program: '',
-        // travel_spend: null,
         travel_spend: travel_spend,
-        role_id: null,
-        last_question: null,
+        // travel_spend: null,
+        // role_id: null, // integer for admin page
+        // last_question: null, // integer of last saved question probably won't exist on register page
 
 
 
@@ -44,8 +44,34 @@ function RegisterForm() {
     });
   }; // end registerUser
 
+  const validateUser = () => {
+    
+    if (first_name === "") {
+      alert("First name is required.");
+    } else if (last_name === "") {
+      alert("Last name is required.");
+    } else if (!username.includes("@")||!username.includes(".")) {
+      alert("Email invalid.");
+    } else if (password.length < 4) {
+      alert("Password must be at least 4 characters.");
+    } else if (company_name === "") {
+      alert("Company name is required.");
+    } else if (phone_number.length < 7) {
+      alert("Phone number is required.");
+    } else if (location === "") {
+      alert("HQ location is resuired.");
+    } else if (industry === "") {
+      alert("Industry is required.");
+    } else if (travel_spend === "") {
+      alert("Estimated annual travel spend is required.");
+    } else {
+      registerUser();
+    }
+  };
+
+
   return (
-    <form className="formPanel" onSubmit={registerUser}>
+    <form className="formPanel" onSubmit={validateUser}>
       <h2>Register User</h2>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
@@ -161,8 +187,11 @@ function RegisterForm() {
           />
         </label>
       </div>
+      <br />
       <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+      <Button className="btn-primary registerButton" variant="contained" onClick={validateUser}>
+          Register
+        </Button>
       </div>
     </form>
   );
