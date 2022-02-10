@@ -34,11 +34,7 @@ function QuestionPage(props) {
     const questions = useSelector(store => store.questionReducer);
     const answersFromStore = useSelector(store => store.answerReducer);
     const dispatch = useDispatch();
-    let IDForButtons;
-
-    let nextQuestionID,
-        lastQuestionID;
-
+    let questionIDForButtons;
     /* Constants */
     const GO_BACK = -1;
     const GO_AHEAD = 1;
@@ -83,19 +79,19 @@ function QuestionPage(props) {
         console.log(`in showHideButtons and the currentQuestionID is:`, currentQuestionID);
 
         //Show/hide next and back buttons if necessary
-        if (IDForButtons > 1) {
+        if (questionIDForButtons > 1) {
             setShowBackButton(false);
         } else {
             setShowBackButton(true);
         }
-        if (IDForButtons === questions.length) {
+        if (questionIDForButtons === questions.length) {
             setShowNextButton(true);
         } else {
             setShowNextButton(false);
         }
     }
     const getAnswersForQuestion = (questionID) => {
-        console.log(`in getAnswersForQuestion!`);
+        console.log(`in getAnswersForQuestion`);
         for (let i = 0; i < answersFromStore.length; i++) {
             if (answersFromStore[i].question_id === questionID) {
                 return answersFromStore[i];
@@ -115,16 +111,17 @@ function QuestionPage(props) {
     }
     const handleNextBackButtons = (event, direction) => {
         console.log(`in handleNextBackButtons!`);
+
         //On click of these buttons, we need to go to our temporary array and update it with the value
         //on the screen (for this current question)
         //saveAnswer(currentQuestionID, answer);
 
         //Increase/decrese the question ID depending on button clicked
         if (direction === GO_AHEAD) {
-            IDForButtons = currentQuestionID + 1;
+            questionIDForButtons = currentQuestionID + 1;
             setCurrentQuestionID(currentQuestionID => currentQuestionID + 1);
         } else if (direction === GO_BACK) {
-            IDForButtons = currentQuestionID - 1;
+            questionIDForButtons = currentQuestionID - 1;
             setCurrentQuestionID(currentQuestionID => currentQuestionID - 1);
         }
         console.log(`next questionID is:`, currentQuestionID);
@@ -137,16 +134,10 @@ function QuestionPage(props) {
         //FEB. 10 TESTING
         //setValue("1") --> WORKS with example from MateriaulUI
         //setValue(companyCulture)
-        setDefaultRadioButton(currentQuestionID);
+        setDefaultRadioButton(questionIDForButtons);
     }
     const startPolicyProcess = () => {
         console.log(`in startPolicyProcess!`);
-
-        /* ---> BEGIN FEB.10 TRYING SOMETHING HERE */
-        nextQuestionID = 2;
-        /* ---> END FEB.10 TRYING SOMETHING HERE */
-
-
         /* THINK ABOUT WHAT TO DO IF USER IS STARTING MID-WAY THROUGH THE QUESTIONNAIRE */
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
@@ -174,8 +165,8 @@ function QuestionPage(props) {
     return (
         <div>
             <Container maxWidth>
-                <h4>{JSON.stringify(props.companyPolicy)}</h4>
-                <h4>{JSON.stringify(props.companyCulture)}</h4>
+                {/* <h4>{JSON.stringify(props.companyPolicy)}</h4>
+                <h4>{JSON.stringify(props.companyCulture)}</h4> */}
                 <Grid
                     container
                     direction="column"
@@ -192,7 +183,7 @@ function QuestionPage(props) {
                     <Grid item xs={10}
                         sx={{ border: 1 }}>
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">Gender</FormLabel>
+                            {/* <FormLabel component="legend">Gender</FormLabel> */}
                             <RadioGroup
                                 aria-label="gender"
                                 name="controlled-radio-buttons-group"
