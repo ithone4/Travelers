@@ -4,6 +4,7 @@ import * as docx from "docx";
 import { saveAs } from "file-saver";
 import { HeadingLevel, AlignmentType, UnderlineType } from "docx";
 import { element } from 'prop-types';
+import { create } from '@mui/material/styles/createTransitions';
 
 function DocumentGenerator(props) {
   const store = useSelector((store) => store);
@@ -33,48 +34,74 @@ function DocumentGenerator(props) {
       }
     }
     console.log("documentArray:", documentArray);
-    codeGenerator();
-    console.log(codeGeneratorArray);
+    // codeGenerator();
+    // console.log(codeGeneratorArray);
   }
 
-  const [codeGeneratorArray, setcodeGeneratorArray] = useState([]);
+  // const [codeGeneratorArray, setcodeGeneratorArray] = useState([]);
 
-  const codeGenerator = () => {
+  // const codeGenerator = () => {
+  //   for (let i = 0; i < documentArray.length; i++) {
+  //     if (documentArray[i] === 1) {
+  //       let a = `new docx.Paragraph({
+  //         text: ` + documentArray[i + 1] + `,
+  //         heading: HeadingLevel.HEADING_2`;
+  //       // console.log("header:", documentArray[i + 1]);
+  //       codeGeneratorArray.push(a);
+  //     }
+  //     else if (documentArray[i] === 2) {
+  //       let b = `new docx.Paragraph({
+  //           text:` + documentArray[i + 1] + `,
+  //           style: "normalPara",
+  //         }),`
+  //       // console.log("paragraph:", documentArray[i + 1]);
+  //       codeGeneratorArray.push(b);
+  //     }
+  //     else {
+  //       console.log("blah");
+  //     }
+  //   }
+  // }
+
+  const createHeadersAndParagraphs = (array) => {
+    console.log('in createHeadersAndParagraphs');
+    console.log(documentArray);
     for (let i = 0; i < documentArray.length; i++) {
       if (documentArray[i] === 1) {
-        let a = `new docx.Paragraph({
-          text: ` + documentArray[i + 1] + `,
-          heading: HeadingLevel.HEADING_2`;
-        // console.log("header:", documentArray[i + 1]);
-        codeGeneratorArray.push(a);
+        console.log("header: ", documentArray[i + 1]);
+        childrenArray.push(createHeader(documentArray[i + 1]));
       }
       else if (documentArray[i] === 2) {
-        let b = `new docx.Paragraph({
-            text:` + documentArray[i + 1] + `,
-            style: "normalPara",
-          }),`
-        // console.log("paragraph:", documentArray[i + 1]);
-        codeGeneratorArray.push(b);
+        console.log("paragraph:", documentArray[i + 1]);
+        childrenArray.push(createParagraph(documentArray[i + 1]));
       }
       else {
-        console.log("blah");
+        console.log('tehe')
       }
     }
+    console.log('childrenArray:', childrenArray);
   }
 
   const createHeader = (element) => {
     return new docx.Paragraph({
       text: element,
       style: HeadingLevel.HEADING_2
-    });
+    })
   }
 
   const createParagraph = (element) => {
     return new docx.Paragraph({
       text: element,
       style: "normalPara",
-    });
+    })
   }
+
+  const [childrenArray, setChildrenArray] = useState([
+    new docx.Paragraph({
+      text: "HUH",
+      heading: HeadingLevel.HEADING_1,
+    }),
+  ]);
 
   const generate = () => {
     const doc = new docx.Document({
@@ -118,34 +145,36 @@ function DocumentGenerator(props) {
         {
           properties: {},
           children:
-            [
-              new docx.Paragraph({
-                text: "Travel Policy",
-                heading: HeadingLevel.HEADING_1,
-              }),
-              new docx.Paragraph({
-                text: "First Header",
-                heading: HeadingLevel.HEADING_2,
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-              new docx.Paragraph({
-                text: "Second Header",
-                heading: HeadingLevel.HEADING_2,
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-              createHeader('Third Header'),
-              createParagraph('Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.')
-            ]
+            childrenArray
+          // [
+          // new docx.Paragraph({
+          //   text: "Travel Policy",
+          //   heading: HeadingLevel.HEADING_1,
+          // }),
+
+          // new docx.Paragraph({
+          //   text: "First Header",
+          //   heading: HeadingLevel.HEADING_2,
+          // }),
+          // new docx.Paragraph({
+          //   text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
+          //   style: "normalPara",
+          // }),
+          // new docx.Paragraph({
+          //   text: "Second Header",
+          //   heading: HeadingLevel.HEADING_2,
+          // }),
+          // new docx.Paragraph({
+          //   text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
+          //   style: "normalPara",
+          // }),
+          // new docx.Paragraph({
+          //   text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
+          //   style: "normalPara",
+          // }),
+          // createHeader('Third Header'),
+          // createParagraph('Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.')
+          // ]
         }
       ]
     });
@@ -162,7 +191,8 @@ function DocumentGenerator(props) {
       <h2>{heading}</h2>
       <button onClick={() => generate()}>generate document</button>
       <button onClick={() => proceduralTest()}>procedural test</button>
-      <button onClick={() => logCreateHeader()}>create header test</button>
+      <button onClick={() => createHeadersAndParagraphs(...documentArray)}>create headers and paragraphs test</button>
+      <p>{JSON.stringify(childrenArray)}</p>
     </div>
   );
 }
