@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -18,6 +20,7 @@ function RegisterForm() {
   const [location, setLocation] = useState('');
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
+  const [culture, setCulture] = useState('');
 
   const handleChange = (event) => {
     setTravelSpend(event.target.value);
@@ -25,16 +28,48 @@ function RegisterForm() {
 
   const dropChange = (event) => {
     setIndustry(event.target.value);
-  }
+  };
+  const cultureChange = (event) => {
+    setCulture(event.target.value);
+  };
 
 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
+  const marks = [
+    {
+      value: 0,
+      label: 'Strict',
+    },
+    {
+      value: 25,
+      label: '',
+    },
+    {
+      value: 50,
+      label: 'Center',
+    },
+    {
+      value: 75,
+      label: '',
+    },
+    {
+      value: 100,
+      label: 'Easy-going',
+    }
+  ];
+
+  function valuetext(value) {
+    return `${value}°C`;
+  }
+
   
 
   const registerUser = (event) => {
     // event.preventDefault();
+
+   
 
     dispatch({
       type: 'REGISTER',
@@ -48,7 +83,8 @@ function RegisterForm() {
         location: location,
         industry: industry,
         travel_spend: travel_spend,
-        // travel_spend: null,
+        culture: culture,
+        
         // role_id: null, // integer for admin page
         // last_question: null, // integer of last saved question probably won't exist on register page
 
@@ -194,7 +230,7 @@ function RegisterForm() {
           onChange={dropChange}
           label="industry"
         >
-          <MenuItem value="Agriculture"><em>Agriculture</em></MenuItem>
+          <MenuItem value="Agriculture">Agriculture</MenuItem>
           <MenuItem value="Automotive">Automotive</MenuItem>
           <MenuItem value="Chemicals">Chemicals</MenuItem>
           <MenuItem value="Construction">Construction</MenuItem>
@@ -207,7 +243,7 @@ function RegisterForm() {
           <MenuItem value="Leisure and Hospitality">Leisure and Hospitality</MenuItem>
           <MenuItem value="Manufacturing">Manufacturing</MenuItem>
           <MenuItem value="Oil, Gas, Energy and Mining">Oil, Gas, Energy and Mining</MenuItem>
-          <MenuItem value="Other">Other</MenuItem>
+          <MenuItem value="Other"><em>Other</em></MenuItem>
           <MenuItem value="Pharmaceutical">Pharmaceutical</MenuItem>
           <MenuItem value="Professional and Business Services">Professional and Business Services</MenuItem>
           <MenuItem value="Publishing">Publishing</MenuItem>
@@ -239,8 +275,35 @@ function RegisterForm() {
         </Select>
       </FormControl>
     </div>
+    <div>
+    {/* <Box sx={{ width: 300 }}>
+      <Slider
+        aria-label="Temperature"
+        defaultValue={30}
+        getArialValueText={culture}
+        valueLabelDisplay="auto"
+        step={10}
+        marks
+        min={10}
+        max={110}
+      />
+      <Slider defaultValue={30} step={10} marks min={10} max={110} disabled />
+    </Box> */}
+    </div>
+   
 
-      
+    <Box sx={{ width: 300 }}>
+      <Slider
+        aria-label="Always visible"
+        defaultValue={0}
+        getArialValueText={valuetext}
+        step={25}
+        marks={marks}
+        //valueLabelDisplay="on"
+        onChange={(event) => setCulture(event.target.value)}
+        
+      />
+    </Box>
 
       <div>
       <Button className="btn-primary registerButton" variant="contained" onClick={validateUser}>
