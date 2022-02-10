@@ -63,6 +63,13 @@ function DocumentGenerator(props) {
     }
   }
 
+  const createHeader = (element) => {
+    return new docx.Paragraph({
+      text: element,
+      style: HeadingLevel.HEADING_2
+    });
+  }
+
   const generate = () => {
     const doc = new docx.Document({
       styles: {
@@ -110,6 +117,7 @@ function DocumentGenerator(props) {
                 text: "Travel Policy",
                 heading: HeadingLevel.HEADING_1,
               }),
+              createHeader('Header Test'),
               new docx.Paragraph({
                 text: "First Header",
                 heading: HeadingLevel.HEADING_2,
@@ -145,9 +153,9 @@ function DocumentGenerator(props) {
   return (
     <div>
       <h2>{heading}</h2>
-      <p>{JSON.stringify(codeGeneratorArray)}</p>
       <button onClick={() => generate()}>generate document</button>
       <button onClick={() => proceduralTest()}>procedural test</button>
+      <button onClick={() => logCreateHeader()}>create header test</button>
     </div>
   );
 }
