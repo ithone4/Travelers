@@ -12,13 +12,10 @@ import Box from '@mui/material/Box';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import QuestionRadioButtons from '../QuestionRadioButtons/QuestionRadioButtons';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
-    const [answersForQuestion, setAnswersForQuestion] = useState([]);
     const [companyCulture, setCompanyCulture] = useState(props.companyCulture);
     const [currentQuestionID, setCurrentQuestionID] = useState(1);
     const [companyAnswersForDB, setCompanyAnswersForDB] = useState({});
@@ -50,6 +47,7 @@ function QuestionPage(props) {
             setPolicyID(props.companyPolicy[0].id);
             //put these values in temporary object that will get sent to router to update db
             setCompanyAnswersForDB(props.companyPolicy[0]);
+            console.log(`answers from DB look like this:`, companyAnswersForDB);
         }
     }
     const handleChange = (event) => {
@@ -76,8 +74,6 @@ function QuestionPage(props) {
         })
     }
     const showHideButtons = (direction) => {
-        console.log(`in showHideButtons and the currentQuestionID is:`, currentQuestionID);
-
         //Show/hide next and back buttons if necessary
         if (questionIDForButtons > 1) {
             setShowBackButton(false);
@@ -98,67 +94,51 @@ function QuestionPage(props) {
             }
         }
     }
-    //TODO:
     const saveAnswer = (questionID, answer) => {
         console.log(`in saveAnswer with questionID:`, questionID, `and answer:`, answer);
+        let objectKey = '';
         // console.log(`temp array looks like this:`, companyAnswersForDB);
         // console.log(`corresponding value in temp array is:`, companyAnswersForDB[`question_${questionID}`]);
-        // if (companyAnswersForDB[`question_${questionID}`] === null) {
-        //     console.log(`value never existed, add a new one`);
-        // } else {
-        //     console.log(`value exists, overwrite it`);
-        // }
+        if (companyAnswersForDB[`question_${questionID}`] === null) {
+            console.log(`value doesn't exist, create new one`);
+            objectKey = `question_${questionID}`;
+            //setCompanyAnswersForDB({ ...companyAnswersForDB, question_7: parseInt(answer) }); //<---WORKS!!!
+            setCompanyAnswersForDB({ ...companyAnswersForDB, [objectKey]: parseInt(answer) }); //<---WORKS!!!
+        } else {
+            console.log(`value exists, overwrite it`);
+            objectKey = `question_${questionID}`;
+            //setCompanyAnswersForDB({ ...companyAnswersForDB, question_7: parseInt(answer) }); //<---WORKS!!!
+            setCompanyAnswersForDB({ ...companyAnswersForDB, [objectKey]: parseInt(answer) }); //<---WORKS!!!
+        }
     }
     const handleNextBackButtons = (event, direction) => {
         console.log(`in handleNextBackButtons!`);
-
-        //On click of these buttons, we need to go to our temporary array and update it with the value
-        //on the screen (for this current question)
-        //saveAnswer(currentQuestionID, answer);
-
         //Increase/decrese the question ID depending on button clicked
         if (direction === GO_AHEAD) {
             questionIDForButtons = currentQuestionID + 1;
-            setCurrentQuestionID(currentQuestionID => currentQuestionID + 1);
+            setCurrentQuestionID(questionIDForButtons);
         } else if (direction === GO_BACK) {
             questionIDForButtons = currentQuestionID - 1;
-            setCurrentQuestionID(currentQuestionID => currentQuestionID - 1);
+            setCurrentQuestionID(questionIDForButtons);
         }
-        console.log(`next questionID is:`, currentQuestionID);
-
-        showHideButtons(); //<---BETTER WAY TO DO THIS?
+        showHideButtons();
         setCurrentQuestion(questions[currentQuestionID - 1])
-        //setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
-        //setRadioButtonForAnswer(currentQuestionID);
-
-        //FEB. 10 TESTING
-        //setValue("1") --> WORKS with example from MateriaulUI
-        //setValue(companyCulture)
         setDefaultRadioButton(questionIDForButtons);
     }
     const startPolicyProcess = () => {
         console.log(`in startPolicyProcess!`);
-        /* THINK ABOUT WHAT TO DO IF USER IS STARTING MID-WAY THROUGH THE QUESTIONNAIRE */
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
-        //checkForExistingPolicy(); --> DOING THIS IN USE EFFECT NOW
-        //setRadioButtonForAnswer(1);
-        //FEB. 10 TESTING
-        //setValue("1") --> WORKS with example from MateriaulUI
         setValue(companyCulture)
         if (companyAnswersForDB[`question_1`] !== null) {
             setValue(companyAnswersForDB[`question_1`]);
         }
     }
     const setDefaultRadioButton = (questionID) => {
-        // console.log(`in setDefaultRadioButton`)
-        // console.log(`corresponding value in temp array is:`, companyAnswersForDB[`question_${questionID}`]);
         if (companyAnswersForDB[`question_${questionID}`] === null) {
             setValue(props.companyCulture)
         } else {
-            // console.log(`value exists, overwrite it`);
             setValue(companyAnswersForDB[`question_${questionID}`]);
-            //setValue(4);
         }
     }
 
@@ -183,21 +163,15 @@ function QuestionPage(props) {
                     <Grid item xs={10}
                         sx={{ border: 1 }}>
                         <FormControl component="fieldset">
-                            {/* <FormLabel component="legend">Gender</FormLabel> */}
                             <RadioGroup
-                                aria-label="gender"
-                                name="controlled-radio-buttons-group"
+                                aria-label="policy-answer"
                                 value={value}
                                 onChange={handleChange}
-
                             >
-                                {/* THIS WORKS! DO NOT ERASE -> Working example with dummy data
-                                 <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                <FormControlLabel value="other" control={<Radio />} label="Other" /> */}
                                 {
                                     Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                                         <>
+                                            {/* <h4>{JSON.stringify(thisAnswer)}</h4> */}
                                             <FormControlLabel
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
