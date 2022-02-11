@@ -9,6 +9,39 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+const theme = createTheme({
+
+  palette: {
+    primary: {
+      main: '#001A67', //FerskTech dark blue
+    },
+    secondary: {
+      main: '#1096D3', //FerskTech light blue
+    },
+    error: {
+      main: '#55CA8D', //FerskTech green
+    },
+    warning: {
+      main: '#F37E20', //FerskTech orange
+    },
+    success: {
+      main: '#FFFFFF', // white
+    },
+  },
+
+  typography: {
+    fontFamily: 'Nunito Sans',
+    fontWeightLight: 200,
+    fontWeightRegular: 300,
+    fontWeightRegular: 400,
+    fontWeightBold: 600,
+    // fontColor: primary,
+  },
+});
 
 function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -29,9 +62,9 @@ function RegisterForm() {
   const dropChange = (event) => {
     setIndustry(event.target.value);
   };
-  const cultureChange = (event) => {
-    setCulture(event.target.value);
-  };
+  // const cultureChange = (event) => {
+  //   setCulture(event.target.value);
+  // };
 
 
   const errors = useSelector((store) => store.errors);
@@ -61,7 +94,7 @@ function RegisterForm() {
   ];
 
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
   }
 
   
@@ -109,7 +142,7 @@ function RegisterForm() {
     } else if (phone_number.length < 7) {
       alert("Phone number is required.");
     } else if (location === "") {
-      alert("HQ location is resuired.");
+      alert("HQ location is required.");
     } else if (industry === "") {
       alert("Industry is required.");
     } else if (travel_spend === "") {
@@ -122,113 +155,151 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
-      <h2>Register User</h2>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
         </h3>
       )}
-  
+     
       <div>
-        <label htmlFor="username">
-          Email:
-          <input
-            placeholder="Email"
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
+         <ThemeProvider theme={theme}>
+           <Box textAlign="center">
+         <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="Email"
+        value={username}
+        required
+        onChange={(event) => setUsername(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            placeholder="Password"
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="Password"
+        value={password}
+        required
+        onChange={(event) => setPassword(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="first_name">
-          First Name:
-          <input
-            placeholder="First Name"
-            type="text"
-            name="first_name"
-            value={first_name}
-            required
-            onChange={(event) => setFirstName(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="First Name"
+        value={first_name}
+        required
+        onChange={(event) => setFirstName(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="last_name">
-          Last Name:
-          <input
-            placeholder="Last Name"
-            type="text"
-            name="last_name"
-            value={last_name}
-            required
-            onChange={(event) => setLastName(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="Last Name"
+        value={last_name}
+        required
+        onChange={(event) => setLastName(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="company_name">
-          Company:
-          <input
-            placeholder="Company Name"
-            type="text"
-            name="company_name"
-            value={company_name}
-            required
-            onChange={(event) => setCompanyName(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="Company Name"
+        value={company_name}
+        required
+        onChange={(event) => setCompanyName(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="phone_number">
-          Telephone:
-          <input
-            placeholder="Phone Number"
-            type="text"
-            name="phone_number"
-            value={phone_number}
-            required
-            onChange={(event) => setPhoneNumber(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="Phone Number"
+        value={phone_number}
+        required
+        onChange={(event) => setPhoneNumber(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-        <label htmlFor="location">
-          HQ Location:
-          <input
-            placeholder="HQ Location"
-            type="text"
-            name="location"
-            value={location}
-            required
-            onChange={(event) => setLocation(event.target.value)}
-          />
-        </label>
+        <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+          <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <TextField
+        color="primary"
+        variant="standard"
+        id="outlined-name"
+        label="HQ Location"
+        value={location}
+        required
+        onChange={(event) => setLocation(event.target.value)}
+        />
+        </FormControl>
+        </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="industry-dropdown">Industry</InputLabel>
+
+      <ThemeProvider theme={theme}>
+      <Box textAlign="center">
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="industry-dropdown">Industry *</InputLabel>
         <Select
           labelId="industry-label-id"
           id="industry-id"
           value={industry}
           onChange={dropChange}
           label="industry"
+          required
         >
           <MenuItem value="Agriculture">Agriculture</MenuItem>
           <MenuItem value="Automotive">Automotive</MenuItem>
@@ -255,10 +326,15 @@ function RegisterForm() {
           <MenuItem value="Travel">Travel</MenuItem>
         </Select>
       </FormControl>
+      </Box>
+      </ThemeProvider>
       </div>
+      <br></br>
       <div>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
-        <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend</InputLabel>
+      <ThemeProvider theme={theme}>
+      <Box textAlign="center">
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend *</InputLabel>
         <Select
           labelId="travel-spend-label-id"
           id="travel-spend-id"
@@ -274,26 +350,17 @@ function RegisterForm() {
           <MenuItem value="$100M+">$100M+</MenuItem>
         </Select>
       </FormControl>
+      </Box>
+      </ThemeProvider>
     </div>
     <div>
-    {/* <Box sx={{ width: 300 }}>
-      <Slider
-        aria-label="Temperature"
-        defaultValue={30}
-        getArialValueText={culture}
-        valueLabelDisplay="auto"
-        step={10}
-        marks
-        min={10}
-        max={110}
-      />
-      <Slider defaultValue={30} step={10} marks min={10} max={110} disabled />
-    </Box> */}
+    <br></br>
     </div>
    
-
-    <Box sx={{ width: 300 }}>
+    <ThemeProvider theme={theme}>
+    <Box textAlign="center" sx={{ width: 340 }}>
       <Slider
+        color="primary"
         aria-label="Always visible"
         defaultValue={0}
         getArialValueText={valuetext}
@@ -304,11 +371,16 @@ function RegisterForm() {
         
       />
     </Box>
-
+    </ThemeProvider>
+<br></br>
       <div>
-      <Button className="btn-primary registerButton" variant="contained" onClick={validateUser}>
+      <ThemeProvider theme={theme}>
+        <Box textAlign="center">
+      <Button color="primary"className="btn-primary registerButton" variant="contained" onClick={validateUser}>
           Register
         </Button>
+        </Box>
+        </ThemeProvider>
       </div>
     </form>
   );
