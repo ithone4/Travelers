@@ -120,7 +120,7 @@ function QuestionPage(props) {
             setValue(userPolicyAnswers[`question_${questionID}`]);
         }
     }
-    const testGetAnswersFromStore = () => {
+    const saveUserAnswersToDatabase = () => {
         console.log(`in testGetAnswersFromStore!`);
         console.log(`the values in answersFromTempStore are:`, answersFromTempStore);
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
@@ -130,7 +130,7 @@ function QuestionPage(props) {
     }
     return (
         <div>
-            <button onClick={testGetAnswersFromStore}>Get Answers From Store & Push to DB</button>
+            <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button>
             <Container maxWidth>
                 <Grid
                     container
