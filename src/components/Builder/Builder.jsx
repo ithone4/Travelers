@@ -49,7 +49,6 @@ function Builder() {
                         sx={{ border: 1 }}>
                         <QuestionPage companyPolicy={companyPolicy}
                             companyCulture={companyCulture} />
-                        {/* <QuestionPage /> */}
                     </Grid>
                 </Grid>
             </Container>
