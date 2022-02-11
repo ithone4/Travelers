@@ -12,6 +12,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+//coment
+
 
 const theme = createTheme({
 
@@ -291,7 +293,7 @@ function RegisterForm() {
 
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200 }}>
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200}}>
         <InputLabel id="industry-dropdown">Industry *</InputLabel>
         <Select
           labelId="industry-label-id"
