@@ -69,13 +69,13 @@ function InfoPage() {
   const handleNextBackButtons = (event, direction) => {
     showHideButtons(direction);
     setCurrentQuestion(questions[currentQuestionID])
-    setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
+    //setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
   }
   const startPolicyBuilder = (event) => {
     //User wants to start the policy builder from the beginning.
     setShowBackButton(true);
     setCurrentQuestionID(1);
-    setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
+    //setAnswersForQuestion(Utility.formatAnswersForInput(getAnswersForQuestion(currentQuestionID)));
   }
   const getAnswersForQuestion = (questionID) => {
     for (let i = 0; i < answersFromStore.length; i++) {

@@ -8,7 +8,7 @@ const policyBuilderReducer = (state = [], action) => {
       return state;
   }
 }
-const tempPolicyReducer = (state = [], action) => {
+const tempPolicyReducer = (state = {}, action) => {
   switch (action.type) {
     case 'SET_TEMP_BUILDER':
       return action.payload;

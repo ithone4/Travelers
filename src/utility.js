@@ -1,6 +1,9 @@
+import { ConstructionOutlined } from "@mui/icons-material";
+
 export default class Utility {
+
     //Take answers from table and format them to be shown as radio buttons
-    static formatAnswersForInput = (answer) => {
+    static formatAnswersForBuilder = (answer) => {
         let formattedAnswersArray = [];
         //loop through the column names
         for (const [key, value] of Object.entries(answer)) {
@@ -52,9 +55,61 @@ export default class Utility {
 
         return formattedAnswersArray;
     }
+    static savePolicyAnswersToDatabase = (policy) => {
 
-    static formatPolicyFromDBForQuestionnaire = (policy) => {
-        console.log(`in formatPolicyFromDBForQuestionnaire`);
+        console.log(`in formatPolicyAnswersForDatabase with policy:`, policy);
+
+        let formattedPolicy = this.formatPolicyAnswersForDatabase(policy);
+    }
+
+    static formatPolicyAnswersForDatabase = (policy) => {
+        let policyArray = {
+            id: '',
+            userId: '',
+            answers: [{}]
+        };
+        console.log(`in formatPolicyAnswersForDatabase with policy:`, policy);
+        console.log(`policy is an:`, typeof policy);
+
+        policyArray.id = policy.id;
+        policyArray.userId = policy.user_id;
+        console.log(`policyArray before adding question answers is:`, policyArray);
+        //Convert policy object in an array of it's keys
+        const keys = Object.keys(policy);
+        // iterate over object
+        keys.forEach((key, index) => {
+            //console.log(`${key}: ${policy[key]}`);
+            if (key.substring(0, 9) === 'question_' && policy[key] != null) {
+                //console.log(`found question answer: ${key}`)
+                policyArray.answers.push({
+                    question: key,
+                    answer: policy[key]
+                })
+            }
+        });
+        console.log(`policyArray is now:`, policyArray);
+
+
+        // setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) });
+
+        // policyArray.id = policy.id;
+        // policyArray.userID = policy.userID;
+        // policyArray.answers = [{}];
+
+        // return policyArray;
+
+        //return this format:
+        //     type: 'SAVE_TO_BUILDER',
+        //     payload: {
+        //         id: policyID,
+        //         userID: user.id,
+        //         answers: [{
+        //             question: currentQuestion,
+        //             answer: answer
+        //         }]
+        //     }
+        // })
+
     }
 
 }
