@@ -18,13 +18,13 @@ function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
     const [companyCulture, setCompanyCulture] = useState(props.companyCulture);
     const [currentQuestionID, setCurrentQuestionID] = useState(1);
-    const [companyAnswersForDB, setCompanyAnswersForDB] = useState({});
+    const [userPolicyAnswers, setUserPolicyAnswers] = useState({});
     const [currentQuestion, setCurrentQuestion] = useState();
     const [policyID, setPolicyID] = useState();
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     //const [value, setValue] = React.useState('female'); <-- Don't erase. Use for testing radio button functionality
-    const [value, setValue] = React.useState(props.companyCulture);
+    const [value, setValue] = useState(props.companyCulture);
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -46,8 +46,8 @@ function QuestionPage(props) {
         if (props.companyPolicy.length > 0) {
             setPolicyID(props.companyPolicy[0].id);
             //put these values in temporary object that will get sent to router to update db
-            setCompanyAnswersForDB(props.companyPolicy[0]);
-            console.log(`answers from DB look like this:`, companyAnswersForDB);
+            setUserPolicyAnswers(props.companyPolicy[0]);
+            console.log(`answers from DB look like this:`, userPolicyAnswers);
         }
     }
     const handleChange = (event) => {
@@ -97,18 +97,18 @@ function QuestionPage(props) {
     const saveAnswer = (questionID, answer) => {
         console.log(`in saveAnswer with questionID:`, questionID, `and answer:`, answer);
         let objectKey = '';
-        // console.log(`temp array looks like this:`, companyAnswersForDB);
-        // console.log(`corresponding value in temp array is:`, companyAnswersForDB[`question_${questionID}`]);
-        if (companyAnswersForDB[`question_${questionID}`] === null) {
+        // console.log(`temp array looks like this:`, userPolicyAnswers);
+        // console.log(`corresponding value in temp array is:`, userPolicyAnswers[`question_${questionID}`]);
+        if (userPolicyAnswers[`question_${questionID}`] === null) {
             console.log(`value doesn't exist, create new one`);
             objectKey = `question_${questionID}`;
-            //setCompanyAnswersForDB({ ...companyAnswersForDB, question_7: parseInt(answer) }); //<---WORKS!!!
-            setCompanyAnswersForDB({ ...companyAnswersForDB, [objectKey]: parseInt(answer) }); //<---WORKS!!!
+            //setUserPolicyAnswers({ ...userPolicyAnswers, question_7: parseInt(answer) }); //<---WORKS!!!
+            setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); //<---WORKS!!!
         } else {
             console.log(`value exists, overwrite it`);
             objectKey = `question_${questionID}`;
-            //setCompanyAnswersForDB({ ...companyAnswersForDB, question_7: parseInt(answer) }); //<---WORKS!!!
-            setCompanyAnswersForDB({ ...companyAnswersForDB, [objectKey]: parseInt(answer) }); //<---WORKS!!!
+            //setUserPolicyAnswers({ ...userPolicyAnswers, question_7: parseInt(answer) }); //<---WORKS!!!
+            setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); //<---WORKS!!!
         }
     }
     const handleNextBackButtons = (event, direction) => {
@@ -130,15 +130,15 @@ function QuestionPage(props) {
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
         setValue(companyCulture)
-        if (companyAnswersForDB[`question_1`] !== null) {
-            setValue(companyAnswersForDB[`question_1`]);
+        if (userPolicyAnswers[`question_1`] !== null) {
+            setValue(userPolicyAnswers[`question_1`]);
         }
     }
     const setDefaultRadioButton = (questionID) => {
-        if (companyAnswersForDB[`question_${questionID}`] === null) {
+        if (userPolicyAnswers[`question_${questionID}`] === null) {
             setValue(props.companyCulture)
         } else {
-            setValue(companyAnswersForDB[`question_${questionID}`]);
+            setValue(userPolicyAnswers[`question_${questionID}`]);
         }
     }
 
