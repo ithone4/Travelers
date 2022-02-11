@@ -55,18 +55,11 @@ export default class Utility {
 
         return formattedAnswersArray;
     }
-    static savePolicyAnswersToDatabase = (policy) => {
-
-        console.log(`in formatPolicyAnswersForDatabase with policy:`, policy);
-
-        let formattedPolicy = this.formatPolicyAnswersForDatabase(policy);
-    }
-
     static formatPolicyAnswersForDatabase = (policy) => {
         let policyArray = {
             id: '',
             userId: '',
-            answers: [{}]
+            answers: []
         };
         console.log(`in formatPolicyAnswersForDatabase with policy:`, policy);
         console.log(`policy is an:`, typeof policy);
@@ -87,29 +80,8 @@ export default class Utility {
                 })
             }
         });
-        console.log(`policyArray is now:`, policyArray);
-
-
-        // setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) });
-
-        // policyArray.id = policy.id;
-        // policyArray.userID = policy.userID;
-        // policyArray.answers = [{}];
-
-        // return policyArray;
-
-        //return this format:
-        //     type: 'SAVE_TO_BUILDER',
-        //     payload: {
-        //         id: policyID,
-        //         userID: user.id,
-        //         answers: [{
-        //             question: currentQuestion,
-        //             answer: answer
-        //         }]
-        //     }
-        // })
-
+        console.log(`at end of formatPolicyAnswersForDatabase & policyArray is now:`, policyArray);
+        return policyArray;
     }
 
 }

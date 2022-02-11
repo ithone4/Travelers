@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
-import { SettingsOverscanOutlined } from '@mui/icons-material';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -23,7 +22,6 @@ function QuestionPage(props) {
     const [policyID, setPolicyID] = useState();
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
-    //const [value, setValue] = React.useState('female'); <-- Don't erase. Use for testing radio button functionality
     const [value, setValue] = useState(props.companyCulture);
 
     /* Reducers */
@@ -38,21 +36,17 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
-        console.log(`in useEffect!`);
         checkForExistingPolicy();
     }, []);
 
     const checkForExistingPolicy = () => {
-        console.log(`in checkForExistingPolicy`);
         if (props.companyPolicy.length > 0) {
             setPolicyID(props.companyPolicy[0].id);
             //put these values in temporary object that will get sent to router to update db
             setUserPolicyAnswers(props.companyPolicy[0]);
-            console.log(`answers from DB look like this:`, userPolicyAnswers);
         }
     }
     const handleChange = (event) => {
-        console.log(`in handleChange and event.target.value is:`, event.target.value);
         setValue(event.target.value);
         setAnswer(parseInt(event.target.value));
         /* Adding save here in case user chooses to hit 'save & return to main menu' 
@@ -73,7 +67,6 @@ function QuestionPage(props) {
         }
     }
     const getAnswersForQuestion = (questionID) => {
-        console.log(`in getAnswersForQuestion`);
         for (let i = 0; i < radioButtonChoices.length; i++) {
             if (radioButtonChoices[i].question_id === questionID) {
                 return radioButtonChoices[i];
@@ -83,16 +76,14 @@ function QuestionPage(props) {
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
     const saveAnswerToStore = (questionID, answer) => {
-        console.log(`in saveAnswerToStore with questionID:`, questionID, `and answer:`, answer);
         let objectKey = `question_${questionID}`;
-        //setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); //<-Change not happening right away. :(
 
+        //setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); 
+        /* Change not happening fast enough for reducer (using set) so will use this way instead. */
         setUserPolicyAnswers(
             userPolicyAnswers[objectKey] = parseInt(answer)
         );
         setUserPolicyAnswers({ ...userPolicyAnswers });
-
-        console.log(`userPOlicyAnswers after set are:`, userPolicyAnswers);
         //Now send userPolicyAnswers to the store
         dispatch({
             type: 'SAVE_BUILDER_TO_LOCAL',
@@ -100,7 +91,6 @@ function QuestionPage(props) {
         })
     }
     const handleNextBackButtons = (event, direction) => {
-        console.log(`in handleNextBackButtons and value chosen by user is:`, event.target.value);
         //Increase/decrese the question ID depending on button clicked
         saveAnswerToStore(currentQuestionID, value);
         if (direction === GO_AHEAD) {
@@ -116,7 +106,6 @@ function QuestionPage(props) {
 
     }
     const startPolicyProcess = () => {
-        console.log(`in startPolicyProcess!`);
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
         setValue(companyCulture)
@@ -134,15 +123,15 @@ function QuestionPage(props) {
     const testGetAnswersFromStore = () => {
         console.log(`in testGetAnswersFromStore!`);
         console.log(`the values in answersFromTempStore are:`, answersFromTempStore);
-        Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
-        dispatch({ type: 'SAVE_TO_BUILDER', payload: answersFromTempStore });
+        let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
+        console.log(`about to call saveToBuilder to save this info to the DB`);
+        console.log(`formatted Answers (thanks to Utility) are:`, policyArray);
+        dispatch({ type: 'SAVE_TO_BUILDER', payload: policyArray });
     }
     return (
         <div>
             <button onClick={testGetAnswersFromStore}>Get Answers From Store & Push to DB</button>
             <Container maxWidth>
-                {/* <h4>{JSON.stringify(props.companyPolicy)}</h4>
-                <h4>{JSON.stringify(props.companyCulture)}</h4> */}
                 <Grid
                     container
                     direction="column"
@@ -167,7 +156,6 @@ function QuestionPage(props) {
                                 {
                                     Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                                         <>
-                                            {/* <h4>{JSON.stringify(thisAnswer)}</h4> */}
                                             <FormControlLabel
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
@@ -193,9 +181,6 @@ function QuestionPage(props) {
                             onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
                             Next
                         </button>
-                        {/* <p>
-                            <button onClick={onSubmit}>Submit</button>
-                        </p> */}
                         <p>
                             <button onClick={startPolicyProcess}>CLICK HERE TO START</button>
                         </p>
