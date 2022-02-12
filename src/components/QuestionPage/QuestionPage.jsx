@@ -84,14 +84,29 @@ function QuestionPage(props) {
             userPolicyAnswers[objectKey] = parseInt(answer)
         );
         setUserPolicyAnswers({ ...userPolicyAnswers });
+        let dataToLoad = {};
+        if (!policyID) {
+            dataToLoad = {
+                id: '',
+                userId: user.id,
+                answers: userPolicyAnswers
+            }
+        } else {
+            dataToLoad = {
+                id: policyID,
+                userId: user.id,
+                answers: userPolicyAnswers
+            }
+        }
+
+
         //Now send userPolicyAnswers to the store
         dispatch({
             type: 'SAVE_BUILDER_TO_LOCAL',
-            payload: userPolicyAnswers
+            payload: dataToLoad
         })
     }
     const handleNextBackButtons = (event, direction) => {
-        //Increase/decrese the question ID depending on button clicked
         saveAnswerToStore(currentQuestionID, value);
         if (direction === GO_AHEAD) {
             questionIDForButtons = currentQuestionID + 1;
@@ -114,19 +129,37 @@ function QuestionPage(props) {
         }
     }
     const setDefaultRadioButton = (questionID) => {
-        if (userPolicyAnswers[`question_${questionID}`] === null) {
+
+        console.log(`userPolicyAnswers is:`, userPolicyAnswers);
+        //userPolicyAnswers doesn't exist so set to default company culture
+        if (userPolicyAnswers.length === 0) {
+            console.log(`in if of userPolicyAnswer.length === 0`);
+            setValue(props.companyCulture);
+        } else if (!userPolicyAnswers.hasOwnProperty(`question_${questionID}`)) {
+            console.log(`in if of userPolicyAnswer doesn't have the key for ${questionID}`);
+            setValue(props.companyCulture);
+        } else if (userPolicyAnswers[`question_${questionID}`] === null) {
+            console.log(`in if of userPolicyAnswer is null`);
             setValue(props.companyCulture)
         } else {
+            console.log(`in else and we've found a value for ${questionID}`);
             setValue(userPolicyAnswers[`question_${questionID}`]);
         }
+
+        // if (userPolicyAnswers[`question_${questionID}`] === null) {
+        //     setValue(props.companyCulture)
+        // } else {
+        //     setValue(userPolicyAnswers[`question_${questionID}`]);
+        // }
     }
     const saveUserAnswersToDatabase = () => {
-        console.log(`in testGetAnswersFromStore!`);
-        console.log(`the values in answersFromTempStore are:`, answersFromTempStore);
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
-        console.log(`about to call saveToBuilder to save this info to the DB`);
-        console.log(`formatted Answers (thanks to Utility) are:`, policyArray);
-        dispatch({ type: 'SAVE_TO_BUILDER', payload: policyArray });
+        try {
+            dispatch({ type: 'SAVE_TO_BUILDER', payload: policyArray });
+            console.log(`Successfully saved policy answers to database!`);
+        } catch (error) {
+            console.log(`error saving policy answers to database`);
+        }
     }
     return (
         <div>
