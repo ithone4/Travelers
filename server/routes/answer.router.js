@@ -4,7 +4,7 @@ const router = express.Router();
 
 //GET answers
 router.get('/', (req, res) => {
-    const getAnswersQuery = `SELECT * FROM answer;`;
+    const getAnswersQuery = `SELECT * FROM answer ORDER BY question_id ASC;`;
     pool.query(getAnswersQuery)
         .then((results) => {
             res.send(results.rows);
