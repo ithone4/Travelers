@@ -15,27 +15,41 @@ export default class Utility {
                 switch (key) {
                     case 'answer_1':
                         formattedAnswer.answerName = 'answer_1';
-                        formattedAnswer.answerValue = 1;
+                        formattedAnswer.answerValue = '1';
                         break;
                     case 'answer_2':
                         formattedAnswer.answerName = 'answer_2';
-                        formattedAnswer.answerValue = 2;
+                        formattedAnswer.answerValue = '2';
                         break;
                     case 'answer_3':
                         formattedAnswer.answerName = 'answer_3';
-                        formattedAnswer.answerValue = 3;
+                        formattedAnswer.answerValue = '3';
                         break;
                     case 'answer_4':
                         formattedAnswer.answerName = 'answer_4';
-                        formattedAnswer.answerValue = 4;
+                        formattedAnswer.answerValue = '4';
                         break;
                     case 'answer_5':
                         formattedAnswer.answerName = 'answer_5';
-                        formattedAnswer.answerValue = 5;
+                        formattedAnswer.answerValue = '5';
+                        break;
+                    case 'answer_6':
+                        formattedAnswer.answerName = 'answer_6';
+                        formattedAnswer.answerValue = '6';
+                        break;
                 }
                 formattedAnswersArray.push(formattedAnswer);
             }
         }
+        //add ability to skip this question
+        // let skipAnswer = {
+        //     answerID
+        //     answerName = 'answer_6',
+        //     answerValue = '0',
+
+
+        // }
+
         return formattedAnswersArray;
     }
 

@@ -11,6 +11,7 @@ import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import FerskTechRegistration from '../../images/FerskTechRegistration.png'; 
 
 //coment
 
@@ -41,7 +42,7 @@ const theme = createTheme({
     fontWeightRegular: 300,
     fontWeightRegular: 400,
     fontWeightBold: 600,
-    // fontColor: primary,
+
   },
 });
 
@@ -157,6 +158,7 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
+      <h6><img alt="logo" className="fersk-tech-registration" src={FerskTechRegistration}/></h6>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -358,7 +360,17 @@ function RegisterForm() {
     <div>
     <br></br>
     </div>
-   
+    <div>
+    <ThemeProvider theme={theme}>
+      <Box textAlign="center">
+      <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 200 }}>
+      <InputLabel>Company Culture Slider</InputLabel>
+      </FormControl>
+      </Box>
+      </ThemeProvider>
+      </div>
+      <br></br>
+   <div>
     <ThemeProvider theme={theme}>
     <Box textAlign="center" sx={{ width: 340 }}>
       <Slider
@@ -374,6 +386,7 @@ function RegisterForm() {
       />
     </Box>
     </ThemeProvider>
+    </div>
 <br></br>
       <div>
       <ThemeProvider theme={theme}>
