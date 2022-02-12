@@ -143,7 +143,10 @@ function QuestionPage(props) {
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
         setValue(companyCulture)
-        if (userPolicyAnswers[`question_1`] !== null) {
+        console.log(`userPolicyAnswers is:`, userPolicyAnswers);
+        if (Object.keys(userPolicyAnswers).length === 0) {
+            setValue(companyCulture)
+        } else if (userPolicyAnswers[`question_1`] !== null) {
             setValue(userPolicyAnswers[`question_1`]);
         }
         /*TEST FEB.12 A.M. getting groupb name and info snippet to work */
