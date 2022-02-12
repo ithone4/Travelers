@@ -36,15 +36,8 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
-        console.log(`in useEffect`);
         checkForExistingPolicy();
-        //startPolicyProcess();
     }, []);
-
-    const getGroupNameForQuestionId = (id) => {
-        console.log(`in getGroupNameForQuestionId...id is:`, id);
-
-    }
 
     const checkForExistingPolicy = () => {
         // -->TODO: Make prop from Builder only the company policy ID. Then, check to see if the
@@ -113,10 +106,8 @@ function QuestionPage(props) {
         })
     }
     const handleNextBackButtons = (event, direction) => {
-        console.log(`before setCurrentQuestion, question has:`, currentQuestion)
         props.updateGroupName(currentQuestion.group_name);
         props.updateInfoSnippet(currentQuestion.info_snippet_text);
-
         saveAnswerToStore(currentQuestionID, value);
         if (direction === GO_AHEAD) {
             questionIDForBuilder = currentQuestionID + 1;
@@ -125,60 +116,48 @@ function QuestionPage(props) {
             questionIDForBuilder = currentQuestionID - 1;
             setCurrentQuestionID(questionIDForBuilder);
         }
-        dispatch({ type: 'SAVE_QUESTION_ID', payload: questionIDForBuilder });
+        dispatch({ type: 'SAVE_QUESTION_ID', payload: questionIDForBuilder }); //<---NEED THIS???!!
         showHideButtons();
         setCurrentQuestion(questions[questionIDForBuilder - 1])
-        console.log(`after setCurrentQuestion, question has:`, currentQuestion)
         setDefaultRadioButton(questionIDForBuilder);
 
         //Sending the question id back to Builder so it can use it to set the correct group name
         //and info snippet
         //Using questionIDForBuilder b/c screen is rendering quicker than state gets updated.
         props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[questionIDForBuilder - 1].group_name);
-        props.updateInfoSnippet(questions[questionIDForBuilder - 1].info_snippet_text);
     }
     const startPolicyProcess = () => {
-        console.log(`in startPolicyProcess`)
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
-        setValue(companyCulture)
-        console.log(`userPolicyAnswers is:`, userPolicyAnswers);
-        if (Object.keys(userPolicyAnswers).length === 0) {
-            setValue(companyCulture)
-        } else if (userPolicyAnswers[`question_1`] !== null) {
-            setValue(userPolicyAnswers[`question_1`]);
+        // setValue(companyCulture)
+        // if (Object.keys(userPolicyAnswers).length === 0) {
+        //     setValue(companyCulture)
+        // } else if (userPolicyAnswers[`question_1`] !== null) {
+        //     setValue(userPolicyAnswers[`question_1`]);
+        // }
+
+        setValue(companyCulture);
+        if (Object.keys(userPolicyAnswers).length != 0) {
+            if (userPolicyAnswers[`question_1`] !== null) {
+                setValue(userPolicyAnswers[`question_1`]);
+            }
         }
+
         /*TEST FEB.12 A.M. getting groupb name and info snippet to work */
         props.updateQuestionId(questionIDForBuilder);
         props.updateGroupName(questions[0].group_name);
         props.updateInfoSnippet(questions[0].info_snippet_text);
     }
     const setDefaultRadioButton = (questionID) => {
-
-        console.log(`userPolicyAnswers is:`, userPolicyAnswers);
         //userPolicyAnswers doesn't exist so set to default company culture
         if (userPolicyAnswers.length === 0) {
-            console.log(`in if of userPolicyAnswer.length === 0`);
             setValue(props.companyCulture);
         } else if (!userPolicyAnswers.hasOwnProperty(`question_${questionID}`)) {
-            console.log(`in if of userPolicyAnswer doesn't have the key for ${questionID}`);
             setValue(props.companyCulture);
         } else if (userPolicyAnswers[`question_${questionID}`] === null) {
-            console.log(`in if of userPolicyAnswer is null`);
             setValue(props.companyCulture)
         } else {
-            console.log(`in else and we've found a value for ${questionID}`);
             setValue(userPolicyAnswers[`question_${questionID}`]);
-        }
-    }
-    const saveUserAnswersToDatabase = () => {
-        let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
-        try {
-            dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
-            console.log(`Successfully saved policy answers to database!`);
-        } catch (error) {
-            console.log(`error saving policy answers to database`);
         }
     }
     return (
@@ -240,9 +219,9 @@ function QuestionPage(props) {
                     </Grid>
                 </Grid>
             </Container>
-            {/* <div>
+            <div>
                 <Footer question={questions[currentQuestionID]} />
-            </div> */}
+            </div>
         </div>
     );
 }
