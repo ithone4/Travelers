@@ -32,6 +32,7 @@ function UserPage() {
     }
   }
   const startBuilder = () => {
+
     console.log(`in startBuilder!`);
     console.log(`value in companyCulture is:`, companyCulture);
     console.log(`value of companyPolicy is:`, companyPolicy)

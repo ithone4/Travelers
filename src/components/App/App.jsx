@@ -36,8 +36,8 @@ function App() {
     dispatch({ type: 'FETCH_TEXT' });
     dispatch({ type: 'FETCH_SNIPPETS' });
     dispatch({ type: 'FETCH_GROUP' });
-    dispatch({ type: 'FETCH_BUILDER', payload: user.id });
-    dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+    // dispatch({ type: 'FETCH_BUILDER', payload: user.id });
+    // dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
 
   }, []);
 
