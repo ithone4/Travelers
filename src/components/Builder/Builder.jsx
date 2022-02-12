@@ -1,6 +1,7 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -12,16 +13,23 @@ import QuestionPage from '../QuestionPage/QuestionPage';
 import Logo from '../Logo/Logo';
 
 function Builder() {
-
+    const params = useParams();
     const dispatch = useDispatch();
     const user = useSelector(store => store.user);
+    const [questionId, setQuestionId] = useState(1);
+    const [groupName, setGroupName] = useState('');
+    const [infoSnippetText, setInfoSnippetText] = useState('');
     const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
     const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_BUILDER', payload: user.id });
-        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+        console.log(`in useEffect of Builder`)
+        // dispatch({ type: 'FETCH_BUILDER', payload: params.userId });
+        // dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: params.userId });
+        setGroupName('Test')
+        setInfoSnippetText('Test')
     }, []);
+
 
     return (
         <div>
@@ -38,18 +46,23 @@ function Builder() {
                     <Grid item xs={5}
                         sx={{ border: 1 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <GroupInfo />
+                            <GroupInfo questionId={questionId}
+                                groupName={groupName} />
                         </Box>
                     </Grid>
                     <Grid item xs={4}
                         sx={{ border: 1 }}>
-                        <InfoSnippet />
+                        <InfoSnippet questionId={questionId}
+                            infoSnippetText={infoSnippetText} />
                     </Grid>
                     <Grid item xs={12}
                         sx={{ border: 1 }}>
-                        <QuestionPage companyPolicy={companyPolicy}
+                        <QuestionPage
+                            updateQuestionId={questionId => setQuestionId(questionId)}
+                            updateGroupName={groupName => setGroupName(groupName)}
+                            updateInfoSnippet={infoSnippetText => setInfoSnippetText(infoSnippetText)}
+                            companyPolicy={companyPolicy}
                             companyCulture={companyCulture} />
-                        {/* <QuestionPage /> */}
                     </Grid>
                 </Grid>
             </Container>
