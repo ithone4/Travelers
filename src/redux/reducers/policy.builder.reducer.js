@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 const policyBuilderReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_BUILDER':
+      console.log(`in policyBuilderReducer and action.payload is:`, action.payload)
       return action.payload;
     default:
       return state;
