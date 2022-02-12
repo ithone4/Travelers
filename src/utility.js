@@ -44,15 +44,6 @@ export default class Utility {
                 formattedAnswersArray.push(formattedAnswer);
             }
         }
-        //add ability to skip this question
-        // let skipAnswer = {
-        //     answerID
-        //     answerName = 'answer_6',
-        //     answerValue = '0',
-
-
-        // }
-
         return formattedAnswersArray;
     }
     static formatPolicyAnswersForDatabase = (policy) => {
@@ -61,27 +52,21 @@ export default class Utility {
             userId: '',
             answers: []
         };
-        console.log(`in formatPolicyAnswersForDatabase with policy:`, policy);
-        console.log(`policy is an:`, typeof policy);
-
         policyArray.id = policy.id;
-        policyArray.userId = policy.user_id;
-        console.log(`policyArray before adding question answers is:`, policyArray);
+        policyArray.userId = policy.userId;
         //Convert policy object in an array of it's keys
-        const keys = Object.keys(policy);
+        const keys = Object.keys(policy.answers);
         // iterate over object
         keys.forEach((key, index) => {
-            //console.log(`${key}: ${policy[key]}`);
-            if (key.substring(0, 9) === 'question_' && policy[key] != null) {
+            // console.log(`${key}: ${policy.answers[key]}`);
+            if (key.substring(0, 9) == 'question_' && policy.answers[key] != null) {
                 //console.log(`found question answer: ${key}`)
                 policyArray.answers.push({
                     question: key,
-                    answer: policy[key]
+                    answer: policy.answers[key]
                 })
             }
         });
-        console.log(`at end of formatPolicyAnswersForDatabase & policyArray is now:`, policyArray);
         return policyArray;
     }
-
 }

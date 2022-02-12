@@ -53,7 +53,7 @@ router.post('/', (req, res) => {
         columnValues.push(element.answer); // <----array of column values
     });
     //Check to see if we have a policy builder id. We might not if this is a new record.
-    if (req.body.id) {
+    if (req.body.id !== '') {
         postPolicyBuilderQuery = `INSERT INTO policy_builder (id,user_id,`
     } else {
         postPolicyBuilderQuery = `INSERT INTO policy_builder (user_id,`
@@ -68,7 +68,7 @@ router.post('/', (req, res) => {
     if (req.body.id) {
         postPolicyBuilderQuery += `) VALUES (${req.body.id},${req.body.userId},`;
     } else {
-        postPolicyBuilderQuery += `) VALUES (${req.body.userID},`;
+        postPolicyBuilderQuery += `) VALUES (${req.body.userId},`;
     }
     //add the column names
     columnValues.forEach(columnValue => {
@@ -83,6 +83,9 @@ router.post('/', (req, res) => {
     if (postPolicyBuilderQuery.length > 0) {
         postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1) + `;`;
     }
+
+    console.log(`postPolicyBuilderQuery is:`, postPolicyBuilderQuery);
+
     pool.query(postPolicyBuilderQuery)
         .then((results) => {
             res.sendStatus(201);
