@@ -41,11 +41,19 @@ function* saveBuilderToLocal(action) {
     console.log('get company culture error', error);
   }
 }
+function* saveQuestionID(action) {
+  try {
+    console.log(`in saveQuestionID`);
+  } catch (error) {
+    console.log(`error saving question id.`);
+  }
+}
 function* policyBuilderSaga() {
   yield takeLatest(`FETCH_BUILDER`, fetchBuilder) //Get from DB
   yield takeLatest(`SAVE_BUILDER_TO_DB`, saveBuilderToDB); //Save to DB
   yield takeLatest('FETCH_COMPANY_CULTURE', fetchCompanyCulture);
   yield takeLatest('SAVE_BUILDER_TO_LOCAL', saveBuilderToLocal); //Local save
+  yield takeLatest('SAVE_QUESTION_ID', saveQuestionID);
 }
 
 export default policyBuilderSaga;

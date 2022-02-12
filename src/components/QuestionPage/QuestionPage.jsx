@@ -30,7 +30,7 @@ function QuestionPage(props) {
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
     const dispatch = useDispatch();
-    let questionIDForButtons;
+    let questionIDForBuilder;
     /* Constants */
     const GO_BACK = -1;
     const GO_AHEAD = 1;
@@ -38,8 +38,13 @@ function QuestionPage(props) {
     useEffect(() => {
         console.log(`in useEffect`);
         checkForExistingPolicy();
-        startPolicyProcess();
+        //startPolicyProcess();
     }, []);
+
+    const getGroupNameForQuestionId = (id) => {
+        console.log(`in getGroupNameForQuestionId...id is:`, id);
+
+    }
 
     const checkForExistingPolicy = () => {
         // -->TODO: Make prop from Builder only the company policy ID. Then, check to see if the
@@ -59,12 +64,12 @@ function QuestionPage(props) {
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
-        if (questionIDForButtons > 1) {
+        if (questionIDForBuilder > 1) {
             setShowBackButton(false);
         } else {
             setShowBackButton(true);
         }
-        if (questionIDForButtons === questions.length) {
+        if (questionIDForBuilder === questions.length) {
             setShowNextButton(true);
         } else {
             setShowNextButton(false);
@@ -108,18 +113,30 @@ function QuestionPage(props) {
         })
     }
     const handleNextBackButtons = (event, direction) => {
+        console.log(`before setCurrentQuestion, question has:`, currentQuestion)
+        props.updateGroupName(currentQuestion.group_name);
+        props.updateInfoSnippet(currentQuestion.info_snippet_text);
+
         saveAnswerToStore(currentQuestionID, value);
         if (direction === GO_AHEAD) {
-            questionIDForButtons = currentQuestionID + 1;
-            setCurrentQuestionID(questionIDForButtons);
+            questionIDForBuilder = currentQuestionID + 1;
+            setCurrentQuestionID(questionIDForBuilder);
         } else if (direction === GO_BACK) {
-            questionIDForButtons = currentQuestionID - 1;
-            setCurrentQuestionID(questionIDForButtons);
+            questionIDForBuilder = currentQuestionID - 1;
+            setCurrentQuestionID(questionIDForBuilder);
         }
+        dispatch({ type: 'SAVE_QUESTION_ID', payload: questionIDForBuilder });
         showHideButtons();
-        setCurrentQuestion(questions[currentQuestionID - 1])
-        setDefaultRadioButton(questionIDForButtons);
+        setCurrentQuestion(questions[questionIDForBuilder - 1])
+        console.log(`after setCurrentQuestion, question has:`, currentQuestion)
+        setDefaultRadioButton(questionIDForBuilder);
 
+        //Sending the question id back to Builder so it can use it to set the correct group name
+        //and info snippet
+        //Using questionIDForBuilder b/c screen is rendering quicker than state gets updated.
+        props.updateQuestionId(questionIDForBuilder);
+        props.updateGroupName(questions[questionIDForBuilder - 1].group_name);
+        props.updateInfoSnippet(questions[questionIDForBuilder - 1].info_snippet_text);
     }
     const startPolicyProcess = () => {
         console.log(`in startPolicyProcess`)
@@ -129,6 +146,10 @@ function QuestionPage(props) {
         if (userPolicyAnswers[`question_1`] !== null) {
             setValue(userPolicyAnswers[`question_1`]);
         }
+        /*TEST FEB.12 A.M. getting groupb name and info snippet to work */
+        props.updateQuestionId(questionIDForBuilder);
+        props.updateGroupName(questions[0].group_name);
+        props.updateInfoSnippet(questions[0].info_snippet_text);
     }
     const setDefaultRadioButton = (questionID) => {
 
