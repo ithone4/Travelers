@@ -160,6 +160,7 @@ function QuestionPage(props) {
             setValue(userPolicyAnswers[`question_${questionID}`]);
         }
     }
+
     return (
         <div>
             {/* <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button> */}

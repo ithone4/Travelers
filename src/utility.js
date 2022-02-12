@@ -44,6 +44,15 @@ export default class Utility {
                 formattedAnswersArray.push(formattedAnswer);
             }
         }
+        //add ability to skip this question
+        // let skipAnswer = {
+        //     answerID
+        //     answerName = 'answer_6',
+        //     answerValue = '0',
+
+
+        // }
+
         return formattedAnswersArray;
     }
     static formatPolicyAnswersForDatabase = (policy) => {
