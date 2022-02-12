@@ -32,6 +32,7 @@ function DocumentGenerator(props) {
 
   const [documentArray, setDocumentArray] = useState([]);
   // 1 = header; 2 = paragraph;
+  // array of all strings with these identifiers before each
 
   const createDocumentArray = () => {
     for (let i = 0; i < testData.length; i++) {
@@ -44,6 +45,7 @@ function DocumentGenerator(props) {
     }
   }
 
+  // creates array of code snippets that the generate() function can read
   const createChildrenArray = (array) => {
     console.log('in createHeadersAndParagraphs');
     for (let i = 0; i < documentArray.length; i++) {
@@ -59,6 +61,7 @@ function DocumentGenerator(props) {
     }
   }
 
+  // creates code snippets for headers
   const createHeader = (element) => {
     return new docx.Paragraph({
       text: element,
@@ -66,6 +69,7 @@ function DocumentGenerator(props) {
     })
   }
 
+  // creates code snippets for paragraphs
   const createParagraph = (element) => {
     return new docx.Paragraph({
       text: element,
@@ -73,6 +77,7 @@ function DocumentGenerator(props) {
     })
   }
 
+  // set up array with first, larger header component
   const [childrenArray, setChildrenArray] = useState([
     new docx.Paragraph({
       text: "Travel Policy",
@@ -138,8 +143,9 @@ function DocumentGenerator(props) {
     <div>
       <h2>{heading}</h2>
       <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
-      <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button>
       <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
+      <p>currently need to press "create ChildrenArray" before generating document.</p>
+      <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button>
       <button onClick={() => generate()}>generate document</button>
     </div>
   );
