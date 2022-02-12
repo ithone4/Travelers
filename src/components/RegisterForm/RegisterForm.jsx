@@ -56,7 +56,7 @@ function RegisterForm() {
   const [location, setLocation] = useState('');
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
-  const [culture, setCulture] = useState('');
+  const [culture, setCulture] = useState(0);
 
   const handleChange = (event) => {
     setTravelSpend(event.target.value);
@@ -158,7 +158,7 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
-      <h6><img alt="logo" className="fersk-tech-registration" src={FerskTechRegistration}/></h6>
+      <img alt="logo" className="fersk-tech-registration" src={FerskTechRegistration}/>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
