@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -12,15 +13,16 @@ import QuestionPage from '../QuestionPage/QuestionPage';
 import Logo from '../Logo/Logo';
 
 function Builder() {
-
+    const params = useParams();
     const dispatch = useDispatch();
     const user = useSelector(store => store.user);
     const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
     const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_BUILDER', payload: user.id });
-        dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+        console.log(`in useEffect of Builder`)
+        // dispatch({ type: 'FETCH_BUILDER', payload: params.userId });
+        // dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: params.userId });
     }, []);
 
     return (
@@ -47,7 +49,8 @@ function Builder() {
                     </Grid>
                     <Grid item xs={12}
                         sx={{ border: 1 }}>
-                        <QuestionPage companyPolicy={companyPolicy}
+                        <QuestionPage
+                            companyPolicy={companyPolicy}
                             companyCulture={companyCulture} />
                     </Grid>
                 </Grid>

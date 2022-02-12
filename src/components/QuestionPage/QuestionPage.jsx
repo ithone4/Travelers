@@ -36,10 +36,14 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
+        console.log(`in useEffect`);
         checkForExistingPolicy();
+        startPolicyProcess();
     }, []);
 
     const checkForExistingPolicy = () => {
+        // -->TODO: Make prop from Builder only the company policy ID. Then, check to see if the
+        // prop has a value, if yes, then use FETCH_BUILDER.
         if (props.companyPolicy.length > 0) {
             setPolicyID(props.companyPolicy[0].id);
             //put these values in temporary object that will get sent to router to update db
@@ -84,21 +88,18 @@ function QuestionPage(props) {
             userPolicyAnswers[objectKey] = parseInt(answer)
         );
         setUserPolicyAnswers({ ...userPolicyAnswers });
-        let dataToLoad = {};
-        if (!policyID) {
-            dataToLoad = {
-                id: '',
-                userId: user.id,
-                answers: userPolicyAnswers
-            }
-        } else {
-            dataToLoad = {
-                id: policyID,
-                userId: user.id,
-                answers: userPolicyAnswers
-            }
-        }
 
+        let policyIDForPayload;
+        if (!policyID) {
+            policyIDForPayload = '';
+        } else {
+            policyIDForPayload = policyID;
+        }
+        let dataToLoad = {
+            id: policyIDForPayload,
+            userId: user.id,
+            answers: userPolicyAnswers
+        }
 
         //Now send userPolicyAnswers to the store
         dispatch({
@@ -121,6 +122,7 @@ function QuestionPage(props) {
 
     }
     const startPolicyProcess = () => {
+        console.log(`in startPolicyProcess`)
         setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
         setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
         setValue(companyCulture)
@@ -145,17 +147,11 @@ function QuestionPage(props) {
             console.log(`in else and we've found a value for ${questionID}`);
             setValue(userPolicyAnswers[`question_${questionID}`]);
         }
-
-        // if (userPolicyAnswers[`question_${questionID}`] === null) {
-        //     setValue(props.companyCulture)
-        // } else {
-        //     setValue(userPolicyAnswers[`question_${questionID}`]);
-        // }
     }
     const saveUserAnswersToDatabase = () => {
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
         try {
-            dispatch({ type: 'SAVE_TO_BUILDER', payload: policyArray });
+            dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
             console.log(`Successfully saved policy answers to database!`);
         } catch (error) {
             console.log(`error saving policy answers to database`);
@@ -163,7 +159,7 @@ function QuestionPage(props) {
     }
     return (
         <div>
-            <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button>
+            {/* <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button> */}
             <Container maxWidth>
                 <Grid
                     container
@@ -220,9 +216,9 @@ function QuestionPage(props) {
                     </Grid>
                 </Grid>
             </Container>
-            <div>
+            {/* <div>
                 <Footer question={questions[currentQuestionID]} />
-            </div>
+            </div> */}
         </div>
     );
 }

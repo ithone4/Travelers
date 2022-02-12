@@ -34,11 +34,12 @@ function App() {
     dispatch({ type: 'FETCH_ANSWERS' });
     dispatch({ type: 'FETCH_QUESTIONS' });
     dispatch({ type: 'FETCH_TEXT' });
-    dispatch({ type: 'FETCH_SNIPPETS'});
-    dispatch({ type: 'FETCH_GROUP'});
-    
-    
-  }, [dispatch]);
+    dispatch({ type: 'FETCH_SNIPPETS' });
+    dispatch({ type: 'FETCH_GROUP' });
+    dispatch({ type: 'FETCH_BUILDER', payload: user.id });
+    dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: user.id });
+
+  }, []);
 
   return (
     <Router>
@@ -79,20 +80,19 @@ function App() {
 
           <ProtectedRoute
             // logged in shows QuestionPage else shows LoginPage
-            exact
-            path="/question"
+            exact path="/question/:userId"
           >
             {/* <QuestionPage /> */}
             <Builder />
           </ProtectedRoute>
 
-          <ProtectedRoute
+          {/* <ProtectedRoute
             // logged in shows QuestionPage else shows LoginPage
             exact
             path="/builder"
           >
             <Builder />
-          </ProtectedRoute>
+          </ProtectedRoute> */}
 
           <Route
             exact
