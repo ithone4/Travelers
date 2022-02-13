@@ -40,52 +40,23 @@ function QuestionPage(props) {
     }, []);
 
     const startPolicyProcess = () => {
-        console.log(`in startPolicyProcess and props.companyPolicy is:`, props.companyPolicy[0]);
-        console.log(`in startPolicyProcess and answersFromTempStore is:`, answersFromTempStore);
-        // if (props.companyPolicy[0]) {
-        //     console.log(`there is a policy. need to check now if it has anything in it`)
-        //     if (Object.keys(props.companyPolicy[0].length > 0)) {
-        //         console.log(`found a company policy!`, props.companyPolicy[0])
-        //         setPolicyID(props.companyPolicy[0].id);
-        //         //put these values in temporary object that will get sent to router to update db
-        //         setUserPolicyAnswers(props.companyPolicy[0]);
-        //         setValue(props.companyPolicy[0][`question_1`]);
-        //     }
-        // } else {
-        //     if (!answersFromTempStore) {
-        //         if (Object.keys(answersFromTempStore).length != 0) {
-        //             if (answersFromTempStore.answers[`question_${questionId}`] !== null) {
-        //                 console.log(`found a value in temp:`, answersFromTempStore.answers[`question_${questionId}`])
-        //                 setValue(answersFromTempStore.answers[`question_${questionId}`]);
-        //             }
-        //             //Check if answers in DB
-        //         }
-        //     }            
-        // }
         //Check if answers in temporary/local store
-
         if (Object.keys(answersFromTempStore).length != 0) {
             if (answersFromTempStore.answers[`question_1`] !== null) {
-                console.log(`found a value in temp:`, answersFromTempStore.answers[`question_1`])
                 setValue(answersFromTempStore.answers[`question_1`]);
             }
         } else {
-            console.log(`in else of startPolicyProcess`)
+            //check to see if user already has a policy that exists in the db
             if (props.companyPolicy[0]) {
-                console.log(`in startPolicyProcess there is a policy. need to check now if it has anything in it`)
                 if (Object.keys(props.companyPolicy[0].length > 0)) {
-                    console.log(`found a company policy!`, props.companyPolicy[0])
                     setPolicyID(props.companyPolicy[0].id);
-                    //put these values in temporary object that will get sent to router to update db
                     setUserPolicyAnswers(props.companyPolicy[0]);
                     setValue(props.companyPolicy[0][`question_1`]);
                 }
             } else {
-                console.log(`going to use companyculture`)
                 setValue(props.companyCulture);
             }
         }
-
         setCurrentQuestion(questions[0]);
         props.updateQuestionId(questionIDForBuilder);
         props.updateGroupName(questions[0].group_name);
@@ -96,7 +67,6 @@ function QuestionPage(props) {
         setAnswer(parseInt(event.target.value));
         /* Adding save here in case user chooses to hit 'save & return to main menu' 
         and didn't click on the next button*/
-        console.log(`in handleChange. questionis:`, currentQuestionID, `and value is:`, event.target.value);
         saveAnswerToStore(currentQuestionID, event.target.value);
 
     };
@@ -122,23 +92,10 @@ function QuestionPage(props) {
     }
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
-    const saveAnswerToStore = (questionID, answer) => {
-        console.log(`in saveAnswerToStore and userPolicyAnswers is:`, userPolicyAnswers);
-        let objectKey = `question_${questionID}`;
+    const saveAnswerToStore = (questionId, answer) => {
+        let objectKey = `question_${questionId}`;
 
-        //setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); 
-        /* Change not happening fast enough for reducer (using set) so will use this way instead. */
-
-
-
-
-
-        /* Feb. 12 8:45 PM END TRYING THIS */
-        setUserPolicyAnswers(
-            userPolicyAnswers[objectKey] = parseInt(answer)
-        );
-        setUserPolicyAnswers({ ...userPolicyAnswers });
-        console.log(`in saveAnswerToStore AFTER SET and userPolicyAnswers is:`, userPolicyAnswers);
+        let answersToLoad = { ...answersFromTempStore.answers, [objectKey]: parseInt(answer) };
 
         let policyIDForPayload;
         if (!policyID) {
@@ -146,13 +103,13 @@ function QuestionPage(props) {
         } else {
             policyIDForPayload = policyID;
         }
+
         let dataToLoad = {
             id: policyIDForPayload,
             userId: user.id,
-            answers: userPolicyAnswers
+            answers: answersToLoad
         }
-        console.log(`going to dispatch this dataToLoad to sage:`, dataToLoad);
-        //Now send userPolicyAnswers to the store
+        //Now send userPolicyAnswers to the temporary store
         dispatch({
             type: 'SAVE_BUILDER_TO_LOCAL',
             payload: dataToLoad
@@ -173,36 +130,17 @@ function QuestionPage(props) {
         showHideButtons();
         setCurrentQuestion(questions[questionIDForBuilder - 1])
         setDefaultRadioButton(questionIDForBuilder);
-
-        //Sending the question id back to Builder so it can use it to set the correct group name
-        //and info snippet
-        //Using questionIDForBuilder b/c screen is rendering quicker than state gets updated.
         props.updateQuestionId(questionIDForBuilder);
     }
     const setDefaultRadioButton = (questionId) => {
-        console.log(`in setDefaultRadioButton`)
-        console.log(`questionID in parameter is:`, questionId);
-        console.log(`userPolicyAnswers is:`, userPolicyAnswers);
-        console.log(`answersFromTempStore is:`, answersFromTempStore);
-        console.log(`length of key in answersFromTempStore`, Object.keys(answersFromTempStore).length);
-        //console.log(`answersFromTempStore is:`, answersFromTempStore.answers[`question_${questionId}`]);
-        //console.log(`length of answersFromTempStore is:`, Object.keys(answersFromTempStore).length);
-
         setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
-            // if (userPolicyAnswers[`question_${questionId}`] !== null) {
-            //     console.log(`found a value in DB:`, userPolicyAnswers[`question_${questionId}`])
-            //     setValue(userPolicyAnswers[`question_${questionId}`]);
-            // }
-            //hasOwnProperty('name')
             if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`)) {
-                console.log(`found a value in DB:`, userPolicyAnswers[`question_${questionId}`])
                 setValue(userPolicyAnswers[`question_${questionId}`]);
             }
         }
         if (Object.keys(answersFromTempStore).length != 0) {
-            if (answersFromTempStore.hasOwnProperty(`question_${questionId}`)) {
-                console.log(`found a value in temp:`, answersFromTempStore.answers[`question_${questionId}`])
+            if (answersFromTempStore.answers.hasOwnProperty(`question_${questionId}`)) {
                 setValue(answersFromTempStore.answers[`question_${questionId}`]);
             }
         }
@@ -210,7 +148,6 @@ function QuestionPage(props) {
     }
     return (
         <div>
-            {/* <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button> */}
             <Container maxWidth>
                 <Grid
                     container
