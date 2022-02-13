@@ -119,8 +119,6 @@ function QuestionPage(props) {
         })
     }
     const handleNextBackButtons = (event, direction) => {
-        props.updateGroupName(currentQuestion.group_name);
-        props.updateInfoSnippet(currentQuestion.info_snippet_text);
         saveAnswerToStore(currentQuestionID, parseInt(value));
         if (direction === GO_AHEAD) {
             questionIDForBuilder = currentQuestionID + 1;
@@ -129,6 +127,8 @@ function QuestionPage(props) {
             questionIDForBuilder = currentQuestionID - 1;
             setCurrentQuestionID(questionIDForBuilder);
         }
+        props.updateGroupName(questions[questionIDForBuilder - 1].group_name);
+        props.updateInfoSnippet(questions[questionIDForBuilder - 1].info_snippet_text);
         dispatch({ type: 'SAVE_QUESTION_ID', payload: questionIDForBuilder }); //<---NEED THIS???!!
         showHideButtons();
         setCurrentQuestion(questions[questionIDForBuilder - 1])
