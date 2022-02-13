@@ -58,9 +58,12 @@ function QuestionPage(props) {
             }
         }
         setCurrentQuestion(questions[0]);
+
+        //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
         props.updateGroupName(questions[0].group_name);
         props.updateInfoSnippet(questions[0].info_snippet_text);
+        props.setTotalQuestionCount(questions.length);
     }
     const handleChange = (event) => {
         setValue(event.target.value);

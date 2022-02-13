@@ -10,6 +10,7 @@ import GroupInfo from '../GroupInfo/GroupInfo';
 import InfoSnippet from '../InfoSnippet/InfoSnippet';
 import Typography from '@mui/material/Typography';
 import QuestionPage from '../QuestionPage/QuestionPage';
+import QuestionCount from '../QuestionCount/QuestionCount';
 import Logo from '../Logo/Logo';
 
 function Builder() {
@@ -18,16 +19,13 @@ function Builder() {
     const user = useSelector(store => store.user);
     const [questionId, setQuestionId] = useState(1);
     const [groupName, setGroupName] = useState('');
+    const [totalQuestionCount, setTotalQuestionCount] = useState();
     const [infoSnippetText, setInfoSnippetText] = useState('');
     const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
     const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
-        console.log(`in useEffect of Builder`)
-        // dispatch({ type: 'FETCH_BUILDER', payload: params.userId });
-        // dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: params.userId });
-        console.log(`company policy is:`, companyPolicy);
-        console.log(`company culture is:`, companyCulture);
+        setQuestionId(1); //for 1st load of info
     }, []);
 
 
@@ -39,6 +37,13 @@ function Builder() {
                     direction="rows"
                     sx={{ border: 1 }}
                 >
+                    <Grid item xs={12}
+                        sx={{ border: 1 }}>
+                        <QuestionCount
+                            questionId={questionId}
+                            totalQuestionCount={totalQuestionCount}
+                        />
+                    </Grid>
                     <Grid item xs={3}
                         sx={{ border: 1 }}>
                         <Logo />
@@ -61,6 +66,7 @@ function Builder() {
                             updateQuestionId={questionId => setQuestionId(questionId)}
                             updateGroupName={groupName => setGroupName(groupName)}
                             updateInfoSnippet={infoSnippetText => setInfoSnippetText(infoSnippetText)}
+                            setTotalQuestionCount={totalQuestionCount => setTotalQuestionCount(totalQuestionCount)}
                             companyPolicy={companyPolicy}
                             companyCulture={companyCulture} />
                     </Grid>
