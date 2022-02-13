@@ -26,8 +26,8 @@ function Builder() {
         console.log(`in useEffect of Builder`)
         // dispatch({ type: 'FETCH_BUILDER', payload: params.userId });
         // dispatch({ type: 'FETCH_COMPANY_CULTURE', payload: params.userId });
-        setGroupName('Test')
-        setInfoSnippetText('Test')
+        console.log(`company policy is:`, companyPolicy);
+        console.log(`company culture is:`, companyCulture);
     }, []);
 
 

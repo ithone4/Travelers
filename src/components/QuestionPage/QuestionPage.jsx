@@ -36,17 +36,31 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
-        checkForExistingPolicy();
+        startPolicyProcess();
     }, []);
 
-    const checkForExistingPolicy = () => {
-        // -->TODO: Make prop from Builder only the company policy ID. Then, check to see if the
-        // prop has a value, if yes, then use FETCH_BUILDER.
-        if (props.companyPolicy.length > 0) {
-            setPolicyID(props.companyPolicy[0].id);
-            //put these values in temporary object that will get sent to router to update db
-            setUserPolicyAnswers(props.companyPolicy[0]);
+    const startPolicyProcess = () => {
+        //Check if answers in temporary/local store
+        if (Object.keys(answersFromTempStore).length != 0) {
+            if (answersFromTempStore.answers[`question_1`] !== null) {
+                setValue(answersFromTempStore.answers[`question_1`]);
+            }
+        } else {
+            //check to see if user already has a policy that exists in the db
+            if (props.companyPolicy[0]) {
+                if (Object.keys(props.companyPolicy[0].length > 0)) {
+                    setPolicyID(props.companyPolicy[0].id);
+                    setUserPolicyAnswers(props.companyPolicy[0]);
+                    setValue(props.companyPolicy[0][`question_1`]);
+                }
+            } else {
+                setValue(props.companyCulture);
+            }
         }
+        setCurrentQuestion(questions[0]);
+        props.updateQuestionId(questionIDForBuilder);
+        props.updateGroupName(questions[0].group_name);
+        props.updateInfoSnippet(questions[0].info_snippet_text);
     }
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -54,6 +68,7 @@ function QuestionPage(props) {
         /* Adding save here in case user chooses to hit 'save & return to main menu' 
         and didn't click on the next button*/
         saveAnswerToStore(currentQuestionID, event.target.value);
+
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
@@ -77,15 +92,10 @@ function QuestionPage(props) {
     }
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
-    const saveAnswerToStore = (questionID, answer) => {
-        let objectKey = `question_${questionID}`;
+    const saveAnswerToStore = (questionId, answer) => {
+        let objectKey = `question_${questionId}`;
 
-        //setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); 
-        /* Change not happening fast enough for reducer (using set) so will use this way instead. */
-        setUserPolicyAnswers(
-            userPolicyAnswers[objectKey] = parseInt(answer)
-        );
-        setUserPolicyAnswers({ ...userPolicyAnswers });
+        let answersToLoad = { ...answersFromTempStore.answers, [objectKey]: parseInt(answer) };
 
         let policyIDForPayload;
         if (!policyID) {
@@ -93,13 +103,13 @@ function QuestionPage(props) {
         } else {
             policyIDForPayload = policyID;
         }
+
         let dataToLoad = {
             id: policyIDForPayload,
             userId: user.id,
-            answers: userPolicyAnswers
+            answers: answersToLoad
         }
-
-        //Now send userPolicyAnswers to the store
+        //Now send userPolicyAnswers to the temporary store
         dispatch({
             type: 'SAVE_BUILDER_TO_LOCAL',
             payload: dataToLoad
@@ -108,7 +118,7 @@ function QuestionPage(props) {
     const handleNextBackButtons = (event, direction) => {
         props.updateGroupName(currentQuestion.group_name);
         props.updateInfoSnippet(currentQuestion.info_snippet_text);
-        saveAnswerToStore(currentQuestionID, value);
+        saveAnswerToStore(currentQuestionID, parseInt(value));
         if (direction === GO_AHEAD) {
             questionIDForBuilder = currentQuestionID + 1;
             setCurrentQuestionID(questionIDForBuilder);
@@ -120,50 +130,25 @@ function QuestionPage(props) {
         showHideButtons();
         setCurrentQuestion(questions[questionIDForBuilder - 1])
         setDefaultRadioButton(questionIDForBuilder);
-
-        //Sending the question id back to Builder so it can use it to set the correct group name
-        //and info snippet
-        //Using questionIDForBuilder b/c screen is rendering quicker than state gets updated.
         props.updateQuestionId(questionIDForBuilder);
     }
-    const startPolicyProcess = () => {
-        setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
-        setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
-        // setValue(companyCulture)
-        // if (Object.keys(userPolicyAnswers).length === 0) {
-        //     setValue(companyCulture)
-        // } else if (userPolicyAnswers[`question_1`] !== null) {
-        //     setValue(userPolicyAnswers[`question_1`]);
-        // }
-
+    const setDefaultRadioButton = (questionId) => {
         setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
-            if (userPolicyAnswers[`question_1`] !== null) {
-                setValue(userPolicyAnswers[`question_1`]);
+            if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
+                userPolicyAnswers[`question_${questionId}`] != null) {
+                setValue(userPolicyAnswers[`question_${questionId}`]);
             }
         }
-
-        /*TEST FEB.12 A.M. getting groupb name and info snippet to work */
-        props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[0].group_name);
-        props.updateInfoSnippet(questions[0].info_snippet_text);
-    }
-    const setDefaultRadioButton = (questionID) => {
-        //userPolicyAnswers doesn't exist so set to default company culture
-        if (userPolicyAnswers.length === 0) {
-            setValue(props.companyCulture);
-        } else if (!userPolicyAnswers.hasOwnProperty(`question_${questionID}`)) {
-            setValue(props.companyCulture);
-        } else if (userPolicyAnswers[`question_${questionID}`] === null) {
-            setValue(props.companyCulture)
-        } else {
-            setValue(userPolicyAnswers[`question_${questionID}`]);
+        if (Object.keys(answersFromTempStore).length != 0) {
+            if (answersFromTempStore.answers.hasOwnProperty(`question_${questionId}`)) {
+                setValue(answersFromTempStore.answers[`question_${questionId}`]);
+            }
         }
     }
 
     return (
         <div>
-            {/* <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button> */}
             <Container maxWidth>
                 <Grid
                     container
@@ -214,9 +199,6 @@ function QuestionPage(props) {
                             onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
                             Next
                         </button>
-                        <p>
-                            <button onClick={startPolicyProcess}>CLICK HERE TO START</button>
-                        </p>
                     </Grid>
                 </Grid>
             </Container>
