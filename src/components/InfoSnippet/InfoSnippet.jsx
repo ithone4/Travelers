@@ -8,11 +8,10 @@ function InfoSnippet(props) {
 
     return (
         <div>
-            <p>{JSON.stringify(props)}</p>
             <Container maxWidth>
                 <Box>
-                    <Typography>
-                        I'm the Info Snippet!
+                    <Typography variant="caption">
+                        {props.infoSnippetText}
                     </Typography>
                 </Box>
             </Container>
