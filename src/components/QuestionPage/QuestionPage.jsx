@@ -135,7 +135,8 @@ function QuestionPage(props) {
     const setDefaultRadioButton = (questionId) => {
         setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
-            if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`)) {
+            if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
+                userPolicyAnswers[`question_${questionId}`] != null) {
                 setValue(userPolicyAnswers[`question_${questionId}`]);
             }
         }
@@ -144,7 +145,6 @@ function QuestionPage(props) {
                 setValue(answersFromTempStore.answers[`question_${questionId}`]);
             }
         }
-
     }
 
     return (
