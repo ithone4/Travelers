@@ -11,73 +11,28 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
-import AnnouncementRoundedIcon from '@mui/icons-material/AnnouncementRounded';
-import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
-import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
+import Toolbar from '@mui/material/Toolbar';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const [state, setState] = React.useState({
-    left: false,
-  });
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  let iconArray=[
-<HomeRoundedIcon></HomeRoundedIcon>,
-    <InfoRoundedIcon></InfoRoundedIcon>,
-     <HelpRoundedIcon></HelpRoundedIcon>,
-    <AnnouncementRoundedIcon></AnnouncementRoundedIcon>,
-  <ArticleRoundedIcon></ArticleRoundedIcon>,
-  <ExitToAppRoundedIcon></ExitToAppRoundedIcon>
- ];
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
-  const list = (anchor) => (
-
-    <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {[<Link className="navLink" to="/user">'Home'</Link>,
-         <Link className="navLink" to="/info">
-         Info Page
-       </Link>,
-        <Link className="navLink" to="/question">
-        Question Page
-      </Link>, 
-         <Link className="navLink" to="/about">
-         About
-       </Link>,
-          <Link className="navLink" to="/docgen">
-          docgen
-        </Link>,
-           <LogOutButton className="navLink" />
-          ].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-            <p>{iconArray[index]}</p>
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
 
   return (
@@ -101,18 +56,73 @@ function Nav() {
 
 <div >
     </div>
-    {['right'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <div className='menuButton'><Button onClick={toggleDrawer(anchor, true)}><ViewListRoundedIcon></ViewListRoundedIcon></Button></div>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+    <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: 'block',
+              }}
+            >
+              <Link className="navLink" to="/home">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Home</Typography>
+                </MenuItem>
+              </Link>
+              <Link className="navLink"  to="/info">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Info</Typography>
+                </MenuItem>
+                </Link>
+                <Link className="navLink"  to={`/question/${user.id}`}>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Questions</Typography>
+                </MenuItem>
+              </Link>
+              <Link className="navLink"  to="/info">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Info</Typography>
+                </MenuItem>
+                </Link>
+                <Link className="navLink"  to="/about">
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">About</Typography>
+                </MenuItem>
+                </Link>
+                <Link className="navLink"  to="/docgen">
+                <MenuItem key='about' onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">DocGen</Typography>
+                </MenuItem>
+                </Link>
+                <LogOutButton className="navLink" />
+            </Menu>
+
+          </Box>
+        </Toolbar>
+      </Container>
           </>
         )}
       </div>
