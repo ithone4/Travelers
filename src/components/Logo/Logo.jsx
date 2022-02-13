@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png'; 
 
 function Logo(props) {
 
@@ -11,7 +12,7 @@ function Logo(props) {
             <Container maxWidth>
                 <Box>
                     <Typography>
-                        I'll be the logo soon!
+                    <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
                     </Typography>
                 </Box>
             </Container>
