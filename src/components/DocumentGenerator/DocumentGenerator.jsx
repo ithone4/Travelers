@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import * as docx from "docx";
 import { saveAs } from "file-saver";
-import { HeadingLevel, AlignmentType, UnderlineType } from "docx";
+import { HeadingLevel, AlignmentType, UnderlineType, convertInchesToTwip, LevelFormat, NumberProperties, Indent, Numbering, PageNumber } from "docx";
 import { element } from 'prop-types';
 import { create } from '@mui/material/styles/createTransitions';
 
@@ -13,7 +13,10 @@ function DocumentGenerator(props) {
   useEffect(() => {
     console.log(`in useEffect`);
     createDocumentArray();
+    createChildrenArray();
   }, []);
+
+  let testCompanyName = "Company, Inc.";
 
   let testData = [
     {
@@ -65,7 +68,11 @@ function DocumentGenerator(props) {
   const createHeader = (element) => {
     return new docx.Paragraph({
       text: element,
-      style: HeadingLevel.HEADING_2
+      style: HeadingLevel.HEADING_2,
+      numbering: {
+        reference: "numbering-attempt",
+        level: 0,
+      }
     })
   }
 
@@ -74,19 +81,57 @@ function DocumentGenerator(props) {
     return new docx.Paragraph({
       text: element,
       style: "normalPara",
+      numbering: {
+        reference: "numbering-attempt",
+        level: 1,
+      },
     })
   }
 
   // set up array with first, larger header component
   const [childrenArray, setChildrenArray] = useState([
     new docx.Paragraph({
-      text: "Travel Policy",
+      text: testCompanyName + " Travel Policy",
       heading: HeadingLevel.HEADING_1,
     }),
   ]);
 
   const generate = () => {
     const doc = new docx.Document({
+      numbering: {
+        config: [
+          {
+            reference: "numbering-attempt",
+            levels: [
+              {
+                level: 0,
+                format: LevelFormat.DECIMAL,
+                text: "%1",
+                alignment: AlignmentType.START,
+                style: {
+                  run: {
+                    underline: {},
+                  },
+                  paragraph: {
+                    indent: { hanging: 300 },
+                  }
+                }
+              },
+              {
+                level: 1,
+                format: LevelFormat.DECIMAL,
+                alignment: AlignmentType.END,
+                text: "%1.%2",
+                style: {
+                  paragraph: {
+                    indent: { left: 300, hanging: 600 }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
       styles: {
         // font size needs to be set as double the goal size.
         default: {
@@ -95,17 +140,24 @@ function DocumentGenerator(props) {
               size: 40,
               bold: true,
               color: "000000",
+            },
+            paragraph: {
+              alignment: AlignmentType.CENTER,
             }
           },
           heading2: {
             run: {
               size: 32,
-              bold: false,
+              bold: true,
               color: "000000",
               underline: {},
             },
             paragraph: {
-              alignment: AlignmentType.RIGHT,
+              alignment: AlignmentType.START,
+              spacing: {
+                before: 240,
+                after: 240,
+              }
             }
           }
         },
@@ -116,16 +168,53 @@ function DocumentGenerator(props) {
             basedOn: "Normal",
             next: "Normal",
             run: {
-              size: 28,
+              size: 24,
             },
             paragraph: {
+              indent: {
+                left: convertInchesToTwip(0.5),
+              },
+              spacing: {
+                before: 120,
+                after: 120,
+              }
             }
-          }
+          },
+          // {
+          //   id: "footer",
+          //   name: "footer",
+          //   basedOn: "Normal",
+          //   next: "Normal",
+          //   run: {
+          //     size: 22,
+          //   },
+          //   paragraph: {
+          //     alignment: AlignmentType.END,
+          //   }
+          // }
         ]
       },
       sections: [
         {
           properties: {},
+          footers: {
+            default: new docx.Footer({
+              children: [
+                new docx.Paragraph({
+                  children: [
+                    // new docx.TextRun("Company Name Inc."),
+                    new docx.TextRun({
+                      children: [PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
+                      style: "footer"
+                    }),
+                    // new docx.TextRun({
+                    //   children: [" of ", PageNumber.TOTAL_PAGES]
+                    // })
+                  ]
+                })
+              ]
+            })
+          },
           children:
             childrenArray
         }
