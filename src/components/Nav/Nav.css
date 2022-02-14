@@ -5,7 +5,7 @@
   align-items: center;
 
   margin: 0 0 30px;
-  background-color: #00acb0;
+  background-color: white;
   overflow: hidden;
 }
 
@@ -26,4 +26,12 @@
   text-decoration: none;
   font-size: 15px;
   padding: 24px 10px;
+  outline: 0 !important;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.fersk-tech-policy-logo {
+  max-width: 25%;
+  height: auto;
 }
