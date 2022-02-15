@@ -125,7 +125,7 @@ if (user.id>0){
                 </MenuItem>
                 </Link>
                 <MenuItem onClick={handleCloseNavMenu}>
-                <LogOutButton className="navLink" />
+                <Link to="/login"><LogOutButton className="navLink" /></Link>
                 </MenuItem>
             </Menu>
 
@@ -141,10 +141,22 @@ if (user.id>0){
       <Link to="/home">
       <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
       </Link>
-      <Container maxWidth="xl">
+      <div>
+    <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
-              <ViewListRoundedIcon onClick={handleOpenNavMenu} />
+            <div className='menu'>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+
+            >
+              <ViewListRoundedIcon/>
+            </IconButton>
+            </div>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -170,7 +182,7 @@ if (user.id>0){
               </Link>
               <Link className="navLink"  to="/login">
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Log In</Typography>
+                  <Typography textAlign="center">Login</Typography>
                 </MenuItem>
                 </Link>
                 <Link className="navLink"  to="/about">
@@ -183,6 +195,7 @@ if (user.id>0){
           </Box>
         </Toolbar>
       </Container>
+      </div>
       </div>)
     }
 }
