@@ -198,6 +198,6 @@ if (user.id>0){
       </div>
       </div>)
     }
-}
+} 
 
 export default Nav;
