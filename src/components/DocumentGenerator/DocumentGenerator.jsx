@@ -7,7 +7,7 @@ import { element } from 'prop-types';
 import { create } from '@mui/material/styles/createTransitions';
 
 function DocumentGenerator(props) {
-  const documentData = useSelector((store) => store.documentReducer);
+  const documentData = useSelector((store) => store.documentReducer);//added for data to make document
   const [heading, setHeading] = useState('Document Generator');
 
   useEffect(() => {
@@ -15,7 +15,7 @@ function DocumentGenerator(props) {
     createDocumentArray();
     createChildrenArray();
   }, []);
-
+ 
   let testCompanyName = "Company, Inc.";
 
   let testData = [
@@ -231,7 +231,6 @@ function DocumentGenerator(props) {
   return (
     <div>
       <h2>{heading}</h2>
-      <p>{JSON.stringify(documentData)}</p>
       <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
       <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
       <p>currently need to press "create ChildrenArray" before generating document.</p>

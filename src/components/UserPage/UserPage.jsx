@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Utility from '../../utility';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
+import { array } from 'prop-types';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -12,6 +13,7 @@ function UserPage() {
   const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
   const questionReducer = useSelector((store) => store.questionReducer);
+  const groupReducer = useSelector((store) => store.groupReducer);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,69 +42,22 @@ function UserPage() {
     history.push(`/question/${user.id}`)
   }
 
-  const setDocument = ()=>{ 
-    let array =  [
-      {
-        group_id: 1,
-        header: 'Purpose',
-        Paragraphs: [],
-    
-    },{
-      group_id: 2,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    {
-      group_id: 3,
-      header: 'heading3',
-      Paragraphs: [],
-    },
-    {
-      group_id: 4,
-      header: 'heading4',
-      Paragraphs: [],
-    },
-    {
-      group_id: 5,
-      header: 'heading5',
-      Paragraphs: [],
-    },
-    {
-      group_id: 6,
-      header: 'heading6',
-      Paragraphs: [],
-    },
-    {
-      group_id: 7,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    {
-      group_id: 8,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    {
-      group_id: 9,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    {
-      group_id: 10,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    {
-      group_id: 11,
-      header: 'heading2',
-      Paragraphs: [],
-    },
-    ]
 
-    
+  //setting the document data for generator
+  //this utilizes these items from the store: groupReducer, policyBuilderReducer.policyBuilderReducer, questionReducer
+  //then stores it in the documentReducer
+  //change policy_text_ to answer_ if you want to generate answer text for testing.
+  const setDocument = ()=>{ 
+    let array = [];
+    groupReducer.forEach(el => {array.push({
+          group_id: el.id,
+          header: el.group_name,
+          Paragraphs: []
+        })});
+
     for (let i = 0; i < questionReducer.length; i++) {
       if (companyPolicy[0][`question_${i+1}`] != null && companyPolicy[0][`question_${i+1}`] != 6){ 
-        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i+1}`]}`]);
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i+1}`]}`]);
       }//end if
     } // end for
   //filters out unused sections
@@ -112,7 +67,7 @@ function UserPage() {
    })
   dispatch({type: "SET_DOCUMENT", payload: newArray})
   return newArray;
-  }
+  } //end set document data
 
 
 
