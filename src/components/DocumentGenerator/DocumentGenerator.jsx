@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import * as docx from "docx";
 import { saveAs } from "file-saver";
-import { HeadingLevel, AlignmentType, UnderlineType } from "docx";
+import { HeadingLevel, AlignmentType, UnderlineType, convertInchesToTwip, LevelFormat, NumberProperties, Indent, Numbering, PageNumber } from "docx";
 import { element } from 'prop-types';
-
+import { create } from '@mui/material/styles/createTransitions';
 
 function DocumentGenerator(props) {
   const store = useSelector((store) => store);
-  const [heading, setHeading] = useState('Functional Component');
+  const [heading, setHeading] = useState('Document Generator');
+
+  useEffect(() => {
+    console.log(`in useEffect`);
+    createDocumentArray();
+    createChildrenArray();
+  }, []);
+
+  let testCompanyName = "Company, Inc.";
 
   let testData = [
     {
@@ -19,12 +27,17 @@ function DocumentGenerator(props) {
       header: "Second Header",
       paragraphs: ["Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic.",]
     },
+    {
+      header: "Third Header",
+      paragraphs: ["Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic.",]
+    },
   ]
 
   const [documentArray, setDocumentArray] = useState([]);
   // 1 = header; 2 = paragraph;
+  // array of all strings with these identifiers before each
 
-  const proceduralTest = () => {
+  const createDocumentArray = () => {
     for (let i = 0; i < testData.length; i++) {
       documentArray.push(1);
       documentArray.push(testData[i].header);
@@ -33,38 +46,92 @@ function DocumentGenerator(props) {
         documentArray.push(testData[i].paragraphs[j]);
       }
     }
-    console.log("documentArray:", documentArray);
-    codeGenerator();
-    console.log(codeGeneratorArray);
   }
 
-  const [codeGeneratorArray, setcodeGeneratorArray] = useState([]);
-
-  const codeGenerator = () => {
+  // creates array of code snippets that the generate() function can read
+  const createChildrenArray = (array) => {
+    console.log('in createHeadersAndParagraphs');
     for (let i = 0; i < documentArray.length; i++) {
       if (documentArray[i] === 1) {
-        let a = `new docx.Paragraph({
-          text: ` + documentArray[i + 1] + `,
-          heading: HeadingLevel.HEADING_2`;
-        // console.log("header:", documentArray[i + 1]);
-        codeGeneratorArray.push(a);
+        childrenArray.push(createHeader(documentArray[i + 1]));
       }
       else if (documentArray[i] === 2) {
-        let b = `new docx.Paragraph({
-            text:` + documentArray[i + 1] + `,
-            style: "normalPara",
-          }),`
-        // console.log("paragraph:", documentArray[i + 1]);
-        codeGeneratorArray.push(b);
+        childrenArray.push(createParagraph(documentArray[i + 1]));
       }
       else {
-        console.log("blah");
+        console.log('not important')
       }
     }
   }
 
+  // creates code snippets for headers
+  const createHeader = (element) => {
+    return new docx.Paragraph({
+      text: element,
+      style: HeadingLevel.HEADING_2,
+      numbering: {
+        reference: "numbering-attempt",
+        level: 0,
+      }
+    })
+  }
+
+  // creates code snippets for paragraphs
+  const createParagraph = (element) => {
+    return new docx.Paragraph({
+      text: element,
+      style: "normalPara",
+      numbering: {
+        reference: "numbering-attempt",
+        level: 1,
+      },
+    })
+  }
+
+  // set up array with first, larger header component
+  const [childrenArray, setChildrenArray] = useState([
+    new docx.Paragraph({
+      text: testCompanyName + " Travel Policy",
+      heading: HeadingLevel.HEADING_1,
+    }),
+  ]);
+
   const generate = () => {
     const doc = new docx.Document({
+      numbering: {
+        config: [
+          {
+            reference: "numbering-attempt",
+            levels: [
+              {
+                level: 0,
+                format: LevelFormat.DECIMAL,
+                text: "%1",
+                alignment: AlignmentType.START,
+                style: {
+                  run: {
+                    underline: {},
+                  },
+                  paragraph: {
+                    indent: { hanging: 300 },
+                  }
+                }
+              },
+              {
+                level: 1,
+                format: LevelFormat.DECIMAL,
+                alignment: AlignmentType.END,
+                text: "%1.%2",
+                style: {
+                  paragraph: {
+                    indent: { left: 300, hanging: 600 }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
       styles: {
         // font size needs to be set as double the goal size.
         default: {
@@ -73,17 +140,24 @@ function DocumentGenerator(props) {
               size: 40,
               bold: true,
               color: "000000",
+            },
+            paragraph: {
+              alignment: AlignmentType.CENTER,
             }
           },
           heading2: {
             run: {
               size: 32,
-              bold: false,
+              bold: true,
               color: "000000",
               underline: {},
             },
             paragraph: {
-              alignment: AlignmentType.RIGHT,
+              alignment: AlignmentType.START,
+              spacing: {
+                before: 240,
+                after: 240,
+              }
             }
           }
         },
@@ -94,43 +168,55 @@ function DocumentGenerator(props) {
             basedOn: "Normal",
             next: "Normal",
             run: {
-              size: 28,
+              size: 24,
             },
             paragraph: {
+              indent: {
+                left: convertInchesToTwip(0.5),
+              },
+              spacing: {
+                before: 120,
+                after: 120,
+              }
             }
-          }
+          },
+          // {
+          //   id: "footer",
+          //   name: "footer",
+          //   basedOn: "Normal",
+          //   next: "Normal",
+          //   run: {
+          //     size: 22,
+          //   },
+          //   paragraph: {
+          //     alignment: AlignmentType.END,
+          //   }
+          // }
         ]
       },
       sections: [
         {
           properties: {},
+          footers: {
+            default: new docx.Footer({
+              children: [
+                new docx.Paragraph({
+                  children: [
+                    // new docx.TextRun("Company Name Inc."),
+                    new docx.TextRun({
+                      children: [PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
+                      style: "footer"
+                    }),
+                    // new docx.TextRun({
+                    //   children: [" of ", PageNumber.TOTAL_PAGES]
+                    // })
+                  ]
+                })
+              ]
+            })
+          },
           children:
-            [
-              new docx.Paragraph({
-                text: "Travel Policy",
-                heading: HeadingLevel.HEADING_1,
-              }),
-              new docx.Paragraph({
-                text: "First Header",
-                heading: HeadingLevel.HEADING_2,
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-              new docx.Paragraph({
-                text: "Second Header",
-                heading: HeadingLevel.HEADING_2,
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-              new docx.Paragraph({
-                text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, veniam eos? Hic ea esse consequuntur aspernatur sint repudiandae quam fugiat dolores repellendus labore autem eius libero suscipit eveniet, nam tenetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur tenetur omnis placeat eveniet animi optio vitae, quae mollitia fuga quos excepturi saepe aliquam, dolorem vel? Dolore blanditiis magni aliquid hic. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate, ex. Velit, eum sed. Asperiores velit quis accusantium temporibus, est molestiae ipsam earum. Hic, eaque quaerat ab veritatis ipsa est architecto.",
-                style: "normalPara",
-              }),
-            ]
+            childrenArray
         }
       ]
     });
@@ -145,9 +231,11 @@ function DocumentGenerator(props) {
   return (
     <div>
       <h2>{heading}</h2>
-      <p>{JSON.stringify(codeGeneratorArray)}</p>
+      <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
+      <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
+      <p>currently need to press "create ChildrenArray" before generating document.</p>
+      <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button>
       <button onClick={() => generate()}>generate document</button>
-      <button onClick={() => proceduralTest()}>procedural test</button>
     </div>
   );
 }
