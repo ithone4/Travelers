@@ -35,3 +35,9 @@
   max-width: 25%;
   height: auto;
 }
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+}

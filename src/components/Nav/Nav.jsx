@@ -47,6 +47,8 @@ function Nav() {
       handleCloseNavMenu()
     }
   }
+if (user.id>0){
+
 
   return (
     <div className="nav">
@@ -54,24 +56,10 @@ function Nav() {
       <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
       </Link>
       <div>
-        {/* If no user is logged in, show these links */}
-        {user.id === null && 
-          // If there's no user, show login/registration links
-          <Link className="navLink" to="/login">
-            Login / Register
-          </Link>
-        }
-
-        {/* If a user is logged in, show these links */}
-        {user.id && (
-          <>
-
-
-<div >
-    </div>
     <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <div className='menu'>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -82,6 +70,7 @@ function Nav() {
             >
               <ViewListRoundedIcon/>
             </IconButton>
+            </div>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -135,21 +124,27 @@ function Nav() {
                   <Typography textAlign="center">Save and Exit</Typography>
                 </MenuItem>
                 </Link>
-                <MenuItem>
-                <LogOutButton onClick={handleCloseNavMenu} className="navLink" />
+                <MenuItem onClick={handleCloseNavMenu}>
+                <LogOutButton className="navLink" />
                 </MenuItem>
             </Menu>
 
           </Box>
         </Toolbar>
       </Container>
-          </>
-        )}
-
-{/* <Container maxWidth="xl">
+      </div>
+    </div>
+  );
+    }
+    else{
+      return (<div className="nav">
+      <Link to="/home">
+      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
+      </Link>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
-              <MenuIcon onClick={handleOpenNavMenu} />
+              <ViewListRoundedIcon onClick={handleOpenNavMenu} />
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -187,10 +182,9 @@ function Nav() {
 
           </Box>
         </Toolbar>
-      </Container> */}
-      </div>
-    </div>
-  );
+      </Container>
+      </div>)
+    }
 }
 
 export default Nav;
