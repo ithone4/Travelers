@@ -7,6 +7,7 @@ import SailingIcon from '@mui/icons-material/Sailing';
 import BusinessIcon from '@mui/icons-material/Business';
 import ParkIcon from '@mui/icons-material/Park';
 import Tooltip from '@mui/material/Tooltip';
+import CircleIcon from '@mui/icons-material/Circle';
 
 function Footer(props) {
 
@@ -52,31 +53,31 @@ function Footer(props) {
 <Tooltip title="This question is heavily related to health.">
     <LocalHospitalRoundedIcon className="footerIcon"/>
     </Tooltip>:
-            <LocalHospitalRoundedIcon disabled className="footerDisabled"/>}
+            <CircleIcon disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.cost===true?
 <Tooltip title="This question is heavily related to cost">
     <AttachMoneyIcon className="footerIcon"/>
     </Tooltip>:
-            <AttachMoneyIcon disabled className="footerDisabled"/>}
+            <CircleIcon disabled className="footerDisabled"/>}
             </div>
  <div>{props.question.sustainability===true?
 <Tooltip title="This question is heavily related to sustainability.">
     <ParkIcon className="footerIcon"/>
     </Tooltip>:
-            <ParkIcon disabled className="footerDisabled"/>}
+            <CircleIcon disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.experience===true?
 <Tooltip title="This question is heavily related to experience.">
     <SailingIcon className="footerIcon"/>
     </Tooltip>:
-            <SailingIcon disabled className="footerDisabled"/>}
+            <CircleIcon disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.business_processes===true?
 <Tooltip title="This question is heavily related to the business process.">
     <BusinessIcon className="footerIcon"/>
     </Tooltip>:
-            <BusinessIcon disabled className="footerDisabled"/>}
+            <CircleIcon disabled className="footerDisabled"/>}
             </div>
  </footer>;
 }

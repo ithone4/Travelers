@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Utility from '../../utility';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
-import { array } from 'prop-types';
+import './UserPage.css';
+import Button from '@mui/material/Button';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -72,21 +73,19 @@ function UserPage() {
 
 
   return (
-    <div className="container">
-      <h1>Hello World!!!</h1>
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      {/* Testing save from outside Builder component */}
-      <p>
-        <button onClick={startBuilder}>Start Builder</button>
+    <div >
+      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.username}!</h1>
+      <h2 className='body'>How would you like to use the Policy Builder today?</h2>
+      <p></p>
+      <p className='body'>
+        <Button className='button' onClick={startBuilder}>Go to Builder</Button>
       </p>
-      <p>
-        <button onClick={save}>Save and Return to Menu</button>
+      <p className='body'>
+        <Button className='button2' onClick={()=>{setDocument(); history.push("/docgen");}}>Generate Policy</Button>
       </p>
-      <p>
-        <button onClick={()=>{setDocument(); history.push("/docgen");}}>document data</button>
+      <p className='body'>
+        <Button className='button' >Help Guide</Button>
       </p>
-      <LogOutButton className="btn" />
     </div>
   );
 }
