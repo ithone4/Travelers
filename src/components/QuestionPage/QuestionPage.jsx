@@ -208,7 +208,7 @@ function QuestionPage(props) {
             <div>
                 <Footer question={questions[currentQuestionID]} />
             </div>
-        </div>
+        </div >
     );
 }
 
