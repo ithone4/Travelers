@@ -8,10 +8,13 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import { Hidden } from '@mui/material';
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -156,10 +159,9 @@ function QuestionPage(props) {
                 <Grid
                     container
                     direction="column"
-                    sx={{ border: 1 }}
                 >
                     <Grid item xs={1}
-                        sx={{ border: 1, padding: 2 }}>
+                        sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Typography variant="h5">
                                 {questions[currentQuestionID - 1].question_text}
@@ -167,9 +169,9 @@ function QuestionPage(props) {
                         </Box>
                     </Grid>
                     <Grid item xs={10}
-                        sx={{ border: 1 }}>
+                    >
                         <FormControl component="fieldset">
-                            <RadioGroup
+                            <RadioGroup column
                                 aria-label="policy-answer"
                                 value={value}
                                 onChange={handleChange}
@@ -177,38 +179,70 @@ function QuestionPage(props) {
                                 {
                                     Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                                         <>
+
                                             <FormControlLabel
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
                                                 value={thisAnswer.answerValue}
-                                                control={<Radio />} label={thisAnswer.answerText}
+                                                control={<Radio />}
+                                                // label={thisAnswer.answerText}
+
+
+
+
+
+
+                                                // label={
+                                                //     <Box className='label'
+                                                //     sx={{
+                                                //         m: 0.5,
+                                                //         width: '100%',
+                                                //         textOverflow: 'ellipsis',
+                                                //         whiteSpace: 'nowrap',
+                                                //         border: 1,
+                                                //         overflow: 'hidden'
+                                                //     }}
+                                                //     >
+                                                //         {thisAnswer.answerText}
+                                                //     </Box>}
+
+
+                                                label={
+                                                    <div class='module line-clamp-answer'
+                                                    >
+                                                        {thisAnswer.answerText}
+                                                    </div>}
+
                                             />
+
                                         </>
                                     ))
                                 }
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid
-                        container
-                        direction="rows"
-                        sx={{ border: 1 }}
-                    >
-                        <button disabled={showBackButton}
-                            onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
-                            Back
-                        </button>
-                        <button disabled={showNextButton}
-                            onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
-                            Next
-                        </button>
+                    <Grid item xs={1}
+                        sx={{ padding: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Button variant="contained"
+                                disabled={showBackButton}
+                                onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
+                                sx={{ mr: 2 }}>
+                                Back
+                            </Button>
+                            <Button variant="contained"
+                                disabled={showNextButton}
+                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                                Next
+                            </Button>
+                        </Box>
                     </Grid>
                 </Grid>
             </Container>
             <div>
                 <Footer question={questions[currentQuestionID]} />
             </div>
-        </div>
+        </div >
     );
 }
 

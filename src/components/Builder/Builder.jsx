@@ -35,33 +35,32 @@ function Builder() {
                 <Grid
                     container
                     direction="rows"
-                    sx={{ border: 1 }}
                 >
-                    <Grid item xs={12}
-                        sx={{ border: 1 }}>
-                        <QuestionCount
-                            questionId={questionId}
-                            totalQuestionCount={totalQuestionCount}
-                        />
+                    <Grid container>
+                        <Grid item xs={12}
+                            sx={{ mr: 4, mb: 1 }}>
+                            <QuestionCount
+                                questionId={questionId}
+                                totalQuestionCount={totalQuestionCount}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+
+                        </Grid>
+                        <Grid container xs={5} sx={{
+                            justifyContent: 'center'
+                        }}>
+                            <Box sx={{ display: 'flex' }}>
+                                <GroupInfo questionId={questionId}
+                                    groupName={groupName} />
+                            </Box>
+                        </Grid>
+                        <Grid item xs={4} sx={{ minHeight: '150px' }}>
+                            <InfoSnippet questionId={questionId}
+                                infoSnippetText={infoSnippetText} />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={3}
-                        sx={{ border: 1 }}>
-                        <Logo />
-                    </Grid>
-                    <Grid item xs={5}
-                        sx={{ border: 1 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <GroupInfo questionId={questionId}
-                                groupName={groupName} />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4}
-                        sx={{ border: 1 }}>
-                        <InfoSnippet questionId={questionId}
-                            infoSnippetText={infoSnippetText} />
-                    </Grid>
-                    <Grid item xs={12}
-                        sx={{ border: 1 }}>
+                    <Grid item xs={12}>
                         <QuestionPage
                             updateQuestionId={questionId => setQuestionId(questionId)}
                             updateGroupName={groupName => setGroupName(groupName)}
@@ -70,6 +69,7 @@ function Builder() {
                             companyPolicy={companyPolicy}
                             companyCulture={companyCulture} />
                     </Grid>
+
                 </Grid>
             </Container>
         </div >

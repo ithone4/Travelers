@@ -1,0 +1,32 @@
+
+/* label::after {
+    content: '...';
+    float: right;
+    margin-top: 1.5em;
+ }  */
+/* p {
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
+    width: 400px;
+}
+
+ p::before {
+   content: '...';
+   float: right;
+   margin-top: 1.5em;
+} */
+.module {
+    width: 400px;
+    margin: 0 0 1em 0;
+    overflow: hidden;
+  }
+  .module p {
+    margin: 0;
+  }
+  .line-clamp-answer {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+  }
+  
