@@ -1,0 +1,23 @@
+.snippet {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    line-height: 1.5em;
+    height: 9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.module {
+    width: 100%;
+    margin: 0 0 1em 0;
+    overflow: hidden;
+  }
+  .module p {
+    margin: 0;
+  }
+  .line-clamp-snippet {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;  
+  }
+  
