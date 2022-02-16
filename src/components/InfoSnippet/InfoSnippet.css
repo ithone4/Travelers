@@ -1,18 +1,11 @@
-.snippet {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    line-height: 1.5em;
-    height: 9em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-}
-
-.module {
+.module-snippet {
     width: 100%;
     margin: 0 0 1em 0;
     overflow: hidden;
+    height: 7em;
+    line-height: 1.4em; 
   }
-  .module p {
+  .module-snippet p {
     margin: 0;
   }
   .line-clamp-snippet {
