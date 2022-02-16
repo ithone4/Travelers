@@ -1,6 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
+import 'tippy.js/themes/material.css';
+import 'tippy.js/animations/perspective.css';
+import 'tippy.js/animations/scale.css';
+import 'tippy.js/animations/shift-away.css';
+import 'tippy.js/animations/shift-toward.css';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
@@ -9,12 +17,13 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { Hidden } from '@mui/material';
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -26,6 +35,7 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
+    const [openTooltip, setOpenTooltip] = useState(false);
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -41,6 +51,15 @@ function QuestionPage(props) {
     useEffect(() => {
         startPolicyProcess();
     }, []);
+
+    const JSXContent = () => (
+        <Tippy
+            placement='top-start'
+            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
+            arrow={false}>
+            <p>My button</p>
+        </Tippy >
+    );
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
@@ -153,6 +172,14 @@ function QuestionPage(props) {
         }
     }
 
+    const CustomWidthTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+    ))({
+        [`& .${tooltipClasses.tooltip}`]: {
+            maxWidth: 500,
+        },
+    });
+
     return (
         <div>
             <Container maxWidth>
@@ -185,36 +212,23 @@ function QuestionPage(props) {
                                                 name={thisAnswer.questionName}
                                                 value={thisAnswer.answerValue}
                                                 control={<Radio />}
-                                                // label={thisAnswer.answerText}
-
-
-
-
-
-
-                                                // label={
-                                                //     <Box className='label'
-                                                //     sx={{
-                                                //         m: 0.5,
-                                                //         width: '100%',
-                                                //         textOverflow: 'ellipsis',
-                                                //         whiteSpace: 'nowrap',
-                                                //         border: 1,
-                                                //         overflow: 'hidden'
-                                                //     }}
-                                                //     >
-                                                //         {thisAnswer.answerText}
-                                                //     </Box>}
-
-
                                                 label={
-                                                    <Box className='module-answer line-clamp-answer'
-                                                    >
-                                                        {thisAnswer.answerText}
+                                                    <Box sx={{ ml: 2 }}
+                                                        className='module-answer line-clamp-answer'>
+                                                        <Tippy className='tippy-tooltip'
+                                                            placement='top'
+                                                            content={< span > {thisAnswer.answerText}</span >}
+                                                            arrow={true}
+                                                            arrowType='sharp'
+                                                            maxWidth={800}
+                                                            theme='material'
+                                                            animation='scale'
+                                                            trigger='click'
+                                                        >
+                                                            <p>{thisAnswer.answerText}</p>
+                                                        </Tippy >
                                                     </Box>}
-
                                             />
-
                                         </>
                                     ))
                                 }
