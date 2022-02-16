@@ -58,7 +58,7 @@ if (user.id>0){
       <div>
     <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', fontSize:'100' }}>
             <div className='menu'>
             <IconButton
               size="large"
@@ -104,11 +104,6 @@ if (user.id>0){
                   <Typography textAlign="center">Go to Builder</Typography>
                 </MenuItem>
               </Link>
-              <Link className="navLink"  to="/info">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Info</Typography>
-                </MenuItem>
-                </Link>
                 <Link className="navLink"  to="/about">
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">About</Typography>

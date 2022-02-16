@@ -12,11 +12,13 @@ html {
 .button {
   background-color: orange !important;
   border-radius: 25px !important;
+  width: 170px !important;
 }
 
 .button2 {
   background-color: peachpuff !important;
   border-radius: 25px !important;
+  width: 170px !important;
 }
 
 .button:hover {
