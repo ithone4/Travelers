@@ -12,13 +12,20 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+// ---> BEGIN ADD TO NAV BAR
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+// <--- END ADD TO NAV BAR
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -30,6 +37,11 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
+    // ---> BEGIN ADD TO NAV BAR
+    const [openSaveDialogue, setOpenSaveDialogue] = useState(false);
+    const [snackbarState, setSnackbarState] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    // <--- END ADD TO NAV BAR
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -157,16 +169,76 @@ function QuestionPage(props) {
         }
     }
 
-    const CustomWidthTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-    ))({
-        [`& .${tooltipClasses.tooltip}`]: {
-            maxWidth: 500,
-        },
-    });
+    /******** ------> BEGIN TESTING OF NEW MODAL */
+    const saveDoc = () => {
+        console.log(`in save and answersFromTempStore are:`, answersFromTempStore);
+        let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
+        console.log(`in save of UserPage and policyArray is:`, policyArray);
+        if (policyArray.answers.length != 0) {
+            try {
+                dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
+                setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
+                console.log(`about to set snackbar message`)
+                setSnackbarMessage('Answers successfully saved!')
+                setSnackbarState(true);
+            } catch (error) {
+                console.log(`error saving policy answers to database`);
+            }
+        }
+    }
+    /* <---START ADD TO NAV BAR */
+    const handleSave = () => {
+        setOpenSaveDialogue(true);
+    }
+    const handleCloseSaveDialogue = () => {
+        setOpenSaveDialogue(false);
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbarState(false);
+    }
+    /* <---END ADD TO NAV BAR */
+    /******** <------END TESTING OF NEW MODAL */
 
     return (
         <div>
+            <button onClick={handleSave}>Save</button>
+            {/*  ---> BEGIN ADD TO NAV BAR  */}
+            <Snackbar open={snackbarState}
+                autoHideDuration={5000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
+                <Alert
+                    elevation={6}
+                    onClose={handleCloseSnackbar}
+                    sx={{ width: '100%' }}>
+                    <AlertTitle><strong>Success</strong></AlertTitle>
+                    Answers successfully saved!
+                </Alert>
+            </Snackbar>
+            <Dialog
+                open={openSaveDialogue}
+                onClose={handleCloseSaveDialogue}
+                aria-labelledby="Save builder answers"
+                aria-describedby="Save answers entered on builder screen to the database"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Save answers?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Confirm that you want to save your answers.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSaveDialogue}>No</Button>
+                    <Button onClick={saveDoc} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/* END ==--> Dialogue saving answers to db  */}
+            {/*  <---END ADD TO NAV BAR  */}
+
             <Container maxWidth>
                 <Grid
                     container

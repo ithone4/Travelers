@@ -1,5 +1,3 @@
-import { ConstructionOutlined } from "@mui/icons-material";
-
 export default class Utility {
 
     //Take answers from table and format them to be shown as radio buttons
@@ -44,15 +42,6 @@ export default class Utility {
                 formattedAnswersArray.push(formattedAnswer);
             }
         }
-        //add ability to skip this question
-        // let skipAnswer = {
-        //     answerID
-        //     answerName = 'answer_6',
-        //     answerValue = '0',
-
-
-        // }
-
         return formattedAnswersArray;
     }
     static formatPolicyAnswersForDatabase = (policy) => {
