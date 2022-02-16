@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import GroupInfo from '../GroupInfo/GroupInfo';
 import InfoSnippet from '../InfoSnippet/InfoSnippet';
 import Typography from '@mui/material/Typography';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import InfoIcon from '@mui/icons-material/Info';
 import QuestionPage from '../QuestionPage/QuestionPage';
 import QuestionCount from '../QuestionCount/QuestionCount';
 import Logo from '../Logo/Logo';
@@ -60,7 +60,7 @@ function Builder() {
                             </Box>
                         </Grid>
                         <Grid item xs={0.5} sx={{ display: 'flex', justifyContent: 'center', pt: 1 }}>
-                            <LightbulbIcon />
+                            <InfoIcon />
                         </Grid>
                         <Grid item xs={5} sx={{ minHeight: '150px', pr: 5 }}>
                             <InfoSnippet questionId={questionId}
