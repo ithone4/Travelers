@@ -3,12 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css';
-import 'tippy.js/themes/material.css';
-import 'tippy.js/animations/perspective.css';
-import 'tippy.js/animations/scale.css';
 import 'tippy.js/animations/shift-away.css';
-import 'tippy.js/animations/shift-toward.css';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
@@ -205,14 +200,13 @@ function QuestionPage(props) {
                                                 label={
                                                     <Box sx={{ ml: 2 }}
                                                         className='module-answer line-clamp-answer'>
-                                                        <Tippy className='tippy-tooltip'
+                                                        <Tippy
                                                             placement='top'
                                                             content={< span > {thisAnswer.answerText}</span >}
                                                             arrow={true}
                                                             arrowType='sharp'
                                                             maxWidth={800}
-                                                            theme='material'
-                                                            animation='scale'
+                                                            animation='shift-away'
                                                             trigger='click'
                                                         >
                                                             <p>{thisAnswer.answerText}</p>
