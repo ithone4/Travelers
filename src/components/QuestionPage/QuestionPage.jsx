@@ -35,7 +35,6 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
-    const [openTooltip, setOpenTooltip] = useState(false);
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -51,15 +50,6 @@ function QuestionPage(props) {
     useEffect(() => {
         startPolicyProcess();
     }, []);
-
-    const JSXContent = () => (
-        <Tippy
-            placement='top-start'
-            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
-            arrow={false}>
-            <p>My button</p>
-        </Tippy >
-    );
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
@@ -190,7 +180,7 @@ function QuestionPage(props) {
                     <Grid item xs={1}
                         sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Typography variant="h5">
+                            <Typography variant="h4">
                                 {questions[currentQuestionID - 1].question_text}
                             </Typography>
                         </Box>
@@ -238,13 +228,13 @@ function QuestionPage(props) {
                     <Grid item xs={1}
                         sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-                            <Button variant="contained"
+                            <Button className='nav-buttons' variant="contained"
                                 disabled={showBackButton}
                                 onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
                                 sx={{ mr: 2 }}>
                                 Back
                             </Button>
-                            <Button variant="contained"
+                            <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
                                 onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
                                 Next
