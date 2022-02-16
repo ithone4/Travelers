@@ -48,26 +48,28 @@ function UserPage() {
   //this utilizes these items from the store: groupReducer, policyBuilderReducer.policyBuilderReducer, questionReducer
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
-  const setDocument = ()=>{ 
+  const setDocument = () => {
     let array = [];
-    groupReducer.forEach(el => {array.push({
-          group_id: el.id,
-          header: el.group_name,
-          Paragraphs: []
-        })});
+    groupReducer.forEach(el => {
+      array.push({
+        group_id: el.id,
+        header: el.group_name,
+        Paragraphs: []
+      })
+    });
 
     for (let i = 0; i < questionReducer.length; i++) {
-      if (companyPolicy[0][`question_${i+1}`] != null && companyPolicy[0][`question_${i+1}`] != 6){ 
-        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i+1}`]}`]);
+      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i + 1}`]}`]);
       }//end if
     } // end for
-  //filters out unused sections
-   let newArray = array.filter((el)=>{
-     if (el.Paragraphs.length > 0){return true}
-     else{return false }
-   })
-  dispatch({type: "SET_DOCUMENT", payload: newArray})
-  return newArray;
+    //filters out unused sections
+    let newArray = array.filter((el) => {
+      if (el.Paragraphs.length > 0) { return true }
+      else { return false }
+    })
+    dispatch({ type: "SET_DOCUMENT", payload: newArray })
+    return newArray;
   } //end set document data
 
 
@@ -81,7 +83,7 @@ function UserPage() {
         <Button className='button' onClick={startBuilder}>Go to Builder</Button>
       </p>
       <p className='body'>
-        <Button className='button2' onClick={()=>{setDocument(); history.push("/docgen");}}>Generate Policy</Button>
+        <Button className='button2' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
       </p>
       <p className='body'>
         <Button className='button' >Help Guide</Button>
