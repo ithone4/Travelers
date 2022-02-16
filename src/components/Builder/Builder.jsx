@@ -6,12 +6,15 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
 import GroupInfo from '../GroupInfo/GroupInfo';
 import InfoSnippet from '../InfoSnippet/InfoSnippet';
 import Typography from '@mui/material/Typography';
 import QuestionPage from '../QuestionPage/QuestionPage';
 import QuestionCount from '../QuestionCount/QuestionCount';
 import Logo from '../Logo/Logo';
+import './Builder.css';
 
 function Builder() {
     const params = useParams();
@@ -38,7 +41,7 @@ function Builder() {
                 >
                     <Grid container>
                         <Grid item xs={12}
-                            sx={{ mr: 4, mb: 1 }}>
+                            sx={{ mr: 4, mt: -2 }}>
                             <QuestionCount
                                 questionId={questionId}
                                 totalQuestionCount={totalQuestionCount}
@@ -50,7 +53,7 @@ function Builder() {
                         <Grid container xs={5} sx={{
                             justifyContent: 'center'
                         }}>
-                            <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex', ml: 8 }}>
                                 <GroupInfo questionId={questionId}
                                     groupName={groupName} />
                             </Box>
@@ -60,14 +63,20 @@ function Builder() {
                                 infoSnippetText={infoSnippetText} />
                         </Grid>
                     </Grid>
+                    {/* <Grid item xs={12}>
+                        <Divider flexItem />
+                    </Grid> */}
+
                     <Grid item xs={12}>
-                        <QuestionPage
-                            updateQuestionId={questionId => setQuestionId(questionId)}
-                            updateGroupName={groupName => setGroupName(groupName)}
-                            updateInfoSnippet={infoSnippetText => setInfoSnippetText(infoSnippetText)}
-                            setTotalQuestionCount={totalQuestionCount => setTotalQuestionCount(totalQuestionCount)}
-                            companyPolicy={companyPolicy}
-                            companyCulture={companyCulture} />
+                        <Paper elevation={5} sx={{ mb: 10, ml: 5, mr: 5 }}>
+                            <QuestionPage
+                                updateQuestionId={questionId => setQuestionId(questionId)}
+                                updateGroupName={groupName => setGroupName(groupName)}
+                                updateInfoSnippet={infoSnippetText => setInfoSnippetText(infoSnippetText)}
+                                setTotalQuestionCount={totalQuestionCount => setTotalQuestionCount(totalQuestionCount)}
+                                companyPolicy={companyPolicy}
+                                companyCulture={companyCulture} />
+                        </Paper>
                     </Grid>
 
                 </Grid>

@@ -208,10 +208,10 @@ function QuestionPage(props) {
 
 
                                                 label={
-                                                    <div class='module line-clamp-answer'
+                                                    <Box className='module-answer line-clamp-answer'
                                                     >
                                                         {thisAnswer.answerText}
-                                                    </div>}
+                                                    </Box>}
 
                                             />
 
@@ -223,7 +223,7 @@ function QuestionPage(props) {
                     </Grid>
                     <Grid item xs={1}
                         sx={{ padding: 2 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
                             <Button variant="contained"
                                 disabled={showBackButton}
                                 onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
