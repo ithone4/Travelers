@@ -7,6 +7,7 @@ import policyBuilderReducer from './policy.builder.reducer';
 import policyTextReducer from './policy.text.reducer';
 import infoSnippetReducer from './info.snippet.reducer';
 import groupReducer from './group.reducer';
+import documentReducer from './document.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   policyBuilderReducer,
   policyTextReducer,
   infoSnippetReducer,
-  groupReducer
+  groupReducer,
+  documentReducer
 
 });
 

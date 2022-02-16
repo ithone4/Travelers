@@ -7,7 +7,7 @@ import { element } from 'prop-types';
 import { create } from '@mui/material/styles/createTransitions';
 
 function DocumentGenerator(props) {
-  const store = useSelector((store) => store);
+  const documentData = useSelector((store) => store.documentReducer);//added for data to make document
   const [heading, setHeading] = useState('Document Generator');
 
   useEffect(() => {
@@ -15,7 +15,7 @@ function DocumentGenerator(props) {
     createDocumentArray();
     createChildrenArray();
   }, []);
-
+ 
   let testCompanyName = "Company, Inc.";
 
   let testData = [

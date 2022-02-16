@@ -94,7 +94,8 @@ CREATE TABLE answer (
     answer_2 character varying(2000),
     answer_3 character varying(2000),
     answer_4 character varying(2000),
-    answer_5 character varying(2000)
+    answer_5 character varying(2000).
+	answer_6 character varying(2000)
 );
 
 
