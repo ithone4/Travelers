@@ -35,7 +35,6 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
-    const [openTooltip, setOpenTooltip] = useState(false);
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -51,15 +50,6 @@ function QuestionPage(props) {
     useEffect(() => {
         startPolicyProcess();
     }, []);
-
-    const JSXContent = () => (
-        <Tippy
-            placement='top-start'
-            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
-            arrow={false}>
-            <p>My button</p>
-        </Tippy >
-    );
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
