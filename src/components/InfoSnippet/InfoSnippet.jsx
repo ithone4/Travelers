@@ -12,9 +12,9 @@ function InfoSnippet(props) {
             {/* <Container> */}
             <Box className="module-snippet line-clamp-snippet">
 
-                {/* <Typography variant="caption"> */}
-                {props.infoSnippetText}
-                {/* </Typography> */}
+                <Typography className='snippet-text' variant="caption">
+                    {props.infoSnippetText}
+                </Typography>
             </Box>
             {/* </Container> */}
         </div>
