@@ -1,11 +1,20 @@
 import React from 'react';
-
-// This is one of our simplest components
-// It doesn't have local state,
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is'
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 function AboutPage() {
+
+  const dispatch = useDispatch();
+
+  const saveButton = useSelector(store => store.showSaveReducer);
+useEffect(() => {
+  dispatch({ type: 'SET_SAVE',
+            payload: saveToggle
+              });
+}, []);
+
+const [saveToggle, setSaveButton] = useState(false);
+
   return (
     <div className="container">
       <div>

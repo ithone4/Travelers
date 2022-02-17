@@ -48,6 +48,7 @@ function QuestionPage(props) {
     const questions = useSelector(store => store.questionReducer);
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+    const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
     /* Constants */
@@ -56,7 +57,22 @@ function QuestionPage(props) {
 
     useEffect(() => {
         startPolicyProcess();
+            dispatch({ type: 'SET_SAVE',
+                      payload: saveToggle
+                        });
     }, []);
+
+    const [saveToggle, setSaveButton] = useState(true);
+
+    const JSXContent = () => (
+        <Tippy
+            placement='top-start'
+            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
+            arrow={false}>
+            <p>My button</p>
+        </Tippy >
+    );
+
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store

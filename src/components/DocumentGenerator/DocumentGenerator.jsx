@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as docx from "docx";
 import { saveAs } from "file-saver";
 import { HeadingLevel, AlignmentType, UnderlineType, convertInchesToTwip, LevelFormat, NumberProperties, Indent, Numbering, PageNumber } from "docx";
@@ -8,15 +8,26 @@ import { create } from '@mui/material/styles/createTransitions';
 
 function DocumentGenerator(props) {
   const documentData = useSelector((store) => store.documentReducer);//added for data to make document
+  const saveButton = useSelector(store => store.showSaveReducer);
   const [heading, setHeading] = useState('Document Generator');
+
+  const dispatch = useDispatch();
+
+  // const [saveToggle, setSaveButton] = useState(false);
 
   useEffect(() => {
     console.log(`in useEffect`);
     console.log("documentData:", documentData);
     createDocumentArray();
     createChildrenArray();
+    dispatch({ type: 'SET_SAVE',
+              payload: saveToggle
+                });
   }, []);
 
+
+  const [saveToggle, setSaveButton] = useState(false);
+  
   let testCompanyName = "Company, Inc.";
 
   let testData = [
