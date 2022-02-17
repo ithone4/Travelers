@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/shift-away.css';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
@@ -8,10 +11,21 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+// ---> BEGIN ADD TO NAV BAR
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+// <--- END ADD TO NAV BAR
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -23,12 +37,18 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
+    // ---> BEGIN ADD TO NAV BAR
+    const [openSaveDialogue, setOpenSaveDialogue] = useState(false);
+    const [snackbarState, setSnackbarState] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    // <--- END ADD TO NAV BAR
 
     /* Reducers */
     const user = useSelector(store => store.user);
     const questions = useSelector(store => store.questionReducer);
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+    const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
     /* Constants */
@@ -36,17 +56,49 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
-        checkForExistingPolicy();
+        startPolicyProcess();
+            dispatch({ type: 'SET_SAVE',
+                      payload: saveToggle
+                        });
     }, []);
 
-    const checkForExistingPolicy = () => {
-        // -->TODO: Make prop from Builder only the company policy ID. Then, check to see if the
-        // prop has a value, if yes, then use FETCH_BUILDER.
-        if (props.companyPolicy.length > 0) {
-            setPolicyID(props.companyPolicy[0].id);
-            //put these values in temporary object that will get sent to router to update db
-            setUserPolicyAnswers(props.companyPolicy[0]);
+    const [saveToggle, setSaveButton] = useState(true);
+
+    const JSXContent = () => (
+        <Tippy
+            placement='top-start'
+            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
+            arrow={false}>
+            <p>My button</p>
+        </Tippy >
+    );
+
+
+    const startPolicyProcess = () => {
+        //Check if answers in temporary/local store
+        if (Object.keys(answersFromTempStore).length != 0) {
+            if (answersFromTempStore.answers[`question_1`] !== null) {
+                setValue(answersFromTempStore.answers[`question_1`]);
+            }
+        } else {
+            //check to see if user already has a policy that exists in the db
+            if (props.companyPolicy[0]) {
+                if (Object.keys(props.companyPolicy[0].length > 0)) {
+                    setPolicyID(props.companyPolicy[0].id);
+                    setUserPolicyAnswers(props.companyPolicy[0]);
+                    setValue(props.companyPolicy[0][`question_1`]);
+                }
+            } else {
+                setValue(props.companyCulture);
+            }
         }
+        setCurrentQuestion(questions[0]);
+
+        //Setup props values so the other Builder components can be updated
+        props.updateQuestionId(questionIDForBuilder);
+        props.updateGroupName(questions[0].group_name);
+        props.updateInfoSnippet(questions[0].info_snippet_text);
+        props.setTotalQuestionCount(questions.length);
     }
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -54,6 +106,7 @@ function QuestionPage(props) {
         /* Adding save here in case user chooses to hit 'save & return to main menu' 
         and didn't click on the next button*/
         saveAnswerToStore(currentQuestionID, event.target.value);
+
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
@@ -77,15 +130,10 @@ function QuestionPage(props) {
     }
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
-    const saveAnswerToStore = (questionID, answer) => {
-        let objectKey = `question_${questionID}`;
+    const saveAnswerToStore = (questionId, answer) => {
+        let objectKey = `question_${questionId}`;
 
-        //setUserPolicyAnswers({ ...userPolicyAnswers, [objectKey]: parseInt(answer) }); 
-        /* Change not happening fast enough for reducer (using set) so will use this way instead. */
-        setUserPolicyAnswers(
-            userPolicyAnswers[objectKey] = parseInt(answer)
-        );
-        setUserPolicyAnswers({ ...userPolicyAnswers });
+        let answersToLoad = { ...answersFromTempStore.answers, [objectKey]: parseInt(answer) };
 
         let policyIDForPayload;
         if (!policyID) {
@@ -93,22 +141,20 @@ function QuestionPage(props) {
         } else {
             policyIDForPayload = policyID;
         }
+
         let dataToLoad = {
             id: policyIDForPayload,
             userId: user.id,
-            answers: userPolicyAnswers
+            answers: answersToLoad
         }
-
-        //Now send userPolicyAnswers to the store
+        //Now send userPolicyAnswers to the temporary store
         dispatch({
             type: 'SAVE_BUILDER_TO_LOCAL',
             payload: dataToLoad
         })
     }
     const handleNextBackButtons = (event, direction) => {
-        props.updateGroupName(currentQuestion.group_name);
-        props.updateInfoSnippet(currentQuestion.info_snippet_text);
-        saveAnswerToStore(currentQuestionID, value);
+        saveAnswerToStore(currentQuestionID, parseInt(value));
         if (direction === GO_AHEAD) {
             questionIDForBuilder = currentQuestionID + 1;
             setCurrentQuestionID(questionIDForBuilder);
@@ -116,72 +162,116 @@ function QuestionPage(props) {
             questionIDForBuilder = currentQuestionID - 1;
             setCurrentQuestionID(questionIDForBuilder);
         }
+        props.updateGroupName(questions[questionIDForBuilder - 1].group_name);
+        props.updateInfoSnippet(questions[questionIDForBuilder - 1].info_snippet_text);
         dispatch({ type: 'SAVE_QUESTION_ID', payload: questionIDForBuilder }); //<---NEED THIS???!!
         showHideButtons();
         setCurrentQuestion(questions[questionIDForBuilder - 1])
         setDefaultRadioButton(questionIDForBuilder);
-
-        //Sending the question id back to Builder so it can use it to set the correct group name
-        //and info snippet
-        //Using questionIDForBuilder b/c screen is rendering quicker than state gets updated.
         props.updateQuestionId(questionIDForBuilder);
     }
-    const startPolicyProcess = () => {
-        setCurrentQuestionID(1); // --> This probably needs to change if user is loading halfway done builder
-        setCurrentQuestion(questions[currentQuestionID - 1]); //<--Get question at index 0 (first question)
-        // setValue(companyCulture)
-        // if (Object.keys(userPolicyAnswers).length === 0) {
-        //     setValue(companyCulture)
-        // } else if (userPolicyAnswers[`question_1`] !== null) {
-        //     setValue(userPolicyAnswers[`question_1`]);
-        // }
-
+    const setDefaultRadioButton = (questionId) => {
         setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
-            if (userPolicyAnswers[`question_1`] !== null) {
-                setValue(userPolicyAnswers[`question_1`]);
+            if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
+                userPolicyAnswers[`question_${questionId}`] != null) {
+                setValue(userPolicyAnswers[`question_${questionId}`]);
             }
         }
-
-        /*TEST FEB.12 A.M. getting groupb name and info snippet to work */
-        props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[0].group_name);
-        props.updateInfoSnippet(questions[0].info_snippet_text);
-    }
-    const setDefaultRadioButton = (questionID) => {
-        //userPolicyAnswers doesn't exist so set to default company culture
-        if (userPolicyAnswers.length === 0) {
-            setValue(props.companyCulture);
-        } else if (!userPolicyAnswers.hasOwnProperty(`question_${questionID}`)) {
-            setValue(props.companyCulture);
-        } else if (userPolicyAnswers[`question_${questionID}`] === null) {
-            setValue(props.companyCulture)
-        } else {
-            setValue(userPolicyAnswers[`question_${questionID}`]);
+        if (Object.keys(answersFromTempStore).length != 0) {
+            if (answersFromTempStore.answers.hasOwnProperty(`question_${questionId}`)) {
+                setValue(answersFromTempStore.answers[`question_${questionId}`]);
+            }
         }
     }
+
+    /******** ------> BEGIN TESTING OF NEW MODAL */
+    const saveDoc = () => {
+        console.log(`in save and answersFromTempStore are:`, answersFromTempStore);
+        let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
+        console.log(`in save of UserPage and policyArray is:`, policyArray);
+        if (policyArray.answers.length != 0) {
+            try {
+                dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
+                setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
+                console.log(`about to set snackbar message`)
+                setSnackbarMessage('Answers successfully saved!')
+                setSnackbarState(true);
+            } catch (error) {
+                console.log(`error saving policy answers to database`);
+            }
+        }
+    }
+    /* <---START ADD TO NAV BAR */
+    const handleSave = () => {
+        setOpenSaveDialogue(true);
+    }
+    const handleCloseSaveDialogue = () => {
+        setOpenSaveDialogue(false);
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbarState(false);
+    }
+    /* <---END ADD TO NAV BAR */
+    /******** <------END TESTING OF NEW MODAL */
 
     return (
         <div>
-            {/* <button onClick={saveUserAnswersToDatabase}>Get Answers From Store & Push to DB</button> */}
+            <button onClick={handleSave}>Save</button>
+            {/*  ---> BEGIN ADD TO NAV BAR  */}
+            <Snackbar open={snackbarState}
+                autoHideDuration={5000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
+                <Alert
+                    elevation={6}
+                    onClose={handleCloseSnackbar}
+                    sx={{ width: '100%' }}>
+                    <AlertTitle><strong>Success</strong></AlertTitle>
+                    Answers successfully saved!
+                </Alert>
+            </Snackbar>
+            <Dialog
+                open={openSaveDialogue}
+                onClose={handleCloseSaveDialogue}
+                aria-labelledby="Save builder answers"
+                aria-describedby="Save answers entered on builder screen to the database"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Save answers?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Confirm that you want to save your answers.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSaveDialogue}>No</Button>
+                    <Button onClick={saveDoc} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/* END ==--> Dialogue saving answers to db  */}
+            {/*  <---END ADD TO NAV BAR  */}
+
             <Container maxWidth>
                 <Grid
                     container
                     direction="column"
-                    sx={{ border: 1 }}
                 >
                     <Grid item xs={1}
-                        sx={{ border: 1, padding: 2 }}>
+                        sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Typography variant="h5">
+                            <Typography variant="h4">
                                 {questions[currentQuestionID - 1].question_text}
                             </Typography>
                         </Box>
                     </Grid>
                     <Grid item xs={10}
-                        sx={{ border: 1 }}>
+                    >
                         <FormControl component="fieldset">
-                            <RadioGroup
+                            <RadioGroup column
                                 aria-label="policy-answer"
                                 value={value}
                                 onChange={handleChange}
@@ -189,11 +279,27 @@ function QuestionPage(props) {
                                 {
                                     Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
                                         <>
+
                                             <FormControlLabel
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
                                                 value={thisAnswer.answerValue}
-                                                control={<Radio />} label={thisAnswer.answerText}
+                                                control={<Radio />}
+                                                label={
+                                                    <Box sx={{ ml: 2 }}
+                                                        className='module-answer line-clamp-answer'>
+                                                        <Tippy
+                                                            placement='top'
+                                                            content={< span > {thisAnswer.answerText}</span >}
+                                                            arrow={true}
+                                                            arrowType='sharp'
+                                                            maxWidth={800}
+                                                            animation='shift-away'
+                                                            trigger='click'
+                                                        >
+                                                            <p>{thisAnswer.answerText}</p>
+                                                        </Tippy >
+                                                    </Box>}
                                             />
                                         </>
                                     ))
@@ -201,29 +307,28 @@ function QuestionPage(props) {
                             </RadioGroup>
                         </FormControl>
                     </Grid>
-                    <Grid
-                        container
-                        direction="rows"
-                        sx={{ border: 1 }}
-                    >
-                        <button disabled={showBackButton}
-                            onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}>
-                            Back
-                        </button>
-                        <button disabled={showNextButton}
-                            onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
-                            Next
-                        </button>
-                        <p>
-                            <button onClick={startPolicyProcess}>CLICK HERE TO START</button>
-                        </p>
+                    <Grid item xs={1}
+                        sx={{ padding: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
+                            <Button className='nav-buttons' variant="contained"
+                                disabled={showBackButton}
+                                onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
+                                sx={{ mr: 2 }}>
+                                Back
+                            </Button>
+                            <Button className='nav-buttons' variant="contained"
+                                disabled={showNextButton}
+                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                                Next
+                            </Button>
+                        </Box>
                     </Grid>
                 </Grid>
             </Container>
             <div>
                 <Footer question={questions[currentQuestionID]} />
             </div>
-        </div>
+        </div >
     );
 }
 

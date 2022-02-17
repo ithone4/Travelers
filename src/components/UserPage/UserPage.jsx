@@ -3,7 +3,9 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import { useSelector, useDispatch } from 'react-redux';
 import Utility from '../../utility';
 import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import './UserPage.css';
+import Button from '@mui/material/Button';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -11,8 +13,20 @@ function UserPage() {
   const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
   const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+  const questionReducer = useSelector((store) => store.questionReducer);
+  const groupReducer = useSelector((store) => store.groupReducer);
+  const saveButton = useSelector(store => store.showSaveReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch({ type: 'SET_SAVE',
+              payload: saveToggle
+                });
+}, []);
+
+
+const [saveToggle, setSaveButton] = useState(false);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_BUILDER', payload: user.id });
@@ -39,19 +53,51 @@ function UserPage() {
     history.push(`/question/${user.id}`)
   }
 
+
+  //setting the document data for generator
+  //this utilizes these items from the store: groupReducer, policyBuilderReducer.policyBuilderReducer, questionReducer
+  //then stores it in the documentReducer
+  //change policy_text_ to answer_ if you want to generate answer text for testing.
+  const setDocument = () => {
+    let array = [];
+    groupReducer.forEach(el => {
+      array.push({
+        group_id: el.id,
+        header: el.group_name,
+        Paragraphs: []
+      })
+    });
+
+    for (let i = 0; i < questionReducer.length; i++) {
+      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i + 1}`]}`]);
+      }//end if
+    } // end for
+    //filters out unused sections
+    let newArray = array.filter((el) => {
+      if (el.Paragraphs.length > 0) { return true }
+      else { return false }
+    })
+    dispatch({ type: "SET_DOCUMENT", payload: newArray })
+    return newArray;
+  } //end set document data
+
+
+
   return (
-    <div className="container">
-      <h1>Hello World!!!</h1>
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      {/* Testing save from outside Builder component */}
-      <p>
-        <button onClick={startBuilder}>Start Builder</button>
+    <div >
+      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.username}!</h1>
+      <h2 className='body'>How would you like to use the Policy Builder today?</h2>
+      <p></p>
+      <p className='body'>
+        <Button className='button' onClick={startBuilder}>Go to Builder</Button>
       </p>
-      <p>
-        <button onClick={save}>Save and Return to Menu</button>
+      <p className='body'>
+        <Button className='button2' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
       </p>
-      <LogOutButton className="btn" />
+      <p className='body'>
+        <Button className='button' >Help Guide</Button>
+      </p>
     </div>
   );
 }

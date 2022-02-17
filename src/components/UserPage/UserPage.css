@@ -1,0 +1,30 @@
+html {
+  background-color: skyblue;
+  border-radius: 30px 30px 30px 50px !important;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.button {
+  background-color: orange !important;
+  border-radius: 25px !important;
+  width: 170px !important;
+}
+
+.button2 {
+  background-color: peachpuff !important;
+  border-radius: 25px !important;
+  width: 170px !important;
+}
+
+.button:hover {
+  background-color: white;
+}
+
+.button2:hover {
+  background-color: white;
+}

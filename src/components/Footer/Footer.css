@@ -1,18 +1,18 @@
 footer {
   padding: 20px;
-  text-align: center;
 }
 .footerRow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  max-width: 30%;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-around !important;
+  max-width: 50%;
   margin: auto;
 }
 
 .footerIcon {
-  background-color: rgba(4, 4, 145, 0.87);
+  background-color: #001a67;
   color: white;
+  border-color: #001a67;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;
@@ -20,8 +20,8 @@ footer {
 }
 
 .footerDisabled {
-  background-color: black;
   color: white;
+  border-color: #001a67 !important;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;

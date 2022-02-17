@@ -9,11 +9,10 @@ function GroupInfo(props) {
 
     return (
         <div>
-            <h3>{JSON.stringify(props)}</h3>
             <Container maxWidth>
                 <Box>
-                    <Typography>
-                        I'm the Group Info page!
+                    <Typography variant="h3">
+                        Topic: {props.groupName}
                     </Typography>
                 </Box>
             </Container>

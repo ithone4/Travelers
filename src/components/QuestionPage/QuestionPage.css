@@ -1,0 +1,22 @@
+
+.module-answer {
+    width: 100%;
+    padding: 5px;
+    /* margin: 0 0 1em 0; */
+    overflow: hidden;
+    /* height: 3em;
+    line-height: 1.5em;  */
+  }
+  .module-answer p {
+    margin: 0;
+  }
+  .line-clamp-answer {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+  }
+
+  .nav-buttons{
+      background-color:#001A67;
+  }
+  
