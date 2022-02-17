@@ -73,7 +73,7 @@ function UserPage() {
     return newArray;
   } //end set document data
 
-
+  //dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: 20, id: user.id}})
 
   return (
     <div >
@@ -89,6 +89,7 @@ function UserPage() {
       <p className='body'>
         <Button className='button' >Help Guide</Button>
       </p>
+      
     </div>
   );
 }
