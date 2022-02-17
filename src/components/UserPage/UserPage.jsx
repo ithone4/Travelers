@@ -49,6 +49,7 @@ function UserPage() {
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
   const setDocument = () => {
+    const regex = /<xxx>/i;
     let array = [];
     groupReducer.forEach(el => {
       array.push({
@@ -60,7 +61,7 @@ function UserPage() {
 
     for (let i = 0; i < questionReducer.length; i++) {
       if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
-        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i + 1}`]}`]);
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
       }//end if
     } // end for
     //filters out unused sections
