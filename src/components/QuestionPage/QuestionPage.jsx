@@ -42,6 +42,7 @@ function QuestionPage(props) {
     const questions = useSelector(store => store.questionReducer);
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+    const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
     /* Constants */
@@ -50,7 +51,12 @@ function QuestionPage(props) {
 
     useEffect(() => {
         startPolicyProcess();
+            dispatch({ type: 'SET_SAVE',
+                      payload: saveToggle
+                        });
     }, []);
+
+    const [saveToggle, setSaveButton] = useState(true);
 
     const JSXContent = () => (
         <Tippy
