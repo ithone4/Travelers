@@ -3,12 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css';
-import 'tippy.js/themes/material.css';
-import 'tippy.js/animations/perspective.css';
-import 'tippy.js/animations/scale.css';
 import 'tippy.js/animations/shift-away.css';
-import 'tippy.js/animations/shift-toward.css';
 import './QuestionPage.css';
 import Utility from '../../utility';
 import Footer from '../Footer/Footer';
@@ -17,13 +12,20 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+// ---> BEGIN ADD TO NAV BAR
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+// <--- END ADD TO NAV BAR
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -35,7 +37,11 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
-    const [openTooltip, setOpenTooltip] = useState(false);
+    // ---> BEGIN ADD TO NAV BAR
+    const [openSaveDialogue, setOpenSaveDialogue] = useState(false);
+    const [snackbarState, setSnackbarState] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    // <--- END ADD TO NAV BAR
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -66,6 +72,7 @@ function QuestionPage(props) {
             <p>My button</p>
         </Tippy >
     );
+
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
@@ -178,16 +185,76 @@ function QuestionPage(props) {
         }
     }
 
-    const CustomWidthTooltip = styled(({ className, ...props }) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-    ))({
-        [`& .${tooltipClasses.tooltip}`]: {
-            maxWidth: 500,
-        },
-    });
+    /******** ------> BEGIN TESTING OF NEW MODAL */
+    const saveDoc = () => {
+        console.log(`in save and answersFromTempStore are:`, answersFromTempStore);
+        let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
+        console.log(`in save of UserPage and policyArray is:`, policyArray);
+        if (policyArray.answers.length != 0) {
+            try {
+                dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
+                setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
+                console.log(`about to set snackbar message`)
+                setSnackbarMessage('Answers successfully saved!')
+                setSnackbarState(true);
+            } catch (error) {
+                console.log(`error saving policy answers to database`);
+            }
+        }
+    }
+    /* <---START ADD TO NAV BAR */
+    const handleSave = () => {
+        setOpenSaveDialogue(true);
+    }
+    const handleCloseSaveDialogue = () => {
+        setOpenSaveDialogue(false);
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbarState(false);
+    }
+    /* <---END ADD TO NAV BAR */
+    /******** <------END TESTING OF NEW MODAL */
 
     return (
         <div>
+            <button onClick={handleSave}>Save</button>
+            {/*  ---> BEGIN ADD TO NAV BAR  */}
+            <Snackbar open={snackbarState}
+                autoHideDuration={5000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
+                <Alert
+                    elevation={6}
+                    onClose={handleCloseSnackbar}
+                    sx={{ width: '100%' }}>
+                    <AlertTitle><strong>Success</strong></AlertTitle>
+                    Answers successfully saved!
+                </Alert>
+            </Snackbar>
+            <Dialog
+                open={openSaveDialogue}
+                onClose={handleCloseSaveDialogue}
+                aria-labelledby="Save builder answers"
+                aria-describedby="Save answers entered on builder screen to the database"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Save answers?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Confirm that you want to save your answers.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSaveDialogue}>No</Button>
+                    <Button onClick={saveDoc} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/* END ==--> Dialogue saving answers to db  */}
+            {/*  <---END ADD TO NAV BAR  */}
+
             <Container maxWidth>
                 <Grid
                     container
@@ -196,7 +263,7 @@ function QuestionPage(props) {
                     <Grid item xs={1}
                         sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Typography variant="h5">
+                            <Typography variant="h4">
                                 {questions[currentQuestionID - 1].question_text}
                             </Typography>
                         </Box>
@@ -221,14 +288,13 @@ function QuestionPage(props) {
                                                 label={
                                                     <Box sx={{ ml: 2 }}
                                                         className='module-answer line-clamp-answer'>
-                                                        <Tippy className='tippy-tooltip'
+                                                        <Tippy
                                                             placement='top'
                                                             content={< span > {thisAnswer.answerText}</span >}
                                                             arrow={true}
                                                             arrowType='sharp'
                                                             maxWidth={800}
-                                                            theme='material'
-                                                            animation='scale'
+                                                            animation='shift-away'
                                                             trigger='click'
                                                         >
                                                             <p>{thisAnswer.answerText}</p>
@@ -244,13 +310,13 @@ function QuestionPage(props) {
                     <Grid item xs={1}
                         sx={{ padding: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
-                            <Button variant="contained"
+                            <Button className='nav-buttons' variant="contained"
                                 disabled={showBackButton}
                                 onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
                                 sx={{ mr: 2 }}>
                                 Back
                             </Button>
-                            <Button variant="contained"
+                            <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
                                 onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
                                 Next

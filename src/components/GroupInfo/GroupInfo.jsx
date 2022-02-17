@@ -11,8 +11,8 @@ function GroupInfo(props) {
         <div>
             <Container maxWidth>
                 <Box>
-                    <Typography variant="h4">
-                        {props.groupName}
+                    <Typography variant="h3">
+                        Topic: {props.groupName}
                     </Typography>
                 </Box>
             </Container>
