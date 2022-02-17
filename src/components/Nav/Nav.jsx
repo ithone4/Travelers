@@ -23,6 +23,8 @@ function Nav() {
   const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
   const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+  const questionReducer = useSelector((store) => store.questionReducer);
+  const groupReducer = useSelector((store) => store.groupReducer);
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -34,6 +36,38 @@ function Nav() {
     setAnchorElNav(null);
   };
 
+
+  //setting the document data for generator
+  //this utilizes these items from the store: groupReducer, policyBuilderReducer.policyBuilderReducer, questionReducer
+  //then stores it in the documentReducer
+  //change policy_text_ to answer_ if you want to generate answer text for testing.
+  const setDocument = () => {
+    const regex = /<xxx>/i;
+    let array = [];
+    groupReducer.forEach(el => {
+      array.push({
+        group_id: el.id,
+        header: el.group_name,
+        Paragraphs: []
+      })
+    });
+
+    for (let i = 0; i < questionReducer.length; i++) {
+      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
+      }//end if
+    } // end for
+    //filters out unused sections
+    let newArray = array.filter((el) => {
+      if (el.Paragraphs.length > 0) { return true }
+      else { return false }
+    })
+    dispatch({ type: "SET_DOCUMENT", payload: newArray })
+    
+    handleCloseNavMenu();
+    return newArray;
+  } //end set document data
+
   const save = () => {
     console.log(`in save and answersFromTempStore are:`, answersFromTempStore);
     let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
@@ -44,7 +78,7 @@ function Nav() {
       } catch (error) {
         console.log(`error saving policy answers to database`);
       }
-      handleCloseNavMenu()
+      handleCloseNavMenu();
     }
   }
 if (user.id>0){
@@ -110,7 +144,7 @@ if (user.id>0){
                 </MenuItem>
                 </Link>
                 <Link className="navLink"  to="/docgen">
-                <MenuItem onClick={handleCloseNavMenu}>
+                <MenuItem onClick={setDocument}>
                   <Typography textAlign="center">DocGen</Typography>
                 </MenuItem>
                 </Link>
