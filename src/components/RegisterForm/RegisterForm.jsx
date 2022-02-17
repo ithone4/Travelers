@@ -10,8 +10,10 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider } from '@mui/material/styles';
 import FerskTechRegistration from '../../images/FerskTechRegistration.png'; 
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
 
 //coment
 
@@ -56,7 +58,7 @@ function RegisterForm() {
   const [location, setLocation] = useState('');
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
-  const [culture, setCulture] = useState(0);
+  const [culture, setCulture] = useState(3);
 
   const handleChange = (event) => {
     setTravelSpend(event.target.value);
@@ -75,23 +77,23 @@ function RegisterForm() {
 
   const marks = [
     {
-      value: 0,
+      value: 1,
       label: 'Strict',
     },
     {
-      value: 25,
+      value: 2,
       label: '',
     },
     {
-      value: 50,
-      label: 'Center',
+      value: 3,
+      label: 'Middle',
     },
     {
-      value: 75,
+      value: 4,
       label: '',
     },
     {
-      value: 100,
+      value: 5,
       label: 'Easy-going',
     }
   ];
@@ -192,6 +194,7 @@ function RegisterForm() {
         variant="standard"
         id="outlined-name"
         label="Password"
+        type="password"
         value={password}
         required
         onChange={(event) => setPassword(event.target.value)}
@@ -370,20 +373,29 @@ function RegisterForm() {
       </ThemeProvider>
       </div>
       <br></br>
+      <br></br>
    <div>
     <ThemeProvider theme={theme}>
     <Box textAlign="center" sx={{ width: 340 }}>
+      <Tooltip 
+      TransitionComponent={Fade} 
+      TransitionProps={{timeout: 600 }} 
+      title="Choose an option that best describes your company's culture. Does it feel strict, easy-going or somewhere in between?" 
+      placement="top">
       <Slider
         color="primary"
         aria-label="Always visible"
-        defaultValue={0}
+        defaultValue={3}
         getArialValueText={valuetext}
-        step={25}
+        step={1}
+        min={1}
+        max={5}
         marks={marks}
         //valueLabelDisplay="on"
         onChange={(event) => setCulture(event.target.value)}
         
       />
+      </Tooltip>
     </Box>
     </ThemeProvider>
     </div>
