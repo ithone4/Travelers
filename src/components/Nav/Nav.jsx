@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png'; 
+import FerskTechTextPlusLogo from '../../images/FerskTechTextPlusLogo.png'; 
 import Utility from '../../utility';
 import { useState, useEffect } from 'react';
 
@@ -56,7 +56,7 @@ if (user.id>0){
   return (
     <div className="nav">
       <Link to="/home">
-      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
+      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechTextPlusLogo}/></h6>
       </Link>
       <div>
     <Container maxWidth="xl">
@@ -189,7 +189,7 @@ if (user.id>0){
     else{
       return (<div className="nav">
       <Link to="/home">
-      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
+      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechTextPlusLogo}/></h6>
       </Link>
       <div>
     <Container maxWidth="xl">
