@@ -76,7 +76,7 @@ router.post('/', (req, res) => {
     })
     //get rid of the extra ',' at the end of queryString (for column values)
     postPolicyBuilderQuery = postPolicyBuilderQuery.slice(0, postPolicyBuilderQuery.length - 1) + `)
-                             ON CONFLICT (id) DO UPDATE SET `;
+                             ON CONFLICT (user_id) DO UPDATE SET `;
     for (const i of columnNames) {
         postPolicyBuilderQuery += `${i} = EXCLUDED.${i},`;
     }

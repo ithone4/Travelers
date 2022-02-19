@@ -121,6 +121,7 @@ function QuestionPage(props) {
             }
         }
         setCurrentQuestion(questions[Number(params.id)-1]);
+        showHideButtons();
 
         //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
@@ -138,12 +139,12 @@ function QuestionPage(props) {
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
-        if (questionIDForBuilder > 1) {
+        if (Number(params.id)> 1) {
             setShowBackButton(false);
         } else {
             setShowBackButton(true);
         }
-        if (questionIDForBuilder === questions.length) {
+        if (Number(params.id) === questions.length) {
             setShowNextButton(true);
         } else {
             setShowNextButton(false);
@@ -159,6 +160,7 @@ function QuestionPage(props) {
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
     const saveAnswerToStore = (questionId, answer) => {
+        console.log(`saveAnswerToStore policyID:`, policyID);
         let objectKey = `question_${questionId}`;
 
         let answersToLoad = { ...answersFromTempStore.answers, [objectKey]: parseInt(answer) };
