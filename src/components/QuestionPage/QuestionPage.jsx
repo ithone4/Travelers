@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
@@ -50,6 +50,7 @@ function QuestionPage(props) {
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
     const params = useParams();
+    const history = useHistory();
     const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
@@ -120,6 +121,7 @@ function QuestionPage(props) {
             }
         }
         setCurrentQuestion(questions[Number(params.id)-1]);
+        showHideButtons();
 
         //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
@@ -137,12 +139,12 @@ function QuestionPage(props) {
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
-        if (questionIDForBuilder > 1) {
+        if (Number(params.id)> 1) {
             setShowBackButton(false);
         } else {
             setShowBackButton(true);
         }
-        if (questionIDForBuilder === questions.length) {
+        if (Number(params.id) === questions.length) {
             setShowNextButton(true);
         } else {
             setShowNextButton(false);
@@ -158,6 +160,7 @@ function QuestionPage(props) {
     //This function takes the answers input my the user and puts them in a reducer.
     //Save & Exit functionality can then access the users answers from the navigation bar.
     const saveAnswerToStore = (questionId, answer) => {
+        console.log(`saveAnswerToStore policyID:`, policyID);
         let objectKey = `question_${questionId}`;
 
         let answersToLoad = { ...answersFromTempStore.answers, [objectKey]: parseInt(answer) };
@@ -339,13 +342,13 @@ function QuestionPage(props) {
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showBackButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
+                                onClick={(event) => { handleNextBackButtons(event, GO_BACK); history.push(`/question/${Number(params.id)-1}`) }}
                                 sx={{ mr: 2 }}>
                                 Back
                             </Button>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id)+1}`) }}>
                                 Next
                             </Button>
                         </Box>

@@ -87,7 +87,7 @@ const [saveToggle, setSaveButton] = useState(false);
 
   return (
     <div >
-      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.username}!</h1>
+      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
