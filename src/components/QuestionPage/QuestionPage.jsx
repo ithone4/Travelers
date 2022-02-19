@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
@@ -48,12 +49,18 @@ function QuestionPage(props) {
     const questions = useSelector(store => store.questionReducer);
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+    const params = useParams();
     const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
     /* Constants */
     const GO_BACK = -1;
     const GO_AHEAD = 1;
+    
+    useEffect(() => {
+        console.log('params id:', Number(params.id));
+        setCurrentQuestionID(Number(params.id));
+    }, []);
 
     useEffect(() => {
         startPolicyProcess();
@@ -76,28 +83,48 @@ function QuestionPage(props) {
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
+        console.log('setting value: not in if line 70');
         if (Object.keys(answersFromTempStore).length != 0) {
-            if (answersFromTempStore.answers[`question_1`] !== null) {
-                setValue(answersFromTempStore.answers[`question_1`]);
+            console.log('setting value: in first if line 70');
+            if (answersFromTempStore.answers[`question_${Number(params.id)}`] !== null && answersFromTempStore.answers[`question_${Number(params.id)}`] !== undefined ) {
+                console.log('setting value: in 2nd if line 70',answersFromTempStore.answers);
+                console.log('setting value:', answersFromTempStore.answers[`question_${Number(params.id)}`]);
+                setValue(answersFromTempStore.answers[`question_${Number(params.id)}`]);
+            }else {
+                console.log('in if else ','user.culture', user.culture);
+                setValue(user.culture);
             }
+
         } else {
+            console.log('setting value: in else line 70');
             //check to see if user already has a policy that exists in the db
             if (props.companyPolicy[0]) {
+                console.log('else if ');
                 if (Object.keys(props.companyPolicy[0].length > 0)) {
+                    console.log('else if if');
                     setPolicyID(props.companyPolicy[0].id);
                     setUserPolicyAnswers(props.companyPolicy[0]);
-                    setValue(props.companyPolicy[0][`question_1`]);
+                    if (props.companyPolicy[0][`question_${Number(params.id)}`] !== null && props.companyPolicy[0][`question_${Number(params.id)}`] !== undefined ){
+                    setValue(props.companyPolicy[0][`question_${Number(params.id)}`]);
+
+                    }else {
+                        setValue(user.culture);
+                    }//end else
                 }
+                
             } else {
-                setValue(props.companyCulture);
+                //console.log('in else else',user.culture);
+                console.log('in else else','user.culture', user.culture);
+                //setValue(props.companyCulture);
+                setValue(user.culture);
             }
         }
-        setCurrentQuestion(questions[0]);
+        setCurrentQuestion(questions[Number(params.id)-1]);
 
         //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[0].group_name);
-        props.updateInfoSnippet(questions[0].info_snippet_text);
+        props.updateGroupName(questions[Number(params.id)-1].group_name);
+        props.updateInfoSnippet(questions[Number(params.id)-1].info_snippet_text);
         props.setTotalQuestionCount(questions.length);
     }
     const handleChange = (event) => {

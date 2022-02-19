@@ -29,7 +29,7 @@ function Builder() {
     const companyCulture = useSelector(store => store.policyBuilderReducer.companyCultureReducer);
 
     useEffect(() => {
-        setQuestionId(1); //for 1st load of info
+        setQuestionId(params.id); //for 1st load of info
     }, []);
 
 

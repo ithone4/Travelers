@@ -80,7 +80,7 @@ function App() {
 
           <ProtectedRoute
             // logged in shows QuestionPage else shows LoginPage
-            exact path={`/question/${user.id}`}
+            exact path={`/question/:id`}
           >
             {/* <QuestionPage /> */}
             <Builder />
