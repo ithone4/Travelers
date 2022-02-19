@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
@@ -50,6 +50,7 @@ function QuestionPage(props) {
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
     const params = useParams();
+    const history = useHistory();
     const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
@@ -339,13 +340,13 @@ function QuestionPage(props) {
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showBackButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
+                                onClick={(event) => { handleNextBackButtons(event, GO_BACK); history.push(`/question/${Number(params.id)-1}`) }}
                                 sx={{ mr: 2 }}>
                                 Back
                             </Button>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id)+1}`) }}>
                                 Next
                             </Button>
                         </Box>

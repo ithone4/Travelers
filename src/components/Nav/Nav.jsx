@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,9 +28,11 @@ function Nav() {
   const questionReducer = useSelector((store) => store.questionReducer);
   const groupReducer = useSelector((store) => store.groupReducer);
   const saveButton = useSelector(store => store.showSaveReducer);
+  const currentQuestionID = useSelector(store => store.policyBuilderReducer.currentQuestionID);
   const dispatch = useDispatch();
+  const params = useParams();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-
+  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -86,6 +88,8 @@ function Nav() {
         console.log(`error saving policy answers to database`);
       }
       handleCloseNavMenu();
+      
+      dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: currentQuestionID, id: user.id}})
     }
   }
 if (user.id>0){
