@@ -18,6 +18,7 @@ import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png';
 import Utility from '../../utility';
 
 
+
 function Nav() {
   const user = useSelector((store) => store.user);
   const companyPolicy = useSelector(store => store.policyBuilderReducer.policyBuilderReducer);
@@ -42,6 +43,9 @@ function Nav() {
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
   const setDocument = () => {
+    
+
+
     const regex = /<xxx>/i;
     let array = [];
     groupReducer.forEach(el => {
@@ -53,7 +57,7 @@ function Nav() {
     });
 
     for (let i = 0; i < questionReducer.length; i++) {
-      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
+      if (companyPolicy[0][`question_${i + 1}`] != null && !(companyPolicy[0][`question_${i + 1}`] > 6)) {
         array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
       }//end if
     } // end for
@@ -133,7 +137,7 @@ if (user.id>0){
                   <Typography textAlign="center">Info</Typography>
                 </MenuItem>
                 </Link>
-                <Link className="navLink"  to={`/question/${user.id}`}>
+                <Link className="navLink"  to={`/question/${user.last_question}`}>
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Go to Builder</Typography>
                 </MenuItem>

@@ -40,7 +40,7 @@ function UserPage() {
     console.log(`in startBuilder!`);
     console.log(`value in companyCulture is:`, companyCulture);
     console.log(`value of companyPolicy is:`, companyPolicy)
-    history.push(`/question/${user.id}`)
+    history.push(`/question/${user.last_question}`)
   }
 
 
@@ -60,7 +60,7 @@ function UserPage() {
     });
 
     for (let i = 0; i < questionReducer.length; i++) {
-      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
+      if (companyPolicy[0][`question_${i + 1}`] != null && !(companyPolicy[0][`question_${i + 1}`] > 6)) {
         array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
       }//end if
     } // end for
