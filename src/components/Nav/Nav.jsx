@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png'; 
 import Utility from '../../utility';
+import { useState, useEffect } from 'react';
 
 
 
@@ -26,8 +27,10 @@ function Nav() {
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
   const questionReducer = useSelector((store) => store.questionReducer);
   const groupReducer = useSelector((store) => store.groupReducer);
+  const saveButton = useSelector(store => store.showSaveReducer);
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -109,6 +112,7 @@ if (user.id>0){
               <ViewListRoundedIcon/>
             </IconButton>
             </div>
+             {saveButton ? 
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -127,6 +131,7 @@ if (user.id>0){
                 display: 'block',
               }}
             >
+
               <Link className="navLink" to="/home">
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Home</Typography>
@@ -160,7 +165,57 @@ if (user.id>0){
                 <MenuItem onClick={handleCloseNavMenu}>
                 <Link to="/login"><LogOutButton className="navLink" /></Link>
                 </MenuItem>
-            </Menu>
+            </Menu> 
+            : 
+            <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: 'block',
+            }}
+          >
+
+            <Link className="navLink" to="/home">
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Home</Typography>
+              </MenuItem>
+            </Link>
+            <Link className="navLink"  to="/info">
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Info</Typography>
+              </MenuItem>
+              </Link>
+              <Link className="navLink"  to={`/question/${user.id}`}>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Go to Builder</Typography>
+              </MenuItem>
+            </Link>
+              <Link className="navLink"  to="/about">
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">About</Typography>
+              </MenuItem>
+              </Link>
+              <Link className="navLink"  to="/docgen">
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">DocGen</Typography>
+              </MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/login"><LogOutButton className="navLink" /></Link>
+              </MenuItem>
+          </Menu>} 
+
 
           </Box>
         </Toolbar>

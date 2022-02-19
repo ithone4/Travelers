@@ -3,7 +3,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import { useSelector, useDispatch } from 'react-redux';
 import Utility from '../../utility';
 import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './UserPage.css';
 import Button from '@mui/material/Button';
 
@@ -15,8 +15,18 @@ function UserPage() {
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
   const questionReducer = useSelector((store) => store.questionReducer);
   const groupReducer = useSelector((store) => store.groupReducer);
+  const saveButton = useSelector(store => store.showSaveReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch({ type: 'SET_SAVE',
+              payload: saveToggle
+                });
+}, []);
+
+
+const [saveToggle, setSaveButton] = useState(false);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_BUILDER', payload: user.id });

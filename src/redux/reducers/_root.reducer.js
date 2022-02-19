@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux';
-import errors from './errors.reducer';
-import user from './user.reducer';
-import questionReducer from './question.reducer';
-import answerReducer from './answer.reducer';
-import policyBuilderReducer from './policy.builder.reducer';
-import policyTextReducer from './policy.text.reducer';
-import infoSnippetReducer from './info.snippet.reducer';
-import groupReducer from './group.reducer';
-import documentReducer from './document.reducer';
+import { combineReducers } from "redux";
+import errors from "./errors.reducer";
+import user from "./user.reducer";
+import questionReducer from "./question.reducer";
+import answerReducer from "./answer.reducer";
+import policyBuilderReducer from "./policy.builder.reducer";
+import policyTextReducer from "./policy.text.reducer";
+import infoSnippetReducer from "./info.snippet.reducer";
+import groupReducer from "./group.reducer";
+import documentReducer from "./document.reducer";
+import showSaveReducer from "./savebutton.reducer";
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -24,8 +25,8 @@ const rootReducer = combineReducers({
   policyTextReducer,
   infoSnippetReducer,
   groupReducer,
-  documentReducer
-
+  documentReducer,
+  showSaveReducer,
 });
 
 export default rootReducer;
