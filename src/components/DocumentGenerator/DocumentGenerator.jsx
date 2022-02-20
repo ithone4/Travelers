@@ -110,10 +110,17 @@ function DocumentGenerator(props) {
 
   // creates array of code snippets that the generate() function can read
   const createChildrenArray = (array) => {
+    let num = 1;
     console.log('in createHeadersAndParagraphs');
     for (let i = 0; i < documentArray.length; i++) {
+      let tableInfo = {
+        number: num.toString(),
+        text: documentArray[i + 1]
+      }
       if (documentArray[i] === 1) {
         childrenArray.push(createHeader(documentArray[i + 1]));
+        tableArray.push(createTableCode(tableInfo));
+        num++;
       }
       else if (documentArray[i] === 2) {
         childrenArray.push(createParagraph(documentArray[i + 1]));
@@ -155,6 +162,42 @@ function DocumentGenerator(props) {
       heading: HeadingLevel.HEADING_1,
     }),
   ]);
+
+  const createTableCode = (element) => {
+    console.log('element:', element);
+    return new docx.TableRow({
+      children: [
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: element.number,
+          })]
+        }),
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: element.text,
+          })]
+        }),
+      ]
+    })
+  }
+
+
+  const [tableArray, setTableArray] = useState([
+    new docx.TableRow({
+      children: [
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: "Column Header 1",
+          })]
+        }),
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: "Column Header 2",
+          })]
+        }),
+      ]
+    }),
+  ])
 
   const generate = () => {
     const doc = new docx.Document({
@@ -240,18 +283,6 @@ function DocumentGenerator(props) {
               }
             }
           },
-          // {
-          //   id: "footer",
-          //   name: "footer",
-          //   basedOn: "Normal",
-          //   next: "Normal",
-          //   run: {
-          //     size: 22,
-          //   },
-          //   paragraph: {
-          //     alignment: AlignmentType.END,
-          //   }
-          // }
         ]
       },
       sections: [
@@ -267,16 +298,25 @@ function DocumentGenerator(props) {
                       children: [PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
                       style: "footer"
                     }),
-                    // new docx.TextRun({
-                    //   children: [" of ", PageNumber.TOTAL_PAGES]
-                    // })
                   ]
                 })
               ]
             })
           },
           children:
-            childrenArray
+            [
+              new docx.Table({
+                width: {
+                  size: 9070,
+                },
+                columnWidths: [1000, 8070],
+                rows: tableArray
+              }),
+            ]
+        },
+        {
+          properties: {},
+          children: childrenArray
         }
       ]
     });
@@ -293,8 +333,8 @@ function DocumentGenerator(props) {
       <h2>{heading}</h2>
       {/* <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
       <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
-      <p>currently need to press "create ChildrenArray" before generating document.</p>
-      <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button> */}
+  <p>currently need to press "create ChildrenArray" before generating document.</p> */}
+      {/* <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button> */}
       <button onClick={() => generate()}>Click to generate your policy.</button>
     </div>
   );
