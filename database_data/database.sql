@@ -49,8 +49,8 @@ CREATE TABLE "user" (
     industry character varying(100),
     travel_spend character varying(200),
     culture integer,
-    role_id integer REFERENCES role(id),
-    last_question integer
+    role_id integer DEFAULT 1 REFERENCES role(id),
+    last_question integer DEFAULT 1
     
 );
 
@@ -132,7 +132,7 @@ CREATE TABLE info_snippet (
 
 CREATE TABLE policy_builder (
     id SERIAL PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES "user"(id),
+	user_id integer NOT NULL REFERENCES "user"(id) UNIQUE,
     question_1 integer,
     question_2 integer,
     question_3 integer,

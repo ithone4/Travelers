@@ -62,4 +62,18 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/', (req, res) => {
+  console.log("body:",req.body);
+  console.log("query:",req.query);
+
+  const queryString = `UPDATE "user" SET last_question=$1 WHERE id=$2;`;
+  const values = [ req.body.last_question, req.body.id];
+  pool.query( queryString, values).then( (results)=>{
+    res.sendStatus( 200 );
+  }).catch( (err)=>{
+    console.log( err );
+    res.sendStatus( 500 );
+  })
+});
+
 module.exports = router;

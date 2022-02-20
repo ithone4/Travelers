@@ -24,9 +24,23 @@ function* fetchUser() {
     console.log('User get request failed', error);
   }
 }
+function* updateLastQuestion (action) {
+  // get details from the DB
+  try {
+      const response = yield axios.put(`/api/user`, action.payload);
+      console.log('update:', response.data);
+      yield put({ type: 'FETCH_USER'});
+     
+  } catch {
+      console.log('Get catagories error');
+  }
+      
+}
+
 
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('UPDATE_LAST_QUESTION', updateLastQuestion);
 }
 
 export default userSaga;
