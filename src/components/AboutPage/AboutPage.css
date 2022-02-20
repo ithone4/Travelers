@@ -1,0 +1,14 @@
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 80%;
+  border-radius: 20px !important;
+}
+
+.body-text {
+  justify-content: center !important;
+}
