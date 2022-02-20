@@ -53,31 +53,31 @@ function Footer(props) {
 <Tooltip title="This question is heavily related to health.">
     <LocalHospitalRoundedIcon className="footerIcon"/>
     </Tooltip>:
-            <CircleIcon disabled className="footerDisabled"/>}
+            <LocalHospitalRoundedIcon disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.cost===true?
 <Tooltip title="This question is heavily related to cost">
     <AttachMoneyIcon className="footerIcon"/>
     </Tooltip>:
-            <CircleIcon disabled className="footerDisabled"/>}
+            <AttachMoneyIcon disabled className="footerDisabled"/>}
             </div>
  <div>{props.question.sustainability===true?
 <Tooltip title="This question is heavily related to sustainability.">
     <ParkIcon className="footerIcon"/>
     </Tooltip>:
-            <CircleIcon disabled className="footerDisabled"/>}
+            <ParkIcon disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.experience===true?
 <Tooltip title="This question is heavily related to experience.">
     <SailingIcon className="footerIcon"/>
     </Tooltip>:
-            <CircleIcon disabled className="footerDisabled"/>}
+            <SailingIcon  disabled className="footerDisabled"/>}
             </div>
             <div>{props.question.business_processes===true?
 <Tooltip title="This question is heavily related to the business process.">
     <BusinessIcon className="footerIcon"/>
     </Tooltip>:
-            <CircleIcon disabled className="footerDisabled"/>}
+            <BusinessIcon disabled className="footerDisabled"/>}
             </div>
  </footer>;
 }

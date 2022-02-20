@@ -10,6 +10,7 @@ function DocumentGenerator(props) {
   const documentData = useSelector((store) => store.documentReducer);//added for data to make document
   const saveButton = useSelector(store => store.showSaveReducer);
   const [heading, setHeading] = useState('Document Generator');
+  const companyName = useSelector((store) => store.user.company_name);
 
   const dispatch = useDispatch();
 
@@ -18,6 +19,7 @@ function DocumentGenerator(props) {
   useEffect(() => {
     console.log(`in useEffect`);
     console.log("documentData:", documentData);
+    console.log("companyName:", companyName);
     createDocumentArray();
     createChildrenArray();
     dispatch({ type: 'SET_SAVE',
@@ -109,22 +111,31 @@ function DocumentGenerator(props) {
   // array of all strings with these identifiers before each
 
   const createDocumentArray = () => {
-    for (let i = 0; i < testData.length; i++) {
+    // change testData to documentData
+    console.log('in createDocumentArray')
+    for (let i = 0; i < documentData.length; i++) {
       documentArray.push(1);
-      documentArray.push(testData[i].header);
-      for (let j = 0; j < testData[i].paragraphs.length; j++) {
+      documentArray.push(documentData[i].header);
+      for (let j = 0; j < documentData[i].Paragraphs.length; j++) {
         documentArray.push(2);
-        documentArray.push(testData[i].paragraphs[j]);
+        documentArray.push(documentData[i].Paragraphs[j]);
       }
     }
   }
 
   // creates array of code snippets that the generate() function can read
   const createChildrenArray = (array) => {
+    let num = 1;
     console.log('in createHeadersAndParagraphs');
     for (let i = 0; i < documentArray.length; i++) {
+      let tableInfo = {
+        number: num.toString(),
+        text: documentArray[i + 1]
+      }
       if (documentArray[i] === 1) {
         childrenArray.push(createHeader(documentArray[i + 1]));
+        tableArray.push(createTableCode(tableInfo));
+        num++;
       }
       else if (documentArray[i] === 2) {
         childrenArray.push(createParagraph(documentArray[i + 1]));
@@ -160,12 +171,43 @@ function DocumentGenerator(props) {
   }
 
   // set up array with first, larger header component
-  const [childrenArray, setChildrenArray] = useState([
-    new docx.Paragraph({
-      text: testCompanyName + " Travel Policy",
-      heading: HeadingLevel.HEADING_1,
+  const [childrenArray, setChildrenArray] = useState([]);
+
+  const createTableCode = (element) => {
+    console.log('element:', element);
+    return new docx.TableRow({
+      children: [
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: element.number,
+          })]
+        }),
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: element.text,
+          })]
+        }),
+      ]
+    })
+  }
+
+
+  const [tableArray, setTableArray] = useState([
+    new docx.TableRow({
+      children: [
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: "Section",
+          })]
+        }),
+        new docx.TableCell({
+          children: [new docx.Paragraph({
+            text: "Topic",
+          })]
+        }),
+      ]
     }),
-  ]);
+  ])
 
   const generate = () => {
     const doc = new docx.Document({
@@ -251,18 +293,6 @@ function DocumentGenerator(props) {
               }
             }
           },
-          // {
-          //   id: "footer",
-          //   name: "footer",
-          //   basedOn: "Normal",
-          //   next: "Normal",
-          //   run: {
-          //     size: 22,
-          //   },
-          //   paragraph: {
-          //     alignment: AlignmentType.END,
-          //   }
-          // }
         ]
       },
       sections: [
@@ -278,16 +308,29 @@ function DocumentGenerator(props) {
                       children: [PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
                       style: "footer"
                     }),
-                    // new docx.TextRun({
-                    //   children: [" of ", PageNumber.TOTAL_PAGES]
-                    // })
                   ]
                 })
               ]
             })
           },
           children:
-            childrenArray
+            [
+              new docx.Paragraph({
+                text: companyName + " Travel Policy",
+                heading: HeadingLevel.HEADING_1,
+              }),
+              new docx.Table({
+                width: {
+                  size: 9070,
+                },
+                columnWidths: [1000, 8070],
+                rows: tableArray
+              }),
+            ]
+        },
+        {
+          properties: {},
+          children: childrenArray
         }
       ]
     });
@@ -304,8 +347,8 @@ function DocumentGenerator(props) {
       <h2>{heading}</h2>
       {/* <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
       <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
-      <p>currently need to press "create ChildrenArray" before generating document.</p>
-      <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button> */}
+  <p>currently need to press "create ChildrenArray" before generating document.</p> */}
+      {/* <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button> */}
       <button onClick={() => generate()}>Click to generate your policy.</button>
     </div>
   );

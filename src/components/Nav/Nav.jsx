@@ -5,11 +5,9 @@ import './Nav.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 import Toolbar from '@mui/material/Toolbar';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +15,14 @@ import Typography from '@mui/material/Typography';
 import FerskTechTextPlusLogo from '../../images/FerskTechTextPlusLogo.png';
 import Utility from '../../utility';
 import { useState, useEffect } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 
 
@@ -32,6 +38,21 @@ function Nav() {
   const dispatch = useDispatch();
   const params = useParams();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+
+    const [openSaveDialogue, setOpenSaveDialogue] = useState(false);
+      const [snackbarState, setSnackbarState] = useState(false);
+      const [snackbarMessage, setSnackbarMessage] = useState('');
+  
+      const handleSave = () => {
+        setOpenSaveDialogue(true);
+    }
+    const handleCloseSaveDialogue = () => {
+        setOpenSaveDialogue(false);
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbarState(false);
+    }
   
 
   const handleOpenNavMenu = (event) => {
@@ -41,6 +62,25 @@ function Nav() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const logOut = () => {
+    setAnchorElNav(null);
+    dispatch({type: 'LOGOUT' })
+  };
+
+  const saveDoc = () => {
+    let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
+    if (policyArray.answers.length != 0) {
+        try {
+            dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
+            setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
+            setSnackbarMessage('Answers successfully saved!')
+            setSnackbarState(true);
+            handleCloseNavMenu()
+        } catch (error) {
+        }
+    }
+}
 
 
   //setting the document data for generator
@@ -96,7 +136,45 @@ function Nav() {
 
 
     return (
+
+      
       <div className="nav">
+<Snackbar open={snackbarState}
+                autoHideDuration={5000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ horizontal: 'center', vertical: 'top' }}>
+                <Alert
+                    elevation={6}
+                    onClose={handleCloseSnackbar}
+                    sx={{ width: '100%' }}
+                    severity="success">
+                    <AlertTitle><strong>Success</strong></AlertTitle>
+                    Answers successfully saved!
+                </Alert>
+            </Snackbar>
+            <Dialog
+                open={openSaveDialogue}
+                onClose={handleCloseSaveDialogue}
+                aria-labelledby="Save builder answers"
+                aria-describedby="Save answers entered on builder screen to the database"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Save answers?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Confirm that you want to save your answers.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSaveDialogue}>No</Button>
+                    <Button onClick={saveDoc} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
         <Link to="/home">
           <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechTextPlusLogo} /></h6>
         </Link>
@@ -141,11 +219,6 @@ function Nav() {
                         <Typography textAlign="center">Home</Typography>
                       </MenuItem>
                     </Link>
-                    <Link className="navLink" to="/info">
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">Info</Typography>
-                      </MenuItem>
-                    </Link>
                     <Link className="navLink" to={`/question/${user.last_question}`}>
                       <MenuItem onClick={handleCloseNavMenu}>
                         <Typography textAlign="center">Go to Builder</Typography>
@@ -153,22 +226,19 @@ function Nav() {
                     </Link>
                     <Link className="navLink" to="/about">
                       <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">About</Typography>
-                      </MenuItem>
-                    </Link>
-                    <Link className="navLink" to="/docgen">
-                      <MenuItem onClick={setDocument}>
-                        <Typography textAlign="center">DocGen</Typography>
+                        <Typography textAlign="center">Help Guide</Typography>
                       </MenuItem>
                     </Link>
                     <Link className="navLink" to="/home">
-                      <MenuItem onClick={save}>
+                      <MenuItem onClick={saveDoc}>
                         <Typography textAlign="center">Save and Exit</Typography>
                       </MenuItem>
                     </Link>
-                    <MenuItem onClick={handleCloseNavMenu}>
-                      <Link to="/login"><LogOutButton className="navLink" /></Link>
-                    </MenuItem>
+                    <Link className="navLink"  to="/home">
+                <MenuItem onClick={logOut}>
+                  <Typography textAlign="center">Log Out</Typography>
+                </MenuItem>
+                </Link>
                   </Menu>
                   :
                   <Menu
@@ -195,11 +265,6 @@ function Nav() {
                         <Typography textAlign="center">Home</Typography>
                       </MenuItem>
                     </Link>
-                    <Link className="navLink" to="/info">
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">Info</Typography>
-                      </MenuItem>
-                    </Link>
                     <Link className="navLink" to={`/question/${user.id}`}>
                       <MenuItem onClick={handleCloseNavMenu}>
                         <Typography textAlign="center">Go to Builder</Typography>
@@ -207,17 +272,14 @@ function Nav() {
                     </Link>
                     <Link className="navLink" to="/about">
                       <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">About</Typography>
+                        <Typography textAlign="center">Help Guide</Typography>
                       </MenuItem>
                     </Link>
-                    <Link className="navLink" to="/docgen">
-                      <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">DocGen</Typography>
-                      </MenuItem>
-                    </Link>
-                    <MenuItem onClick={handleCloseNavMenu}>
-                      <Link to="/login"><LogOutButton className="navLink" /></Link>
-                    </MenuItem>
+                    <Link className="navLink"  to="/home">
+                <MenuItem onClick={logOut}>
+                  <Typography textAlign="center">Log Out</Typography>
+                </MenuItem>
+                </Link>
                   </Menu>}
 
 
@@ -279,7 +341,7 @@ function Nav() {
                 </Link>
                 <Link className="navLink" to="/about">
                   <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">About</Typography>
+                    <Typography textAlign="center">Help Guide</Typography>
                   </MenuItem>
                 </Link>
               </Menu>

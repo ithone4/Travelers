@@ -20,9 +20,9 @@ const theme = createTheme({
     warning: {
       main: '#F37E20', //FerskTech orange
     },
-    success: {
-      main: '#FFFFFF', // white
-    },
+    // success: {
+    //   main: '#FFFFFF', // white
+    // },
   },
 
   typography: {
