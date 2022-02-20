@@ -1,7 +1,11 @@
 export default class Utility {
 
     //Take answers from table and format them to be shown as radio buttons
-    static formatAnswersForBuilder = (answer) => {
+    static formatAnswersForBuilder = (answer, companyName) => {
+        const regex = /<xxx>/i;
+        //console.log(`in formatAnswersForBuilder and the company name is:`, user.company_name);
+
+
         let formattedAnswersArray = [];
         //loop through the column names
         for (const [key, value] of Object.entries(answer)) {
@@ -10,7 +14,7 @@ export default class Utility {
                 let formattedAnswer = {};
                 formattedAnswer.answerID = answer.id;
                 formattedAnswer.questionID = answer.question_id;
-                formattedAnswer.answerText = value;
+                formattedAnswer.answerText = value.replace(regex, companyName);
                 formattedAnswer.questionName = `question_${answer.id}`;
 
                 switch (key) {

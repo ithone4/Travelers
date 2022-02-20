@@ -56,7 +56,7 @@ function QuestionPage(props) {
     /* Constants */
     const GO_BACK = -1;
     const GO_AHEAD = 1;
-    
+
     useEffect(() => {
         console.log('params id:', Number(params.id));
         setCurrentQuestionID(Number(params.id));
@@ -64,34 +64,25 @@ function QuestionPage(props) {
 
     useEffect(() => {
         startPolicyProcess();
-            dispatch({ type: 'SET_SAVE',
-                      payload: saveToggle
-                        });
+        dispatch({
+            type: 'SET_SAVE',
+            payload: saveToggle
+        });
     }, []);
 
     const [saveToggle, setSaveButton] = useState(true);
-
-    const JSXContent = () => (
-        <Tippy
-            placement='top-start'
-            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
-            arrow={false}>
-            <p>My button</p>
-        </Tippy >
-    );
-
 
     const startPolicyProcess = () => {
         //Check if answers in temporary/local store
         console.log('setting value: not in if line 70');
         if (Object.keys(answersFromTempStore).length != 0) {
             console.log('setting value: in first if line 70');
-            if (answersFromTempStore.answers[`question_${Number(params.id)}`] !== null && answersFromTempStore.answers[`question_${Number(params.id)}`] !== undefined ) {
-                console.log('setting value: in 2nd if line 70',answersFromTempStore.answers);
+            if (answersFromTempStore.answers[`question_${Number(params.id)}`] !== null && answersFromTempStore.answers[`question_${Number(params.id)}`] !== undefined) {
+                console.log('setting value: in 2nd if line 70', answersFromTempStore.answers);
                 console.log('setting value:', answersFromTempStore.answers[`question_${Number(params.id)}`]);
                 setValue(answersFromTempStore.answers[`question_${Number(params.id)}`]);
-            }else {
-                console.log('in if else ','user.culture', user.culture);
+            } else {
+                console.log('in if else ', 'user.culture', user.culture);
                 setValue(user.culture);
             }
 
@@ -104,27 +95,27 @@ function QuestionPage(props) {
                     console.log('else if if');
                     setPolicyID(props.companyPolicy[0].id);
                     setUserPolicyAnswers(props.companyPolicy[0]);
-                    if (props.companyPolicy[0][`question_${Number(params.id)}`] !== null && props.companyPolicy[0][`question_${Number(params.id)}`] !== undefined ){
-                    setValue(props.companyPolicy[0][`question_${Number(params.id)}`]);
+                    if (props.companyPolicy[0][`question_${Number(params.id)}`] !== null && props.companyPolicy[0][`question_${Number(params.id)}`] !== undefined) {
+                        setValue(props.companyPolicy[0][`question_${Number(params.id)}`]);
 
-                    }else {
+                    } else {
                         setValue(user.culture);
                     }//end else
                 }
-                
+
             } else {
                 //console.log('in else else',user.culture);
-                console.log('in else else','user.culture', user.culture);
+                console.log('in else else', 'user.culture', user.culture);
                 //setValue(props.companyCulture);
                 setValue(user.culture);
             }
         }
-        setCurrentQuestion(questions[Number(params.id)-1]);
+        setCurrentQuestion(questions[Number(params.id) - 1]);
 
         //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[Number(params.id)-1].group_name);
-        props.updateInfoSnippet(questions[Number(params.id)-1].info_snippet_text);
+        props.updateGroupName(questions[Number(params.id) - 1].group_name);
+        props.updateInfoSnippet(questions[Number(params.id) - 1].info_snippet_text);
         props.setTotalQuestionCount(questions.length);
     }
     const handleChange = (event) => {
@@ -253,7 +244,8 @@ function QuestionPage(props) {
                 <Alert
                     elevation={6}
                     onClose={handleCloseSnackbar}
-                    sx={{ width: '100%' }}>
+                    sx={{ width: '100%' }}
+                    severity="success">
                     <AlertTitle><strong>Success</strong></AlertTitle>
                     Answers successfully saved!
                 </Alert>
@@ -282,7 +274,7 @@ function QuestionPage(props) {
             {/* END ==--> Dialogue saving answers to db  */}
             {/*  <---END ADD TO NAV BAR  */}
 
-            <Container maxWidth>
+            <Container maxWidth='xl' >
                 <Grid
                     container
                     direction="column"
@@ -298,16 +290,16 @@ function QuestionPage(props) {
                     <Grid item xs={10}
                     >
                         <FormControl component="fieldset">
-                            <RadioGroup column
+                            <RadioGroup
                                 aria-label="policy-answer"
                                 value={value}
                                 onChange={handleChange}
                             >
                                 {
-                                    Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
+                                    Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID), user.company_name).map((thisAnswer) => (
                                         <>
-
                                             <FormControlLabel
+
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
                                                 value={thisAnswer.answerValue}
@@ -319,7 +311,7 @@ function QuestionPage(props) {
                                                             placement='top'
                                                             content={< span > {thisAnswer.answerText}</span >}
                                                             arrow={true}
-                                                            arrowType='sharp'
+                                                            // arrowType='sharp'
                                                             maxWidth={800}
                                                             animation='shift-away'
                                                             trigger='click'

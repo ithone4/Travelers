@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png'; 
+import FerskTechPolicyBuilder from '../../images/FerskTechPolicyBuilder.png';
 import Utility from '../../utility';
 import { useState, useEffect } from 'react';
 
@@ -46,7 +46,7 @@ function Nav() {
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
   const setDocument = () => {
-    
+
 
 
     const regex = /<xxx>/i;
@@ -70,7 +70,7 @@ function Nav() {
       else { return false }
     })
     dispatch({ type: "SET_DOCUMENT", payload: newArray })
-    
+
     handleCloseNavMenu();
     return newArray;
   } //end set document data
@@ -88,204 +88,204 @@ function Nav() {
       handleCloseNavMenu();
     }
   }
-if (user.id>0){
+  if (user.id > 0) {
 
 
-  return (
-    <div className="nav">
+    return (
+      <div className="nav">
+        <Link to="/home">
+          <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder} /></h6>
+        </Link>
+        <div>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box sx={{ flexGrow: 1, display: 'flex', fontSize: '100' }}>
+                <div className='menu'>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+
+                  >
+                    <ViewListRoundedIcon />
+                  </IconButton>
+                </div>
+                {saveButton ?
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: 'block',
+                    }}
+                  >
+
+                    <Link className="navLink" to="/home">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Home</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/info">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Info</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to={`/question/${user.last_question}`}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Go to Builder</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/about">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">About</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/docgen">
+                      <MenuItem onClick={setDocument}>
+                        <Typography textAlign="center">DocGen</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/home">
+                      <MenuItem onClick={save}>
+                        <Typography textAlign="center">Save and Exit</Typography>
+                      </MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Link to="/login"><LogOutButton className="navLink" /></Link>
+                    </MenuItem>
+                  </Menu>
+                  :
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{
+                      display: 'block',
+                    }}
+                  >
+
+                    <Link className="navLink" to="/home">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Home</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/info">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Info</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to={`/question/${user.id}`}>
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">Go to Builder</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/about">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">About</Typography>
+                      </MenuItem>
+                    </Link>
+                    <Link className="navLink" to="/docgen">
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">DocGen</Typography>
+                      </MenuItem>
+                    </Link>
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Link to="/login"><LogOutButton className="navLink" /></Link>
+                    </MenuItem>
+                  </Menu>}
+
+
+              </Box>
+            </Toolbar>
+          </Container>
+        </div>
+      </div>
+    );
+  }
+  else {
+    return (<div className="nav">
       <Link to="/home">
-      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
+        <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder} /></h6>
       </Link>
       <div>
-    <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', fontSize:'100' }}>
-            <div className='menu'>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1, display: 'flex' }}>
+              <div className='menu'>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
 
-            >
-              <ViewListRoundedIcon/>
-            </IconButton>
-            </div>
-             {saveButton ? 
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: 'block',
-              }}
-            >
-
-              <Link className="navLink" to="/home">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Home</Typography>
-                </MenuItem>
-              </Link>
-              <Link className="navLink"  to="/info">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Info</Typography>
-                </MenuItem>
+                >
+                  <ViewListRoundedIcon />
+                </IconButton>
+              </div>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: 'block',
+                }}
+              >
+                <Link className="navLink" to="/home">
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Home</Typography>
+                  </MenuItem>
                 </Link>
-                <Link className="navLink"  to={`/question/${user.last_question}`}>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Go to Builder</Typography>
-                </MenuItem>
-              </Link>
-                <Link className="navLink"  to="/about">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">About</Typography>
-                </MenuItem>
+                <Link className="navLink" to="/login">
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
                 </Link>
-                <Link className="navLink"  to="/docgen">
-                <MenuItem onClick={setDocument}>
-                  <Typography textAlign="center">DocGen</Typography>
-                </MenuItem>
+                <Link className="navLink" to="/about">
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">About</Typography>
+                  </MenuItem>
                 </Link>
-                <Link className="navLink"  to="/home">
-                <MenuItem onClick={save}>
-                  <Typography textAlign="center">Save and Exit</Typography>
-                </MenuItem>
-                </Link>
-                <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/login"><LogOutButton className="navLink" /></Link>
-                </MenuItem>
-            </Menu> 
-            : 
-            <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: 'block',
-            }}
-          >
+              </Menu>
 
-            <Link className="navLink" to="/home">
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Home</Typography>
-              </MenuItem>
-            </Link>
-            <Link className="navLink"  to="/info">
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Info</Typography>
-              </MenuItem>
-              </Link>
-              <Link className="navLink"  to={`/question/${user.id}`}>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Go to Builder</Typography>
-              </MenuItem>
-            </Link>
-              <Link className="navLink"  to="/about">
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">About</Typography>
-              </MenuItem>
-              </Link>
-              <Link className="navLink"  to="/docgen">
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">DocGen</Typography>
-              </MenuItem>
-              </Link>
-              <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/login"><LogOutButton className="navLink" /></Link>
-              </MenuItem>
-          </Menu>} 
-
-
-          </Box>
-        </Toolbar>
-      </Container>
+            </Box>
+          </Toolbar>
+        </Container>
       </div>
-    </div>
-  );
-    }
-    else{
-      return (<div className="nav">
-      <Link to="/home">
-      <h6><img alt="logo" className="fersk-tech-policy-logo" src={FerskTechPolicyBuilder}/></h6>
-      </Link>
-      <div>
-    <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            <div className='menu'>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-
-            >
-              <ViewListRoundedIcon/>
-            </IconButton>
-            </div>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: 'block',
-              }}
-            >
-              <Link className="navLink" to="/home">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Home</Typography>
-                </MenuItem>
-              </Link>
-              <Link className="navLink"  to="/login">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Login</Typography>
-                </MenuItem>
-                </Link>
-                <Link className="navLink"  to="/about">
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">About</Typography>
-                </MenuItem>
-                </Link>
-            </Menu>
-
-          </Box>
-        </Toolbar>
-      </Container>
-      </div>
-      </div>)
-    }
-} 
+    </div>)
+  }
+}
 
 export default Nav;
