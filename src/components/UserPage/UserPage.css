@@ -1,5 +1,5 @@
 html {
-  background-color: skyblue;
+  background-color: #FFFFFF;
   border-radius: 30px 30px 30px 50px !important;
 }
 
@@ -7,6 +7,12 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  color: #001a67;
+}
+
+.card {
+  width: 80%;
+  border-radius: 20px !important;
 }
 
 .button {

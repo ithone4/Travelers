@@ -21,8 +21,9 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
 import QuestionPage from '../QuestionPage/QuestionPage';
 import Builder from '../Builder/Builder';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();

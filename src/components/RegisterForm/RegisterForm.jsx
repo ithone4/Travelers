@@ -10,8 +10,11 @@ import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FerskTechRegistration from '../../images/FerskTechRegistration.png'; 
+import {createTheme, ThemeProvider } from '@mui/material/styles';
+import RegistrationText from '../../images/RegistrationText.png'; 
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
+import './RegisterForm.css';
 
 //coment
 
@@ -37,7 +40,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: 'Nunito Sans',
+    fontFamily: 'Helvetica neue',
     fontWeightLight: 200,
     fontWeightRegular: 300,
     fontWeightRegular: 400,
@@ -56,7 +59,7 @@ function RegisterForm() {
   const [location, setLocation] = useState('');
   const [industry, setIndustry] = useState('');
   const [travel_spend, setTravelSpend] = useState('');
-  const [culture, setCulture] = useState('');
+  const [culture, setCulture] = useState(3);
 
   const handleChange = (event) => {
     setTravelSpend(event.target.value);
@@ -75,23 +78,23 @@ function RegisterForm() {
 
   const marks = [
     {
-      value: 0,
+      value: 1,
       label: 'Strict',
     },
     {
-      value: 25,
+      value: 2,
       label: '',
     },
     {
-      value: 50,
-      label: 'Center',
+      value: 3,
+      label: 'Middle',
     },
     {
-      value: 75,
+      value: 4,
       label: '',
     },
     {
-      value: 100,
+      value: 5,
       label: 'Easy-going',
     }
   ];
@@ -158,7 +161,7 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
-      <h6><img alt="logo" className="fersk-tech-registration" src={FerskTechRegistration}/></h6>
+      <img alt="logo" className="fersk-tech-registration" src={RegistrationText}/>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -168,12 +171,13 @@ function RegisterForm() {
       <div>
          <ThemeProvider theme={theme}>
            <Box textAlign="center">
-         <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+         <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="Email"
+        placeholder="Email"
         value={username}
         required
         onChange={(event) => setUsername(event.target.value)}
@@ -186,15 +190,17 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
-        color="primary"
-        variant="standard"
-        id="outlined-name"
-        label="Password"
-        value={password}
-        required
-        onChange={(event) => setPassword(event.target.value)}
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+          focused
+          color="primary"
+          variant="standard"
+          id="outlined-name"
+          placeholder="Password"
+          type="password"
+          value={password}
+          required
+          onChange={(event) => setPassword(event.target.value)}
         />
         </FormControl>
         </Box>
@@ -204,12 +210,13 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="First Name"
+        placeholder="First Name"
         value={first_name}
         required
         onChange={(event) => setFirstName(event.target.value)}
@@ -222,12 +229,13 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="Last Name"
+        placeholder="Last Name"
         value={last_name}
         required
         onChange={(event) => setLastName(event.target.value)}
@@ -240,12 +248,13 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="Company Name"
+        placeholder="Company Name"
         value={company_name}
         required
         onChange={(event) => setCompanyName(event.target.value)}
@@ -258,12 +267,13 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="Phone Number"
+        placeholder="Phone Number"
         value={phone_number}
         required
         onChange={(event) => setPhoneNumber(event.target.value)}
@@ -276,12 +286,13 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-          <FormControl sx={{ m: 1, minWidth: 200 }}>
-        <TextField
+          <FormControl sx={{ m: 1, minWidth: 240 }}>
+        <TextField sx={{input:{color: '#001A67'}}}
+        focused
         color="primary"
         variant="standard"
         id="outlined-name"
-        label="HQ Location"
+        placeholder="HQ Location"
         value={location}
         required
         onChange={(event) => setLocation(event.target.value)}
@@ -295,8 +306,8 @@ function RegisterForm() {
 
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200}}>
-        <InputLabel id="industry-dropdown">Industry *</InputLabel>
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240}}>
+        <InputLabel className="indUst" id="industry-dropdown">Industry *</InputLabel>
         <Select
           labelId="industry-label-id"
           id="industry-id"
@@ -305,29 +316,29 @@ function RegisterForm() {
           label="industry"
           required
         >
-          <MenuItem value="Agriculture">Agriculture</MenuItem>
-          <MenuItem value="Automotive">Automotive</MenuItem>
-          <MenuItem value="Chemicals">Chemicals</MenuItem>
-          <MenuItem value="Construction">Construction</MenuItem>
-          <MenuItem value="Education">Education</MenuItem>
-          <MenuItem value="Entertainment, Arts and Broadcasting">Entertainment, Arts and Broadcasting</MenuItem>
-          <MenuItem value="Fast Moving Consumer Goods, Food and Beverage">Fast Moving Consumer Goods, Food and Beverage</MenuItem>
-          <MenuItem value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem>
-          <MenuItem value="Government">Government</MenuItem>
-          <MenuItem value="Health Care">Health Care</MenuItem>
-          <MenuItem value="Leisure and Hospitality">Leisure and Hospitality</MenuItem>
-          <MenuItem value="Manufacturing">Manufacturing</MenuItem>
-          <MenuItem value="Oil, Gas, Energy and Mining">Oil, Gas, Energy and Mining</MenuItem>
-          <MenuItem value="Other"><em>Other</em></MenuItem>
-          <MenuItem value="Pharmaceutical">Pharmaceutical</MenuItem>
-          <MenuItem value="Professional and Business Services">Professional and Business Services</MenuItem>
-          <MenuItem value="Publishing">Publishing</MenuItem>
-          <MenuItem value="Religious and Charitable Organizations">Religious and Charitable Organizations</MenuItem>
-          <MenuItem value="Retail">Retail</MenuItem>
-          <MenuItem value="Technology and Computing">Technology and Computing</MenuItem>
-          <MenuItem value="Telecommunications">Telecommunications</MenuItem>
-          <MenuItem value="Transportation and Warehousing">Transportation and Warehousing</MenuItem>
-          <MenuItem value="Travel">Travel</MenuItem>
+          <MenuItem className="menuItem" value="Agriculture">Agriculture</MenuItem>
+          <MenuItem className="menuItem" value="Automotive">Automotive</MenuItem>
+          <MenuItem className="menuItem" value="Chemicals">Chemicals</MenuItem>
+          <MenuItem className="menuItem" value="Construction">Construction</MenuItem>
+          <MenuItem className="menuItem" value="Education">Education</MenuItem>
+          <MenuItem className="menuItem" value="Entertainment, Arts and Broadcasting">Entertainment, Arts and Broadcasting</MenuItem>
+          <MenuItem className="menuItem" value="Fast Moving Consumer Goods, Food and Beverage">Fast Moving Consumer Goods, Food and Beverage</MenuItem>
+          <MenuItem className="menuItem" value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem>
+          <MenuItem className="menuItem" value="Government">Government</MenuItem>
+          <MenuItem className="menuItem" value="Health Care">Health Care</MenuItem>
+          <MenuItem className="menuItem" value="Leisure and Hospitality">Leisure and Hospitality</MenuItem>
+          <MenuItem className="menuItem" value="Manufacturing">Manufacturing</MenuItem>
+          <MenuItem className="menuItem" value="Oil, Gas, Energy and Mining">Oil, Gas, Energy and Mining</MenuItem>
+          <MenuItem className="menuItem" value="Other"><em>Other</em></MenuItem>
+          <MenuItem className="menuItem" value="Pharmaceutical">Pharmaceutical</MenuItem>
+          <MenuItem className="menuItem" value="Professional and Business Services">Professional and Business Services</MenuItem>
+          <MenuItem className="menuItem" value="Publishing">Publishing</MenuItem>
+          <MenuItem className="menuItem" value="Religious and Charitable Organizations">Religious and Charitable Organizations</MenuItem>
+          <MenuItem className="menuItem" value="Retail">Retail</MenuItem>
+          <MenuItem className="menuItem" value="Technology and Computing">Technology and Computing</MenuItem>
+          <MenuItem className="menuItem" value="Telecommunications">Telecommunications</MenuItem>
+          <MenuItem className="menuItem" value="Transportation and Warehousing">Transportation and Warehousing</MenuItem>
+          <MenuItem className="menuItem" value="Travel">Travel</MenuItem>
         </Select>
       </FormControl>
       </Box>
@@ -337,21 +348,21 @@ function RegisterForm() {
       <div>
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200 }}>
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240 }}>
         <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend *</InputLabel>
-        <Select
+        <Select 
           labelId="travel-spend-label-id"
           id="travel-spend-id"
           value={travel_spend}
           onChange={handleChange}
           label="travel_spend"
         >
-          <MenuItem value="Unknown">Unknown</MenuItem>
-          <MenuItem value="0 - $1M">0 - $1M</MenuItem>
-          <MenuItem value="$1M - $10M">$1M - $10M</MenuItem>
-          <MenuItem value="$10M - $50M">$10M - $50M</MenuItem>
-          <MenuItem value="$50M - $100">$50M - $100</MenuItem>
-          <MenuItem value="$100M+">$100M+</MenuItem>
+          <MenuItem className="menuItem" value="Unknown">Unknown</MenuItem>
+          <MenuItem className="menuItem" value="0 - $1M">0 - $1M</MenuItem>
+          <MenuItem className="menuItem" value="$1M - $10M">$1M - $10M</MenuItem>
+          <MenuItem className="menuItem" value="$10M - $50M">$10M - $50M</MenuItem>
+          <MenuItem className="menuItem" value="$50M - $100">$50M - $100</MenuItem>
+          <MenuItem className="menuItem" value="$100M+">$100M+</MenuItem>
         </Select>
       </FormControl>
       </Box>
@@ -360,30 +371,39 @@ function RegisterForm() {
     <div>
     <br></br>
     </div>
-    <div>
+    {/* <div>
     <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 200 }}>
-      <InputLabel>Company Culture Slider</InputLabel>
+      <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 240 }}>
+      <InputLabel sx={{input:{color: '#001A67'}}}>Company Culture Slider</InputLabel>
       </FormControl>
       </Box>
       </ThemeProvider>
-      </div>
+      </div> */}
+      <br></br>
       <br></br>
    <div>
     <ThemeProvider theme={theme}>
     <Box textAlign="center" sx={{ width: 340 }}>
+      <Tooltip 
+      TransitionComponent={Fade} 
+      TransitionProps={{timeout: 600 }} 
+      title="Choose an option that best describes your company's culture. Does it feel strict, easy-going or somewhere in between?" 
+      placement="top">
       <Slider
         color="primary"
         aria-label="Always visible"
-        defaultValue={0}
+        defaultValue={1}
         getArialValueText={valuetext}
-        step={25}
+        step={1}
+        min={1}
+        max={5}
         marks={marks}
         //valueLabelDisplay="on"
         onChange={(event) => setCulture(event.target.value)}
         
       />
+      </Tooltip>
     </Box>
     </ThemeProvider>
     </div>
@@ -391,7 +411,7 @@ function RegisterForm() {
       <div>
       <ThemeProvider theme={theme}>
         <Box textAlign="center">
-      <Button color="primary"className="btn-primary registerButton" variant="contained" onClick={validateUser}>
+      <Button color="primary"className="btn-primary-registerButton" variant="contained" onClick={validateUser}>
           Register
         </Button>
         </Box>
