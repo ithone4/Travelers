@@ -9,6 +9,11 @@ html {
   justify-content: center;
 }
 
+.card {
+  width: 80%;
+  border-radius: 20px !important;
+}
+
 .button {
   background-color: orange !important;
   border-radius: 25px !important;
