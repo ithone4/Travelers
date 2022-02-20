@@ -53,6 +53,10 @@ const [saveToggle, setSaveButton] = useState(false);
     history.push(`/question/${user.last_question}`)
   }
 
+  const helpGuide = () => {
+    history.push(`/about`)
+  }
+
 
   //setting the document data for generator
   //this utilizes these items from the store: groupReducer, policyBuilderReducer.policyBuilderReducer, questionReducer
@@ -91,13 +95,16 @@ const [saveToggle, setSaveButton] = useState(false);
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
-        <Button className='button' onClick={startBuilder}>Go to Builder</Button>
+        <Button className='button' onClick={startBuilder}>New Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button2' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+        <Button className='button2'>Resume Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button' >Help Guide</Button>
+        <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+      </p>
+      <p className='body'>
+        <Button className='button2' onClick={helpGuide} >Help Guide</Button>
       </p>
       
     </div>
