@@ -25,6 +25,10 @@ function UserPage() {
                 });
 }, []);
 
+const helpGuide = () => {
+  history.push(`/about`)
+}
+
 
 const [saveToggle, setSaveButton] = useState(false);
 
@@ -91,13 +95,16 @@ const [saveToggle, setSaveButton] = useState(false);
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
-        <Button className='button' onClick={startBuilder}>Go to Builder</Button>
+      <Button className='button' onClick={startBuilder}>New Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button2' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+        <Button className='button2'>Resume Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button' >Help Guide</Button>
+        <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+      </p>
+      <p className='body'>
+        <Button className='button2' >Help Guide</Button>
       </p>
       
     </div>
