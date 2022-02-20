@@ -72,6 +72,7 @@ function Nav() {
     let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
     if (policyArray.answers.length != 0) {
         try {
+            dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: currentQuestionID , id: user.id}})
             dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
             setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
             setSnackbarMessage('Answers successfully saved!')
