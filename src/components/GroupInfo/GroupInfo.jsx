@@ -1,9 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider } from '@mui/material/styles';
+import './GroupInfo.css';
 
 
 function GroupInfo(props) {
@@ -12,9 +11,9 @@ function GroupInfo(props) {
         <div>
             <Container maxWidth='xl'>
                 <Box>
-                    <Typography variant="h3">
+                    <h3 className='group-text'>
                         Topic: {props.groupName}
-                    </Typography>
+                    </h3>
                 </Box>
             </Container>
         </div>
