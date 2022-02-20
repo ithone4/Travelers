@@ -20,14 +20,12 @@ footer {
 }
 
 .footerDisabled {
-  background-color: #001a67;
   color: white;
-  border-color: #001a67;
+  border-color: #001a67 !important;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;
   font-size: 50px !important;
-  opacity: 30%;
 }
 
 .footerIcon:hover {
