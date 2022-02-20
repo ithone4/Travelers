@@ -9,10 +9,12 @@ import { create } from '@mui/material/styles/createTransitions';
 function DocumentGenerator(props) {
   const documentData = useSelector((store) => store.documentReducer);//added for data to make document
   const [heading, setHeading] = useState('Document Generator');
+  const companyName = useSelector((store) => store.user.company_name);
 
   useEffect(() => {
     console.log(`in useEffect`);
     console.log("documentData:", documentData);
+    console.log("companyName:", companyName);
     createDocumentArray();
     createChildrenArray();
   }, []);
@@ -98,12 +100,14 @@ function DocumentGenerator(props) {
   // array of all strings with these identifiers before each
 
   const createDocumentArray = () => {
-    for (let i = 0; i < testData.length; i++) {
+    // change testData to documentData
+    console.log('in createDocumentArray')
+    for (let i = 0; i < documentData.length; i++) {
       documentArray.push(1);
-      documentArray.push(testData[i].header);
-      for (let j = 0; j < testData[i].paragraphs.length; j++) {
+      documentArray.push(documentData[i].header);
+      for (let j = 0; j < documentData[i].Paragraphs.length; j++) {
         documentArray.push(2);
-        documentArray.push(testData[i].paragraphs[j]);
+        documentArray.push(documentData[i].Paragraphs[j]);
       }
     }
   }
@@ -156,12 +160,7 @@ function DocumentGenerator(props) {
   }
 
   // set up array with first, larger header component
-  const [childrenArray, setChildrenArray] = useState([
-    new docx.Paragraph({
-      text: testCompanyName + " Travel Policy",
-      heading: HeadingLevel.HEADING_1,
-    }),
-  ]);
+  const [childrenArray, setChildrenArray] = useState([]);
 
   const createTableCode = (element) => {
     console.log('element:', element);
@@ -187,12 +186,12 @@ function DocumentGenerator(props) {
       children: [
         new docx.TableCell({
           children: [new docx.Paragraph({
-            text: "Column Header 1",
+            text: "Section",
           })]
         }),
         new docx.TableCell({
           children: [new docx.Paragraph({
-            text: "Column Header 2",
+            text: "Topic",
           })]
         }),
       ]
@@ -305,6 +304,10 @@ function DocumentGenerator(props) {
           },
           children:
             [
+              new docx.Paragraph({
+                text: companyName + " Travel Policy",
+                heading: HeadingLevel.HEADING_1,
+              }),
               new docx.Table({
                 width: {
                   size: 9070,
