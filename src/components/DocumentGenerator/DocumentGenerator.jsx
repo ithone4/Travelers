@@ -17,7 +17,13 @@ function DocumentGenerator(props) {
     console.log("companyName:", companyName);
     createDocumentArray();
     createChildrenArray();
+    dispatch({
+      type: 'SET_SAVE',
+      payload: saveToggle
+    });
   }, []);
+
+  const [saveToggle, setSaveButton] = useState(false);
 
   let testCompanyName = "Company, Inc.";
 
