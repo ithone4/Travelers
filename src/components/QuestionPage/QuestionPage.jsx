@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippyjs/react';
@@ -48,6 +49,8 @@ function QuestionPage(props) {
     const questions = useSelector(store => store.questionReducer);
     const radioButtonChoices = useSelector(store => store.answerReducer);
     const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
+    const params = useParams();
+    const history = useHistory();
     const saveButton = useSelector(store => store.showSaveReducer);
     const dispatch = useDispatch();
     let questionIDForBuilder;
@@ -56,29 +59,23 @@ function QuestionPage(props) {
     const GO_AHEAD = 1;
 
     useEffect(() => {
+        setCurrentQuestionID(Number(params.id));
         startPolicyProcess();
-            dispatch({ type: 'SET_SAVE',
-                      payload: saveToggle
-                        });
+        dispatch({
+            type: 'SET_SAVE',
+            payload: saveToggle
+        });
     }, []);
 
     const [saveToggle, setSaveButton] = useState(true);
 
-    const JSXContent = () => (
-        <Tippy
-            placement='top-start'
-            content={< span >Let us pretend I am a bigger than normal tooltip</span >}
-            arrow={false}>
-            <p>My button</p>
-        </Tippy >
-    );
-
-
     const startPolicyProcess = () => {
-        //Check if answers in temporary/local store
+        //Check if answers in temporary/local store        
         if (Object.keys(answersFromTempStore).length != 0) {
-            if (answersFromTempStore.answers[`question_1`] !== null) {
-                setValue(answersFromTempStore.answers[`question_1`]);
+            if (answersFromTempStore.answers[`question_${Number(params.id)}`] !== null && answersFromTempStore.answers[`question_${Number(params.id)}`] !== undefined) {
+                setValue(answersFromTempStore.answers[`question_${Number(params.id)}`]);
+            } else {
+                setValue(user.culture);
             }
         } else {
             //check to see if user already has a policy that exists in the db
@@ -86,18 +83,24 @@ function QuestionPage(props) {
                 if (Object.keys(props.companyPolicy[0].length > 0)) {
                     setPolicyID(props.companyPolicy[0].id);
                     setUserPolicyAnswers(props.companyPolicy[0]);
-                    setValue(props.companyPolicy[0][`question_1`]);
+                    if (props.companyPolicy[0][`question_${Number(params.id)}`] !== null && props.companyPolicy[0][`question_${Number(params.id)}`] !== undefined) {
+                        setValue(props.companyPolicy[0][`question_${Number(params.id)}`]);
+                    } else {
+                        setValue(user.culture);
+                    }//end else
                 }
             } else {
-                setValue(props.companyCulture);
+                //setValue(props.companyCulture);
+                setValue(user.culture);
             }
         }
-        setCurrentQuestion(questions[0]);
+        setCurrentQuestion(questions[Number(params.id) - 1]);
+        showHideButtons();
 
         //Setup props values so the other Builder components can be updated
         props.updateQuestionId(questionIDForBuilder);
-        props.updateGroupName(questions[0].group_name);
-        props.updateInfoSnippet(questions[0].info_snippet_text);
+        props.updateGroupName(questions[Number(params.id) - 1].group_name);
+        props.updateInfoSnippet(questions[Number(params.id) - 1].info_snippet_text);
         props.setTotalQuestionCount(questions.length);
     }
     const handleChange = (event) => {
@@ -110,12 +113,12 @@ function QuestionPage(props) {
     };
     const showHideButtons = (direction) => {
         //Show/hide next and back buttons if necessary
-        if (questionIDForBuilder > 1) {
+        if (Number(params.id) > 1) {
             setShowBackButton(false);
         } else {
             setShowBackButton(true);
         }
-        if (questionIDForBuilder === questions.length) {
+        if (Number(params.id) === questions.length) {
             setShowNextButton(true);
         } else {
             setShowNextButton(false);
@@ -187,18 +190,14 @@ function QuestionPage(props) {
 
     /******** ------> BEGIN TESTING OF NEW MODAL */
     const saveDoc = () => {
-        console.log(`in save and answersFromTempStore are:`, answersFromTempStore);
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
-        console.log(`in save of UserPage and policyArray is:`, policyArray);
         if (policyArray.answers.length != 0) {
             try {
                 dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
                 setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
-                console.log(`about to set snackbar message`)
                 setSnackbarMessage('Answers successfully saved!')
                 setSnackbarState(true);
             } catch (error) {
-                console.log(`error saving policy answers to database`);
             }
         }
     }
@@ -217,7 +216,7 @@ function QuestionPage(props) {
 
     return (
         <div>
-            <button onClick={handleSave}>Save</button>
+
             {/*  ---> BEGIN ADD TO NAV BAR  */}
             <Snackbar open={snackbarState}
                 autoHideDuration={5000}
@@ -226,7 +225,8 @@ function QuestionPage(props) {
                 <Alert
                     elevation={6}
                     onClose={handleCloseSnackbar}
-                    sx={{ width: '100%' }}>
+                    sx={{ width: '100%' }}
+                    severity="success">
                     <AlertTitle><strong>Success</strong></AlertTitle>
                     Answers successfully saved!
                 </Alert>
@@ -255,32 +255,32 @@ function QuestionPage(props) {
             {/* END ==--> Dialogue saving answers to db  */}
             {/*  <---END ADD TO NAV BAR  */}
 
-            <Container maxWidth>
+            <Container maxWidth='xl' >
                 <Grid
                     container
                     direction="column"
                 >
                     <Grid item xs={1}
-                        sx={{ padding: 2 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Typography variant="h4">
+                        sx={{ pb: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+                            <p className='question-text'>
                                 {questions[currentQuestionID - 1].question_text}
-                            </Typography>
+                            </p>
                         </Box>
                     </Grid>
                     <Grid item xs={10}
                     >
                         <FormControl component="fieldset">
-                            <RadioGroup column
+                            <RadioGroup
                                 aria-label="policy-answer"
                                 value={value}
                                 onChange={handleChange}
                             >
                                 {
-                                    Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID)).map((thisAnswer) => (
+                                    Utility.formatAnswersForBuilder(getAnswersForQuestion(currentQuestionID), user.company_name).map((thisAnswer) => (
                                         <>
-
                                             <FormControlLabel
+
                                                 id={thisAnswer.answerName}
                                                 name={thisAnswer.questionName}
                                                 value={thisAnswer.answerValue}
@@ -292,12 +292,13 @@ function QuestionPage(props) {
                                                             placement='top'
                                                             content={< span > {thisAnswer.answerText}</span >}
                                                             arrow={true}
-                                                            arrowType='sharp'
+                                                            // arrowType='sharp'
                                                             maxWidth={800}
                                                             animation='shift-away'
                                                             trigger='click'
                                                         >
-                                                            <p>{thisAnswer.answerText}</p>
+                                                            {/* <p style={{borderBottom: loginToggle ? '6px solid blue' : "None"}}></p> */}
+                                                            <p style={{ color: thisAnswer.answerValue == user.culture ? '#F37E20' : '#00144f' }}>{thisAnswer.answerText}</p>
                                                         </Tippy >
                                                     </Box>}
                                             />
@@ -312,15 +313,22 @@ function QuestionPage(props) {
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showBackButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_BACK) }}
+                                onClick={(event) => { handleNextBackButtons(event, GO_BACK); history.push(`/question/${Number(params.id) - 1}`) }}
                                 sx={{ mr: 2 }}>
                                 Back
                             </Button>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
-                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD) }}>
+                                sx={{ mr: 2 }}
+                                onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id) + 1}`) }}>
                                 Next
                             </Button>
+                            <Button className='nav-buttons'
+                                variant="contained"
+                                onClick={handleSave}>
+
+                                Save
+                            </ Button>
                         </Box>
                     </Grid>
                 </Grid>

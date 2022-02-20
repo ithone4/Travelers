@@ -42,5 +42,6 @@ const currentQuestionID = (state = '', action) => {
 export default combineReducers({
   policyBuilderReducer,
   companyCultureReducer,
-  tempPolicyReducer
+  tempPolicyReducer,
+  currentQuestionID
 });

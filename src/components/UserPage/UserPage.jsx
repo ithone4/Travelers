@@ -50,7 +50,7 @@ const [saveToggle, setSaveButton] = useState(false);
     console.log(`in startBuilder!`);
     console.log(`value in companyCulture is:`, companyCulture);
     console.log(`value of companyPolicy is:`, companyPolicy)
-    history.push(`/question/${user.id}`)
+    history.push(`/question/${user.last_question}`)
   }
 
   const helpGuide = () => {
@@ -63,6 +63,7 @@ const [saveToggle, setSaveButton] = useState(false);
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
   const setDocument = () => {
+    const regex = /<xxx>/i;
     let array = [];
     groupReducer.forEach(el => {
       array.push({
@@ -73,8 +74,8 @@ const [saveToggle, setSaveButton] = useState(false);
     });
 
     for (let i = 0; i < questionReducer.length; i++) {
-      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
-        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i + 1}`]}`]);
+      if (companyPolicy[0][`question_${i + 1}`] != null && !(companyPolicy[0][`question_${i + 1}`] > 6)) {
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
       }//end if
     } // end for
     //filters out unused sections
@@ -86,11 +87,11 @@ const [saveToggle, setSaveButton] = useState(false);
     return newArray;
   } //end set document data
 
-
+  //dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: 20, id: user.id}})
 
   return (
     <div >
-      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.username}!</h1>
+      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
@@ -105,6 +106,7 @@ const [saveToggle, setSaveButton] = useState(false);
       <p className='body'>
         <Button className='button2' onClick={helpGuide} >Help Guide</Button>
       </p>
+      
     </div>
   );
 }
