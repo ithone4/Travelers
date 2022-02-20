@@ -238,7 +238,7 @@ function QuestionPage(props) {
 
     return (
         <div>
-            <button onClick={handleSave}>Save</button>
+
             {/*  ---> BEGIN ADD TO NAV BAR  */}
             <Snackbar open={snackbarState}
                 autoHideDuration={5000}
@@ -283,11 +283,11 @@ function QuestionPage(props) {
                     direction="column"
                 >
                     <Grid item xs={1}
-                        sx={{ padding: 2 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Typography variant="h4">
+                        sx={{ pb: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'left' }}>
+                            <p className='question-text'>
                                 {questions[currentQuestionID - 1].question_text}
-                            </Typography>
+                            </p>
                         </Box>
                     </Grid>
                     <Grid item xs={10}
@@ -319,7 +319,8 @@ function QuestionPage(props) {
                                                             animation='shift-away'
                                                             trigger='click'
                                                         >
-                                                            <p>{thisAnswer.answerText}</p>
+                                                            {/* <p style={{borderBottom: loginToggle ? '6px solid blue' : "None"}}></p> */}
+                                                            <p style={{ color: thisAnswer.answerValue == user.culture ? '#F37E20' : '#00144f' }}>{thisAnswer.answerText}</p>
                                                         </Tippy >
                                                     </Box>}
                                             />
@@ -340,9 +341,16 @@ function QuestionPage(props) {
                             </Button>
                             <Button className='nav-buttons' variant="contained"
                                 disabled={showNextButton}
+                                sx={{ mr: 2 }}
                                 onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id) + 1}`) }}>
                                 Next
                             </Button>
+                            <Button className='nav-buttons'
+                                variant="contained"
+                                onClick={handleSave}>
+
+                                Save
+                            </ Button>
                         </Box>
                     </Grid>
                 </Grid>
