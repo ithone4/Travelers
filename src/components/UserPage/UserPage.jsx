@@ -3,7 +3,7 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import { useSelector, useDispatch } from 'react-redux';
 import Utility from '../../utility';
 import { useHistory } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './UserPage.css';
 import Button from '@mui/material/Button';
 
@@ -15,8 +15,22 @@ function UserPage() {
   const answersFromTempStore = useSelector(store => store.policyBuilderReducer.tempPolicyReducer);
   const questionReducer = useSelector((store) => store.questionReducer);
   const groupReducer = useSelector((store) => store.groupReducer);
+  const saveButton = useSelector(store => store.showSaveReducer);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch({ type: 'SET_SAVE',
+              payload: saveToggle
+                });
+}, []);
+
+const helpGuide = () => {
+  history.push(`/about`)
+}
+
+
+const [saveToggle, setSaveButton] = useState(false);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_BUILDER', payload: user.id });
@@ -40,7 +54,7 @@ function UserPage() {
     console.log(`in startBuilder!`);
     console.log(`value in companyCulture is:`, companyCulture);
     console.log(`value of companyPolicy is:`, companyPolicy)
-    history.push(`/question/${user.id}`)
+    history.push(`/question/${user.last_question}`)
   }
 
 
@@ -49,6 +63,7 @@ function UserPage() {
   //then stores it in the documentReducer
   //change policy_text_ to answer_ if you want to generate answer text for testing.
   const setDocument = () => {
+    const regex = /<xxx>/i;
     let array = [];
     groupReducer.forEach(el => {
       array.push({
@@ -59,8 +74,8 @@ function UserPage() {
     });
 
     for (let i = 0; i < questionReducer.length; i++) {
-      if (companyPolicy[0][`question_${i + 1}`] != null && companyPolicy[0][`question_${i + 1}`] != 6) {
-        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`policy_text_${companyPolicy[0][`question_${i + 1}`]}`]);
+      if (companyPolicy[0][`question_${i + 1}`] != null && !(companyPolicy[0][`question_${i + 1}`] > 6)) {
+        array[questionReducer[i].group_id - 1].Paragraphs.push(questionReducer[i][`answer_${companyPolicy[0][`question_${i + 1}`]}`].replace(regex, user.company_name));
       }//end if
     } // end for
     //filters out unused sections
@@ -72,22 +87,26 @@ function UserPage() {
     return newArray;
   } //end set document data
 
-
+  //dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: 20, id: user.id}})
 
   return (
     <div >
-      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.username}!</h1>
+      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
-        <Button className='button' onClick={startBuilder}>Go to Builder</Button>
+      <Button className='button' onClick={startBuilder}>New Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button2' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+        <Button className='button2'>Resume Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button' >Help Guide</Button>
+        <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
       </p>
+      <p className='body'>
+        <Button className='button2' >Help Guide</Button>
+      </p>
+      
     </div>
   );
 }

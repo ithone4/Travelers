@@ -44,6 +44,7 @@ function* saveBuilderToLocal(action) {
 function* saveQuestionID(action) {
   try {
     console.log(`in saveQuestionID`);
+    yield put({ type: 'SET_QUESTION_ID', payload: action.payload })
   } catch (error) {
     console.log(`error saving question id.`);
   }

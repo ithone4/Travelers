@@ -21,8 +21,9 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import DocumentGenerator from '../DocumentGenerator/DocumentGenerator';
 import QuestionPage from '../QuestionPage/QuestionPage';
 import Builder from '../Builder/Builder';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ function App() {
 
           <ProtectedRoute
             // logged in shows QuestionPage else shows LoginPage
-            exact path={`/question/${user.id}`}
+            exact path={`/question/:id`}
           >
             {/* <QuestionPage /> */}
             <Builder />

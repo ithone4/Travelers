@@ -1,12 +1,11 @@
 footer {
   padding: 20px;
-  text-align: center;
 }
 .footerRow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  max-width: 30%;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-around !important;
+  max-width: 50%;
   margin: auto;
 }
 
@@ -21,12 +20,14 @@ footer {
 }
 
 .footerDisabled {
+  background-color: #001a67;
   color: white;
   border-color: #001a67 !important;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;
   font-size: 50px !important;
+  opacity: 30%;
 }
 
 .footerIcon:hover {

@@ -121,8 +121,8 @@ function RegisterForm() {
         travel_spend: travel_spend,
         culture: culture,
         
-        // role_id: null, // integer for admin page
-        // last_question: null, // integer of last saved question probably won't exist on register page
+        role_id: 1, // integer for admin page
+        last_question: 1, // integer of last saved question probably won't exist on register page
 
 
 
