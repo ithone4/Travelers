@@ -1,5 +1,5 @@
 html {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 30px 30px 30px 50px !important;
 }
 
@@ -10,9 +10,20 @@ html {
   color: #001a67;
 }
 
+.header {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  color: #001a67;
+  align-items: center !important;
+}
+
 .card {
   width: 80%;
   border-radius: 20px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
 }
 
 .button {

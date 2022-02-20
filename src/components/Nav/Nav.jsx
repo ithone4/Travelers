@@ -72,6 +72,7 @@ function Nav() {
     let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
     if (policyArray.answers.length != 0) {
         try {
+            dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: currentQuestionID , id: user.id}})
             dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
             setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
             setSnackbarMessage('Answers successfully saved!')
@@ -168,9 +169,9 @@ function Nav() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseSaveDialogue}>No</Button>
-                    <Button onClick={saveDoc} autoFocus>
+                    <Link className="navLink" to="/home"><Button onClick={saveDoc} autoFocus>
                         Yes
-                    </Button>
+                    </Button></Link>
                 </DialogActions>
             </Dialog>
 
@@ -229,11 +230,9 @@ function Nav() {
                         <Typography textAlign="center">Help Guide</Typography>
                       </MenuItem>
                     </Link>
-                    <Link className="navLink" to="/home">
-                      <MenuItem onClick={saveDoc}>
+                      <MenuItem onClick={handleSave}>
                         <Typography textAlign="center">Save and Exit</Typography>
                       </MenuItem>
-                    </Link>
                     <Link className="navLink"  to="/home">
                 <MenuItem onClick={logOut}>
                   <Typography textAlign="center">Log Out</Typography>

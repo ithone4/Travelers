@@ -193,6 +193,7 @@ function QuestionPage(props) {
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
         if (policyArray.answers.length != 0) {
             try {
+                dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: Number(params.id) , id: user.id}})
                 dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
                 setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
                 setSnackbarMessage('Answers successfully saved!')
@@ -203,6 +204,7 @@ function QuestionPage(props) {
     }
     /* <---START ADD TO NAV BAR */
     const handleSave = () => {
+        
         setOpenSaveDialogue(true);
     }
     const handleCloseSaveDialogue = () => {
