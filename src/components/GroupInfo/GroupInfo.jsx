@@ -11,9 +11,9 @@ function GroupInfo(props) {
         <div>
             <Container maxWidth='xl'>
                 <Box>
-                    <p className='group-text'>
+                    <h3 className='group-text'>
                         Topic: {props.groupName}
-                    </p>
+                    </h3>
                 </Box>
             </Container>
         </div>

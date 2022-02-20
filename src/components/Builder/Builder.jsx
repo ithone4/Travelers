@@ -54,12 +54,8 @@ function Builder() {
 
                         </Grid> */}
                         <Grid container>
-                            <Grid item xs={6.5}
-                                sx={{
-                                    justifyContent: 'left'
-                                }}>
-
-                                <Box sx={{ display: 'flex', ml: 3, pb: 3 }}>
+                            <Grid item xs={6.5}>
+                                <Box sx={{ display: 'flex', ml: 3 }}>
                                     <GroupInfo questionId={questionId}
                                         groupName={groupName} />
                                 </Box>
