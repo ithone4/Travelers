@@ -35,10 +35,11 @@ function Builder() {
 
     return (
         <div>
-            <Container maxWidth>
+
+            <Container maxWidth='xl'>
                 <Grid
                     container
-                    direction="rows"
+                // direction="rows"
                 >
                     <Grid container>
                         <Grid item xs={12}
@@ -51,20 +52,24 @@ function Builder() {
                         {/* <Grid item xs={3}>
 
                         </Grid> */}
-                        <Grid container xs={6.5} sx={{
-                            justifyContent: 'left'
-                        }}>
-                            <Box sx={{ display: 'flex', ml: 3, pt: 3 }}>
-                                <GroupInfo questionId={questionId}
-                                    groupName={groupName} />
-                            </Box>
-                        </Grid>
-                        <Grid item xs={0.5} sx={{ display: 'flex', justifyContent: 'center', pt: 1 }}>
-                            <InfoIcon />
-                        </Grid>
-                        <Grid item xs={5} sx={{ minHeight: '150px', pr: 5 }}>
-                            <InfoSnippet questionId={questionId}
-                                infoSnippetText={infoSnippetText} />
+                        <Grid container>
+                            <Grid item xs={6.5}
+                                sx={{
+                                    justifyContent: 'left'
+                                }}>
+
+                                <Box sx={{ display: 'flex', ml: 3, pt: 3 }}>
+                                    <GroupInfo questionId={questionId}
+                                        groupName={groupName} />
+                                </Box>
+                            </Grid>
+                            <Grid item xs={0.5} sx={{ display: 'flex', justifyContent: 'center', pt: 1 }}>
+                                <InfoIcon />
+                            </Grid>
+                            <Grid item xs={5} sx={{ minHeight: '150px', pr: 5 }}>
+                                <InfoSnippet questionId={questionId}
+                                    infoSnippetText={infoSnippetText} />
+                            </Grid>
                         </Grid>
                     </Grid>
                     {/* <Grid item xs={12}>

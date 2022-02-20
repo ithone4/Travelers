@@ -19,7 +19,7 @@ function InfoSnippet(props) {
                     placement='top'
                     content={< span > {props.infoSnippetText}</span >}
                     arrow={true}
-                    arrowType='sharp'
+                    // arrowType='sharp'
                     maxWidth={800}
                     animation='shift-away'
                     trigger='click'
