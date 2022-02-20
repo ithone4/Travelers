@@ -6,7 +6,8 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './UserPage.css';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
+import Box from '@mui/material/Card';
+import { shadows } from '@mui/system';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -92,8 +93,10 @@ const [saveToggle, setSaveButton] = useState(false);
 
   return (
     <div className='body' >
-      <Card className='card' variant="outlined">
-      <h1 className='body'>Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
+      <Box  className='card1' sx={{ boxShadow: 10 }}> 
+      <div className='header'>
+      <h1 >Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
+      </div>
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
@@ -108,7 +111,7 @@ const [saveToggle, setSaveButton] = useState(false);
       <p className='body'>
         <Button className='button2' onClick={helpGuide}>Help Guide</Button>
       </p>
-      </Card>
+      </Box>
       
     </div>
   );

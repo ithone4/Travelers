@@ -169,9 +169,9 @@ function Nav() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseSaveDialogue}>No</Button>
-                    <Button onClick={saveDoc} autoFocus>
+                    <Link className="navLink" to="/home"><Button onClick={saveDoc} autoFocus>
                         Yes
-                    </Button>
+                    </Button></Link>
                 </DialogActions>
             </Dialog>
 
@@ -230,11 +230,9 @@ function Nav() {
                         <Typography textAlign="center">Help Guide</Typography>
                       </MenuItem>
                     </Link>
-                    <Link className="navLink" to="/home">
-                      <MenuItem onClick={saveDoc}>
+                      <MenuItem onClick={handleSave}>
                         <Typography textAlign="center">Save and Exit</Typography>
                       </MenuItem>
-                    </Link>
                     <Link className="navLink"  to="/home">
                 <MenuItem onClick={logOut}>
                   <Typography textAlign="center">Log Out</Typography>
