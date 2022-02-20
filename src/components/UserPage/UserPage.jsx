@@ -100,10 +100,10 @@ const [saveToggle, setSaveButton] = useState(false);
       <h2 className='body'>How would you like to use the Policy Builder today?</h2>
       <p></p>
       <p className='body'>
-      <Button className='button' onClick={startBuilder}>New Policy</Button>
+      <Button className='button' onClick={()=>{history.push(`/question/1`);}}>New Policy</Button>
       </p>
       <p className='body'>
-        <Button className='button2'>Resume Policy</Button>
+        <Button className='button2'onClick={startBuilder}>Resume Policy</Button>
       </p>
       <p className='body'>
         <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
