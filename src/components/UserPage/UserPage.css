@@ -1,5 +1,5 @@
 html {
-  background-color: skyblue;
+  background-color: #FFFFFF;
   border-radius: 30px 30px 30px 50px !important;
 }
 
@@ -10,13 +10,13 @@ html {
 }
 
 .button {
-  background-color: orange !important;
+  background-color: #001A67 !important;
   border-radius: 25px !important;
   width: 170px !important;
 }
 
 .button2 {
-  background-color: peachpuff !important;
+  background-color: #001A67 !important;
   border-radius: 25px !important;
   width: 170px !important;
 }

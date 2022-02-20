@@ -11,7 +11,7 @@ import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
-import FerskTechRegistration from '../../images/FerskTechRegistration.png'; 
+import RegistrationText from '../../images/RegistrationText.png'; 
 import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
 import './RegisterForm.css';
@@ -161,7 +161,7 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
-      <img alt="logo" className="fersk-tech-registration" src={FerskTechRegistration}/>
+      <img alt="logo" className="fersk-tech-registration" src={RegistrationText}/>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
@@ -171,7 +171,7 @@ function RegisterForm() {
       <div>
          <ThemeProvider theme={theme}>
            <Box textAlign="center">
-         <FormControl sx={{ m: 1, minWidth: 200 }}>
+         <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -190,7 +190,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
           focused
           color="primary"
@@ -210,7 +210,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -229,7 +229,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -248,7 +248,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -267,7 +267,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-        <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -286,7 +286,7 @@ function RegisterForm() {
       <div>
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
-          <FormControl sx={{ m: 1, minWidth: 200 }}>
+          <FormControl sx={{ m: 1, minWidth: 240 }}>
         <TextField sx={{input:{color: '#001A67'}}}
         focused
         color="primary"
@@ -306,8 +306,8 @@ function RegisterForm() {
 
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200}}>
-        <InputLabel id="industry-dropdown">Industry *</InputLabel>
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240}}>
+        <InputLabel className="indUst" id="industry-dropdown">Industry *</InputLabel>
         <Select
           labelId="industry-label-id"
           id="industry-id"
@@ -348,7 +348,7 @@ function RegisterForm() {
       <div>
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 200 }}>
+      <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240 }}>
         <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend *</InputLabel>
         <Select 
           labelId="travel-spend-label-id"
@@ -371,15 +371,15 @@ function RegisterForm() {
     <div>
     <br></br>
     </div>
-    <div>
+    {/* <div>
     <ThemeProvider theme={theme}>
       <Box textAlign="center">
-      <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 200 }}>
+      <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 240 }}>
       <InputLabel sx={{input:{color: '#001A67'}}}>Company Culture Slider</InputLabel>
       </FormControl>
       </Box>
       </ThemeProvider>
-      </div>
+      </div> */}
       <br></br>
       <br></br>
    <div>
