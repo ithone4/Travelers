@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import './DocumentGenerator.css';
 import * as docx from "docx";
 import { saveAs } from "file-saver";
-import { HeadingLevel, AlignmentType, UnderlineType, convertInchesToTwip, LevelFormat, NumberProperties, Indent, Numbering, PageNumber } from "docx";
+import { HeadingLevel, AlignmentType, UnderlineType, convertInchesToTwip, LevelFormat, NumberProperties, Indent, Numbering, PageNumber, VerticalAlign, BorderStyle } from "docx";
 import { element } from 'prop-types';
 import { create } from '@mui/material/styles/createTransitions';
+
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Card';
+import { shadows } from '@mui/system';
 
 function DocumentGenerator(props) {
   const documentData = useSelector((store) => store.documentReducer);//added for data to make document
@@ -22,14 +28,15 @@ function DocumentGenerator(props) {
     console.log("companyName:", companyName);
     createDocumentArray();
     createChildrenArray();
-    dispatch({ type: 'SET_SAVE',
-              payload: saveToggle
-                });
+    dispatch({
+      type: 'SET_SAVE',
+      payload: saveToggle
+    });
   }, []);
 
 
   const [saveToggle, setSaveButton] = useState(false);
-  
+
   let testCompanyName = "Company, Inc.";
 
   let testData = [
@@ -256,6 +263,9 @@ function DocumentGenerator(props) {
             },
             paragraph: {
               alignment: AlignmentType.CENTER,
+              spacing: {
+                after: 420,
+              }
             }
           },
           heading2: {
@@ -271,6 +281,16 @@ function DocumentGenerator(props) {
                 before: 240,
                 after: 240,
               }
+            }
+          },
+          heading3: {
+            run: {
+              size: 30,
+              bold: false,
+              color: "000000"
+            },
+            paragraph: {
+              alignment: AlignmentType.CENTER,
             }
           }
         },
@@ -303,7 +323,6 @@ function DocumentGenerator(props) {
               children: [
                 new docx.Paragraph({
                   children: [
-                    // new docx.TextRun("Company Name Inc."),
                     new docx.TextRun({
                       children: [PageNumber.CURRENT, " of ", PageNumber.TOTAL_PAGES],
                       style: "footer"
@@ -319,11 +338,23 @@ function DocumentGenerator(props) {
                 text: companyName + " Travel Policy",
                 heading: HeadingLevel.HEADING_1,
               }),
+              new docx.Paragraph({
+                text: "Table of Contents",
+                heading: HeadingLevel.HEADING_3,
+              }),
               new docx.Table({
                 width: {
                   size: 9070,
                 },
                 columnWidths: [1000, 8070],
+                // borders: {
+                //   left: {
+                //     color: "000000"
+                //   },
+                //   right: {
+                //     color: "000000"
+                //   }
+                // },
                 rows: tableArray
               }),
             ]
@@ -337,19 +368,19 @@ function DocumentGenerator(props) {
 
     docx.Packer.toBlob(doc).then((blob) => {
       console.log(blob);
-      saveAs(blob, testCompanyName + " Travel Policy.docx");
+      saveAs(blob, companyName + " Travel Policy.docx");
       console.log("Document created successfully");
     });
   }
 
   return (
-    <div>
-      <h2>{heading}</h2>
-      {/* <button onClick={() => console.log('documentArray:', documentArray)}>console.log documentArray</button>
-      <button onClick={() => console.log('childrenArray:', childrenArray)}>console.log childrenArray</button>
-  <p>currently need to press "create ChildrenArray" before generating document.</p> */}
-      {/* <button onClick={() => createChildrenArray(...documentArray)}>create childrenArray</button> */}
-      <button onClick={() => generate()}>Click to generate your policy.</button>
+    <div className="body">
+      <Card className="card">
+        <h2 className="body">Your policy document is complete.</h2>
+        <p className="body">
+          <Button className="button" onClick={() => generate()}>Click here to download</Button>
+        </p>
+      </Card>
     </div>
   );
 }
