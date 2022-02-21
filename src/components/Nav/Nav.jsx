@@ -230,7 +230,7 @@ function Nav() {
                       </MenuItem>
                     </Link>
                       <MenuItem onClick={handleSave}>
-                        <Typography textAlign="center">Save and Exit</Typography>
+                        <Typography textAlign="center">Save</Typography>
                       </MenuItem>
                     <Link className="navLink"  to="/home">
                 <MenuItem onClick={logOut}>
