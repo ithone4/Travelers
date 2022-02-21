@@ -193,7 +193,7 @@ function QuestionPage(props) {
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
         if (policyArray.answers.length != 0) {
             try {
-                dispatch({type: 'UPDATE_LAST_QUESTION', payload: {last_question: Number(params.id) , id: user.id}})
+                dispatch({ type: 'UPDATE_LAST_QUESTION', payload: { last_question: Number(params.id), id: user.id } })
                 dispatch({ type: 'SAVE_BUILDER_TO_DB', payload: policyArray });
                 setOpenSaveDialogue(false); /* <---ADD TO NAV BAR */
                 setSnackbarMessage('Answers successfully saved!')
@@ -204,7 +204,7 @@ function QuestionPage(props) {
     }
     /* <---START ADD TO NAV BAR */
     const handleSave = () => {
-        
+
         setOpenSaveDialogue(true);
     }
     const handleCloseSaveDialogue = () => {
@@ -325,12 +325,12 @@ function QuestionPage(props) {
                                 onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id) + 1}`) }}>
                                 Next
                             </Button>
-                            <Button className='nav-buttons'
+                            {/* <Button className='nav-buttons'
                                 variant="contained"
                                 onClick={handleSave}>
 
                                 Save
-                            </ Button>
+                            </ Button> */}
                         </Box>
                     </Grid>
                 </Grid>
