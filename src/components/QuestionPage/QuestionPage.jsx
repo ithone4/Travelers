@@ -85,7 +85,6 @@ function QuestionPage(props) {
             } else {
                 //setValue(props.companyCulture);
                 setValue(user.culture);
-
             }
         } else {
             //check to see if user already has a policy that exists in the db
@@ -186,13 +185,15 @@ function QuestionPage(props) {
     const setDefaultRadioButton = (questionId) => {
         //setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
-            if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
+            // if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
+            if (`question_${questionId}` in userPolicyAnswers &&
                 userPolicyAnswers[`question_${questionId}`] != null) {
                 setValue(userPolicyAnswers[`question_${questionId}`]);
             }
         }
         if (Object.keys(answersFromTempStore).length != 0) {
-            if (answersFromTempStore.answers.hasOwnProperty(`question_${questionId}`)) {
+            // if (answersFromTempStore.answers.hasOwnProperty(`question_${questionId}`)) {
+            if (`question_${questionId}` in userPolicyAnswers) {
                 setValue(answersFromTempStore.answers[`question_${questionId}`]);
             }
         }
