@@ -74,8 +74,18 @@ function QuestionPage(props) {
         if (Object.keys(answersFromTempStore).length != 0) {
             if (answersFromTempStore.answers[`question_${Number(params.id)}`] !== null && answersFromTempStore.answers[`question_${Number(params.id)}`] !== undefined) {
                 setValue(answersFromTempStore.answers[`question_${Number(params.id)}`]);
+            } else if (props.companyPolicy[0]) {
+                if (Object.keys(props.companyPolicy[0].length > 0)) {
+                    if (props.companyPolicy[0][`question_${Number(params.id)}`] !== null && props.companyPolicy[0][`question_${Number(params.id)}`] !== undefined) {
+                        setValue(props.companyPolicy[0][`question_${Number(params.id)}`]);
+                    } else {
+                        setValue(user.culture);
+                    }//end else
+                }
             } else {
+                //setValue(props.companyCulture);
                 setValue(user.culture);
+
             }
         } else {
             //check to see if user already has a policy that exists in the db
@@ -174,7 +184,7 @@ function QuestionPage(props) {
         props.updateQuestionId(questionIDForBuilder);
     }
     const setDefaultRadioButton = (questionId) => {
-        setValue(companyCulture);
+        //setValue(companyCulture);
         if (Object.keys(userPolicyAnswers).length != 0) {
             if (userPolicyAnswers.hasOwnProperty(`question_${questionId}`) &&
                 userPolicyAnswers[`question_${questionId}`] != null) {
