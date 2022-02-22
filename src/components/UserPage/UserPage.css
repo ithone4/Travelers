@@ -45,3 +45,9 @@ html {
 .button2:hover {
   background-color: white;
 }
+
+.button-d {
+  background-color: peachpuff !important;
+  border-radius: 25px !important;
+  width: 170px !important;
+}
