@@ -8,6 +8,7 @@ import './UserPage.css';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Card';
 import { shadows } from '@mui/system';
+import Tooltip from '@mui/material/Tooltip';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
@@ -102,9 +103,18 @@ const [saveToggle, setSaveButton] = useState(false);
       <p className='body'>
       <Button className='button' onClick={()=>{history.push(`/question/1`);}}>New Policy</Button>
       </p>
+      {user.last_question > 1 ?
       <p className='body'>
         <Button className='button2'onClick={startBuilder}>Resume Policy</Button>
-      </p>
+      </p>: <p className='body'>
+        <Tooltip title="You have not begun a travel policy">
+          <span>
+        <Button disabled  className='button-d'>Resume Policy
+        </Button>
+        </span>
+        </Tooltip>
+        </p>
+      }
       <p className='body'>
         <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
       </p>
