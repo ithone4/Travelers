@@ -17,7 +17,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-// ---> BEGIN ADD TO NAV BAR
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,7 +25,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-// <--- END ADD TO NAV BAR
 
 function QuestionPage(props) {
     const [answer, setAnswer] = useState('');
@@ -38,11 +36,9 @@ function QuestionPage(props) {
     const [showBackButton, setShowBackButton] = useState(true);
     const [showNextButton, setShowNextButton] = useState(false);
     const [value, setValue] = useState(props.companyCulture);
-    // ---> BEGIN ADD TO NAV BAR
     const [openSaveDialogue, setOpenSaveDialogue] = useState(false);
     const [snackbarState, setSnackbarState] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    // <--- END ADD TO NAV BAR
 
     /* Reducers */
     const user = useSelector(store => store.user);
@@ -199,7 +195,6 @@ function QuestionPage(props) {
         }
     }
 
-    /******** ------> BEGIN TESTING OF NEW MODAL */
     const saveDoc = () => {
         let policyArray = Utility.formatPolicyAnswersForDatabase(answersFromTempStore);
         if (policyArray.answers.length != 0) {
@@ -213,7 +208,6 @@ function QuestionPage(props) {
             }
         }
     }
-    /* <---START ADD TO NAV BAR */
     const handleSave = () => {
 
         setOpenSaveDialogue(true);
@@ -224,13 +218,10 @@ function QuestionPage(props) {
     const handleCloseSnackbar = () => {
         setSnackbarState(false);
     }
-    /* <---END ADD TO NAV BAR */
-    /******** <------END TESTING OF NEW MODAL */
 
     return (
         <div>
 
-            {/*  ---> BEGIN ADD TO NAV BAR  */}
             <Snackbar open={snackbarState}
                 autoHideDuration={5000}
                 onClose={handleCloseSnackbar}
@@ -265,9 +256,6 @@ function QuestionPage(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
-            {/* END ==--> Dialogue saving answers to db  */}
-            {/*  <---END ADD TO NAV BAR  */}
-
             <Container maxWidth='xl' >
                 <Grid
                     container
@@ -336,12 +324,6 @@ function QuestionPage(props) {
                                 onClick={(event) => { handleNextBackButtons(event, GO_AHEAD); history.push(`/question/${Number(params.id) + 1}`) }}>
                                 Next
                             </Button>
-                            {/* <Button className='nav-buttons'
-                                variant="contained"
-                                onClick={handleSave}>
-
-                                Save
-                            </ Button> */}
                         </Box>
                     </Grid>
                 </Grid>
