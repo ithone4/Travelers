@@ -2,7 +2,7 @@
 
 ## Application running on Heroku
 
-<https://git.heroku.com/floating-hamlet-67087.git>
+<https://floating-hamlet-67087.herokuapp.com/>
 
 ## Description
 
