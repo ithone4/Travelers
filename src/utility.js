@@ -3,9 +3,6 @@ export default class Utility {
     //Take answers from table and format them to be shown as radio buttons
     static formatAnswersForBuilder = (answer, companyName) => {
         const regex = /<xxx>/i;
-        //console.log(`in formatAnswersForBuilder and the company name is:`, user.company_name);
-
-
         let formattedAnswersArray = [];
         //loop through the column names
         for (const [key, value] of Object.entries(answer)) {
@@ -62,7 +59,6 @@ export default class Utility {
         keys.forEach((key, index) => {
             // console.log(`${key}: ${policy.answers[key]}`);
             if (key.substring(0, 9) == 'question_' && policy.answers[key] != null) {
-                //console.log(`found question answer: ${key}`)
                 policyArray.answers.push({
                     question: key,
                     answer: policy.answers[key]
