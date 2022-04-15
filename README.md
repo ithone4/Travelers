@@ -6,7 +6,7 @@
 
 ## Description
 
-* The FerskTech Corporate Travel Policy Builder is a simple to use application that allows anyone from any company (regardless of size) to create a corporate travel policy. The application guides the user along using a questionnaire to help narrow down the type of travel policy that will best fit the culture of a company. Users can choose from policy jargon ranging from strict to easy-going. Finally, users can easily download a copy of the policy and then distribute it to other employees at their company.
+* Did you fall asleep when you read the words 'corporate travel policy builder'? Well, this builder is no snoozefest! In fact, you'll be up and running with a corporate travel policy in no time - and may have even enjoyed the process. The FerskTech Corporate Travel Policy Builder is a simple to use application that allows anyone from any company (regardless of size) to create a corporate travel policy. The application guides the user along using a questionnaire to help narrow down the type of travel policy that will best fit the culture of a company. Users can choose from policy jargon ranging from strict to easy-going. Finally, users can easily download a copy of the policy and then distribute it to other employees at their company.
 
 ## Installation
 
