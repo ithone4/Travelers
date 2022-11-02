@@ -18,7 +18,7 @@ html {
 }
 
 .button {
-  background-color: orange !important;
+  background-color: rgb(255, 0, 0) !important;
   border-radius: 25px !important;
   width: 170px !important;
 }

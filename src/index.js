@@ -9,7 +9,7 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: '#001A67', //FerskTech dark blue
+      main: '#000000', //Travelers Black  old dark blue
     },
     secondary: {
       main: '#1096D3', //FerskTech light blue
@@ -18,7 +18,7 @@ const theme = createTheme({
       main: '#55CA8D', //FerskTech green
     },
     warning: {
-      main: '#F37E20', //FerskTech orange
+      main: '#E31B23', //   FerskTech orange //F37E20
     },
     // success: {
     //   main: '#FFFFFF', // white

@@ -23,7 +23,7 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: '#001A67', //FerskTech dark blue
+      main: '#E31B23', //FerskTech dark blue
     },
     secondary: {
       main: '#1096D3', //FerskTech light blue
@@ -172,7 +172,7 @@ function RegisterForm() {
          <ThemeProvider theme={theme}>
            <Box textAlign="center">
          <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -191,7 +191,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
           focused
           color="primary"
           variant="standard"
@@ -211,7 +211,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -230,7 +230,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -249,7 +249,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -268,7 +268,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -287,7 +287,7 @@ function RegisterForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
           <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67'}}}
+        <TextField sx={{input:{color: '#000000'}}}
         focused
         color="primary"
         variant="standard"
@@ -375,7 +375,7 @@ function RegisterForm() {
     <ThemeProvider theme={theme}>
       <Box textAlign="center">
       <FormControl variant="standard" color="primary" sx={{ m: 0, minWidth: 240 }}>
-      <InputLabel sx={{input:{color: '#001A67'}}}>Company Culture Slider</InputLabel>
+      <InputLabel sx={{input:{color: '#E31B23'}}}>Company Culture Slider</InputLabel>
       </FormControl>
       </Box>
       </ThemeProvider>

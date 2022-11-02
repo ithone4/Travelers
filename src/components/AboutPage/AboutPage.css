@@ -2,14 +2,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  color: #001a67;
+  color: #000000;
   text-align: center !important;
 }
 .card-text {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  color: #001a67;
+  color: #000000;
   text-align: center !important;
   overflow: hidden !important;
   display: -webkit-box;
@@ -20,7 +20,7 @@
 .card1 {
   width: 80%;
   border-radius: 20px !important;
-  color: #001a67;
+  color: #000000;
   margin-bottom: 20px !important;
   overflow: hidden !important;
 }
@@ -28,7 +28,7 @@
 .card2 {
   width: 80%;
   border-radius: 20px !important;
-  color: #001a67;
+  color: #000000;
   overflow: hidden !important;
 }
 

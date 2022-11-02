@@ -96,27 +96,27 @@ const [saveToggle, setSaveButton] = useState(false);
     <div className='body' >
       <Box  className='card1' sx={{ boxShadow: 10 }}> 
       <div className='header'>
-      <h1 >Welcome to FerskTech's Policy Builder, {user.company_name}!</h1>
+      <p></p><h1 >  Welcome to the Feedback Center, {user.username}! </h1>
       </div>
-      <h2 className='body'>How would you like to use the Policy Builder today?</h2>
+      <p></p><h2 className='body'>Choose an option below</h2>
       <p></p>
       <p className='body'>
-      <Button className='button' onClick={()=>{history.push(`/question/1`);}}>New Policy</Button>
+      <Button className='button' onClick={()=>{history.push(`/question/1`);}}>New Feedback</Button>
       </p>
       {user.last_question > 1 ?
       <p className='body'>
-        <Button className='button2'onClick={startBuilder}>Resume Policy</Button>
+        <Button className='button2'onClick={startBuilder}>Resume Feedback</Button>
       </p>: <p className='body'>
         <Tooltip title="You have not begun a travel policy">
           <span>
-        <Button disabled  className='button-d'>Resume Policy
+        <Button disabled  className='button-d'>Resume Feedback
         </Button>
         </span>
         </Tooltip>
         </p>
       }
       <p className='body'>
-        <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Policy</Button>
+        <Button className='button' onClick={() => { setDocument(); history.push("/docgen"); }}>Generate Feedback</Button>
       </p>
       <p className='body'>
         <Button className='button2' onClick={helpGuide}>Help Guide</Button>

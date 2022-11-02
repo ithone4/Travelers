@@ -17,16 +17,16 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: '#001A67', //FerskTech dark blue
+      main: '#E31B23', //Trav Black - FerskTech dark blue 001A67
     },
     secondary: {
-      main: '#1096D3', //FerskTech light blue
+      main: '#000000', //FerskTech light blue 1096D3
     },
     error: {
       main: '#55CA8D', //FerskTech green
     },
     warning: {
-      main: '#F37E20', //FerskTech orange
+      main: '#E31B23', // Trav Red - FerskTech orange F37E20
     },
     success: {
       main: '#FFFFFF', // white
@@ -80,7 +80,7 @@ function LoginForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67' }}}
+        <TextField sx={{input:{color: '#000000' }}}
         InputProps={{ endAdornment: (
         <InputAdornment position="start">
         <EmailIcon color="primary"> </EmailIcon>
@@ -106,7 +106,7 @@ function LoginForm() {
         <ThemeProvider theme={theme}>
         <Box textAlign="center">
         <FormControl sx={{ m: 1, minWidth: 240 }}>
-        <TextField sx={{input:{color: '#001A67' }}}
+        <TextField sx={{input:{color: '#000000' }}}
             focused
             color="primary"
             variant="standard"

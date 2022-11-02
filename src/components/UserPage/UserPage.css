@@ -7,14 +7,14 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  color: #001a67;
+  color: #000000;
 }
 
 .header {
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
-  color: #001a67;
+  color: #000000;
   align-items: center !important;
 }
 
@@ -27,13 +27,13 @@ html {
 }
 
 .button {
-  background-color: orange !important;
+  background-color: rgb(2, 2, 2) !important;
   border-radius: 25px !important;
   width: 170px !important;
 }
 
 .button2 {
-  background-color: peachpuff !important;
+  background-color: rgb(243, 40, 4) !important;
   border-radius: 25px !important;
   width: 170px !important;
 }
@@ -47,7 +47,7 @@ html {
 }
 
 .button-d {
-  background-color: peachpuff !important;
+  background-color: rgb(243, 40, 4) !important;
   border-radius: 25px !important;
   width: 170px !important;
 }

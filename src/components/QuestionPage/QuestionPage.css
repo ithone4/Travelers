@@ -17,10 +17,10 @@
   }
 
   .nav-buttons{
-      background-color:#001A67;
+      background-color:#000000;
   }
   .answer-text, .question-text {  
-    color: #001A67;
+    color: #000000;
   }
   .question-text {
     font-size: 24px;
