@@ -307,7 +307,7 @@ function RegisterForm() {
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
       <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240}}>
-        <InputLabel className="indUst" id="industry-dropdown">Industry *</InputLabel>
+        <InputLabel className="indUst" id="industry-dropdown">Line of Business *</InputLabel>
         <Select
           labelId="industry-label-id"
           id="industry-id"
@@ -316,13 +316,13 @@ function RegisterForm() {
           label="industry"
           required
         >
-          <MenuItem className="menuItem" value="Agriculture">Agriculture</MenuItem>
-          <MenuItem className="menuItem" value="Automotive">Automotive</MenuItem>
-          <MenuItem className="menuItem" value="Chemicals">Chemicals</MenuItem>
-          <MenuItem className="menuItem" value="Construction">Construction</MenuItem>
-          <MenuItem className="menuItem" value="Education">Education</MenuItem>
-          <MenuItem className="menuItem" value="Entertainment, Arts and Broadcasting">Entertainment, Arts and Broadcasting</MenuItem>
-          <MenuItem className="menuItem" value="Fast Moving Consumer Goods, Food and Beverage">Fast Moving Consumer Goods, Food and Beverage</MenuItem>
+          <MenuItem className="menuItem" value="Bond and Specialty Insurance">Bond and Specialty Insurance</MenuItem>
+          <MenuItem className="menuItem" value="Business Insurance">Business Insurance</MenuItem>
+          <MenuItem className="menuItem" value="Claim">Claim</MenuItem>
+          <MenuItem className="menuItem" value="Corporate Technology">Corporate Technology</MenuItem>
+          <MenuItem className="menuItem" value="Digital Enablement">Digital Enablement</MenuItem>
+          <MenuItem className="menuItem" value="Infrastructure and Cloud Services">Infrastructure and Cloud Services</MenuItem>
+          <MenuItem className="menuItem" value="Personal Insurance">Personal Insurance</MenuItem>
           <MenuItem className="menuItem" value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem>
           <MenuItem className="menuItem" value="Government">Government</MenuItem>
           <MenuItem className="menuItem" value="Health Care">Health Care</MenuItem>
