@@ -323,8 +323,8 @@ function RegisterForm() {
           <MenuItem className="menuItem" value="Digital Enablement">Digital Enablement</MenuItem>
           <MenuItem className="menuItem" value="Infrastructure and Cloud Services">Infrastructure and Cloud Services</MenuItem>
           <MenuItem className="menuItem" value="Personal Insurance">Personal Insurance</MenuItem>
-          <MenuItem className="menuItem" value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem>
-          <MenuItem className="menuItem" value="Government">Government</MenuItem>
+          {/* <MenuItem className="menuItem" value="Finance, Credit and Insurance">Finance, Credit and Insurance</MenuItem> */}
+          {/* <MenuItem className="menuItem" value="Government">Government</MenuItem>
           <MenuItem className="menuItem" value="Health Care">Health Care</MenuItem>
           <MenuItem className="menuItem" value="Leisure and Hospitality">Leisure and Hospitality</MenuItem>
           <MenuItem className="menuItem" value="Manufacturing">Manufacturing</MenuItem>
@@ -338,7 +338,7 @@ function RegisterForm() {
           <MenuItem className="menuItem" value="Technology and Computing">Technology and Computing</MenuItem>
           <MenuItem className="menuItem" value="Telecommunications">Telecommunications</MenuItem>
           <MenuItem className="menuItem" value="Transportation and Warehousing">Transportation and Warehousing</MenuItem>
-          <MenuItem className="menuItem" value="Travel">Travel</MenuItem>
+          <MenuItem className="menuItem" value="Travel">Travel</MenuItem> */}
         </Select>
       </FormControl>
       </Box>
@@ -349,7 +349,7 @@ function RegisterForm() {
       <ThemeProvider theme={theme}>
       <Box textAlign="center">
       <FormControl variant="standard" color="primary" sx={{ m: 1, minWidth: 240 }}>
-        <InputLabel id="travel-spend-dropdown">Est. Annual Travel Spend *</InputLabel>
+        <InputLabel id="travel-spend-dropdown">Est. Length of Employment *</InputLabel>
         <Select 
           labelId="travel-spend-label-id"
           id="travel-spend-id"
@@ -357,12 +357,12 @@ function RegisterForm() {
           onChange={handleChange}
           label="travel_spend"
         >
-          <MenuItem className="menuItem" value="Unknown">Unknown</MenuItem>
-          <MenuItem className="menuItem" value="0 - $1M">0 - $1M</MenuItem>
-          <MenuItem className="menuItem" value="$1M - $10M">$1M - $10M</MenuItem>
-          <MenuItem className="menuItem" value="$10M - $50M">$10M - $50M</MenuItem>
-          <MenuItem className="menuItem" value="$50M - $100">$50M - $100</MenuItem>
-          <MenuItem className="menuItem" value="$100M+">$100M+</MenuItem>
+          <MenuItem className="menuItem" value="Less than 1 year">Less than 1 year</MenuItem>
+          <MenuItem className="menuItem" value="1 - 2 years">1 - 2 years</MenuItem>
+          <MenuItem className="menuItem" value="2 - 5 years">2 - 5 years</MenuItem>
+          <MenuItem className="menuItem" value="5 - 10 years">5 - 10 years</MenuItem>
+          <MenuItem className="menuItem" value="10 - 20 years">10 - 20 years</MenuItem>
+          <MenuItem className="menuItem" value="More than 20 years">More than 20 years</MenuItem>
         </Select>
       </FormControl>
       </Box>
