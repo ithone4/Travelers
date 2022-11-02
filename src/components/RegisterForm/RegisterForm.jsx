@@ -79,23 +79,23 @@ function RegisterForm() {
   const marks = [
     {
       value: 1,
-      label: 'Strict',
+      label: '1',
     },
     {
       value: 2,
-      label: '',
+      label: '2',
     },
     {
       value: 3,
-      label: 'Middle',
+      label: '3',
     },
     {
       value: 4,
-      label: '',
+      label: '4',
     },
     {
       value: 5,
-      label: 'Easy-going',
+      label: '5',
     }
   ];
 
@@ -388,7 +388,7 @@ function RegisterForm() {
       <Tooltip 
       TransitionComponent={Fade} 
       TransitionProps={{timeout: 600 }} 
-      title="Choose an option that best describes your company's culture. Does it feel strict, easy-going or somewhere in between?" 
+      title="On the slider please choose an option which reflects how satified you are with your managers performance. 1 being extremely unsatisfied and 5 being extremely satisfied." 
       placement="top">
       <Slider
         color="primary"
