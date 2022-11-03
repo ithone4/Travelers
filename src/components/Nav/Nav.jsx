@@ -222,7 +222,7 @@ function Nav() {
                     </Link>
                     <Link className="navLink" to={`/question/${user.last_question}`}>
                       <MenuItem onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">Go to Builder</Typography>
+                        <Typography textAlign="center">Feedback Report</Typography>
                       </MenuItem>
                     </Link>
                     <Link className="navLink" to="/about">

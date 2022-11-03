@@ -96,7 +96,7 @@ const [saveToggle, setSaveButton] = useState(false);
     <div className='body' >
       <Box  className='card1' sx={{ boxShadow: 10 }}> 
       <div className='header'>
-      <p></p><h1 >  Welcome to the Feedback Center, {user.username}! </h1>
+      <p></p><h1 >  Welcome to the {user.industry} Feedback Center, {user.username}! </h1>
       </div>
       <p></p><h2 className='body'>Choose an option below</h2>
       <p></p>

@@ -434,7 +434,7 @@ function DocumentGenerator(props) {
   return (
     <div className="body">
       <Card className="card">
-        <h2 className="body">Your policy document is complete.</h2>
+        <h2 className="body">Your employee's feedback document is complete.</h2>
         <p className="body">
           <Button className="button" onClick={() => generate()}>Click here to download</Button>
         </p>
