@@ -107,7 +107,7 @@ const [saveToggle, setSaveButton] = useState(false);
       <p className='body'>
         <Button className='button2'onClick={startBuilder}>Resume Feedback</Button>
       </p>: <p className='body'>
-        <Tooltip title="You have not begun a travel policy">
+        <Tooltip title="You have not started feedback">
           <span>
         <Button disabled  className='button-d'>Resume Feedback
         </Button>

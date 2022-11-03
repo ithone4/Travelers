@@ -10,9 +10,9 @@ footer {
 }
 
 .footerIcon {
-  background-color: #001a67;
+  background-color: #E31B23;
   color: white;
-  border-color: #001a67;
+  border-color: #E31B23;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;
@@ -20,9 +20,9 @@ footer {
 }
 
 .footerDisabled {
-  background-color: #001a67;
+  background-color: #000000;
   color: white;
-  border-color: #001a67 !important;
+  border-color: #000000 !important;
   border-radius: 75%;
   border-style: solid;
   border-width: 2px;

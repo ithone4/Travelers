@@ -10,7 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import EmailIcon from '@mui/icons-material/Email';
 import InputAdornment from '@mui/material/InputAdornment';
 import KeyIcon from '@mui/icons-material/Key';
-import SignInText2 from '../../images/SignInText2.png';
+import LoginTravelers from '../../images/LoginTravelers.png';
 import './LoginForm.css';
 
 const theme = createTheme({
@@ -70,7 +70,7 @@ function LoginForm() {
 
   return (
     <form className="formPanel" onSubmit={login}>
-      <img alt="logo" className="member-login" src={SignInText2}/>
+      <img alt="logo" className="member-login" src={LoginTravelers}/>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}

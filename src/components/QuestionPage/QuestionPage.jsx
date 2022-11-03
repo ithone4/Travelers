@@ -299,7 +299,7 @@ function QuestionPage(props) {
                                                             trigger='click'
                                                         >
                                                             {/* <p style={{borderBottom: loginToggle ? '6px solid blue' : "None"}}></p> */}
-                                                            <p style={{ color: thisAnswer.answerValue == user.culture ? '#F37E20' : '#00144f' }}>{thisAnswer.answerText}</p>
+                                                            <p style={{ color: thisAnswer.answerValue == user.culture ? '#E31B23' : '#000000' }}>{thisAnswer.answerText}</p>
                                                         </Tippy >
                                                     </Box>}
                                             />

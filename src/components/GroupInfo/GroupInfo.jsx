@@ -12,7 +12,7 @@ function GroupInfo(props) {
             <Container maxWidth='xl'>
                 <Box>
                     <h3 className='group-text'>
-                        Topic: {props.groupName}
+                        Feedback: {props.groupName}
                     </h3>
                 </Box>
             </Container>

@@ -11,7 +11,7 @@ import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
-import RegistrationText from '../../images/RegistrationText.png'; 
+import RegistrationTravelers from '../../images/RegistrationTravelers.png'; 
 import Tooltip from '@mui/material/Tooltip';
 import Fade from '@mui/material/Fade';
 import './RegisterForm.css';
@@ -161,7 +161,7 @@ function RegisterForm() {
 
   return (
     <form className="formPanel" onSubmit={validateUser}>
-      <img alt="logo" className="fersk-tech-registration" src={RegistrationText}/>
+      <img alt="logo" className="fersk-tech-registration" src={RegistrationTravelers}/>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
